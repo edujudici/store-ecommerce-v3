@@ -24,7 +24,7 @@ class OrderCommentFactory extends Factory
             'orc_question' => $this->faker->sentence,
             'orc_answer' => $this->faker->sentence,
             'orc_answer_date' => $this->faker->date(),
-            'orc_image' => 'http://via.placeholder.com/500x500',
+            'orc_image' => 'https://via.placeholder.com/500x500',
         ];
     }
 }

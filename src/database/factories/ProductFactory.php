@@ -32,7 +32,7 @@ class ProductFactory extends Factory
             'pro_condition' => 'new',
             'pro_permalink' => $this->faker->url,
             'pro_thumbnail' => $this->faker->url,
-            'pro_secure_thumbnail' => 'http://via.placeholder.com/220x240',
+            'pro_secure_thumbnail' => 'https://via.placeholder.com/220x240',
             'pro_accepts_merc_pago' => '1',
             'pro_load_date' => $this->faker->date(),
             'pro_sold_quantity' => $this->faker->randomNumber(9),

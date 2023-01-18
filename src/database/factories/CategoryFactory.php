@@ -20,7 +20,7 @@ class CategoryFactory extends Factory
         return [
             'cat_id' => $this->faker->randomNumber(9),
             'cat_title' => $this->faker->sentence(),
-            'cat_image' => 'http://via.placeholder.com/350x190',
+            'cat_image' => 'https://via.placeholder.com/350x190',
             'cat_id_secondary' => $this->faker->randomNumber(9),
         ];
     }

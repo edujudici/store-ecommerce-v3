@@ -23,7 +23,7 @@ class MercadoLivreProductFactory extends Factory
             'mep_title' => $this->faker->word,
             'mep_price' => $this->faker->randomFloat(2, 1, 100),
             'mep_permalink' => $this->faker->url,
-            'mep_secure_thumbnail' => 'http://via.placeholder.com/220x240',
+            'mep_secure_thumbnail' => 'https://via.placeholder.com/220x240',
         ];
     }
 }

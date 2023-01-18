@@ -21,7 +21,7 @@ class CompanyFactory extends Factory
             'com_id' => $this->faker->randomNumber(9),
             'com_title' => $this->faker->word,
             'com_description' => $this->faker->paragraph,
-            'com_image' => 'http://via.placeholder.com/380x50',
+            'com_image' => 'https://via.placeholder.com/380x50',
             'com_address' => $this->faker->address,
             'com_phone' => $this->faker->phoneNumber,
             'com_work_hours' => 'aberto das 8h até as 18h',

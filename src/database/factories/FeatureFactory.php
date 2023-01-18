@@ -21,7 +21,7 @@ class FeatureFactory extends Factory
             'fea_id' => $this->faker->randomNumber(9),
             'fea_title' => $this->faker->word,
             'fea_description' => $this->faker->sentence,
-            'fea_image' => 'http://via.placeholder.com/50X38',
+            'fea_image' => 'https://via.placeholder.com/50X38',
         ];
     }
 }

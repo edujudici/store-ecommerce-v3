@@ -21,7 +21,7 @@ class BannerFactory extends Factory
             'ban_id' => $this->faker->randomNumber(9),
             'ban_title' => $this->faker->word,
             'ban_description' => $this->faker->sentence,
-            'ban_image' => 'http://via.placeholder.com/635x380',
+            'ban_image' => 'https://via.placeholder.com/635x380',
             'ban_url' => $this->faker->url,
         ];
     }

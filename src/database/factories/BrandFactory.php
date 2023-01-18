@@ -20,7 +20,7 @@ class BrandFactory extends Factory
         return [
             'bra_id' => $this->faker->randomNumber(9),
             'bra_title' => $this->faker->sentence,
-            'bra_image' => 'http://via.placeholder.com/110x70',
+            'bra_image' => 'https://via.placeholder.com/110x70',
         ];
     }
 }
