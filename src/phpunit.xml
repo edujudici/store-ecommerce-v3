@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+>
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./app/Api</directory>
+      <directory suffix=".php">./app/Console</directory>
+      <directory suffix=".php">./app/Exceptions</directory>
+      <directory suffix=".php">./app/Helpers</directory>
+      <directory suffix=".php">./app/Mail</directory>
+      <directory suffix=".php">./app/Http/Composers</directory>
+      <directory suffix=".php">./app/Http/Controllers/Auth</directory>
+      <directory suffix=".php">./app/Http/Controllers/Painel</directory>
+      <directory suffix=".php">./app/Http/Controllers/Shopper</directory>
+      <directory suffix=".php">./app/Http/Controllers/Site</directory>
+      <directory suffix=".php">./app/Http/Middleware</directory>
+      <file>./app/Providers/AppServiceProvider.php</file>
+      <file>./app/Providers/BroadcastServiceProvider.php</file>
+      <file>./app/Services/DashboardRevenueService.php</file>
+      <file>./app/Services/DashboardShoppersService.php</file>
+      <file>./app/Services/DashboardTopProductsService.php</file>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
+    </testsuite>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">./tests/Feature</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <server name="APP_ENV" value="testing"/>
+    <server name="BCRYPT_ROUNDS" value="4"/>
+    <server name="CACHE_DRIVER" value="array"/>
+    <server name="DB_CONNECTION" value="sqlite"/>
+    <server name="DB_DATABASE" value=":memory:"/>
+    <server name="MAIL_MAILER" value="array"/>
+    <server name="QUEUE_CONNECTION" value="sync"/>
+    <server name="SESSION_DRIVER" value="array"/>
+    <server name="TELESCOPE_ENABLED" value="false"/>
+  </php>
+</phpunit>

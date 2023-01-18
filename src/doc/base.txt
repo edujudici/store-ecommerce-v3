@@ -1,0 +1,15 @@
+## trello
+    https://trello.com/b/TuY6JpRh/controle-de-clientes
+
+## dockerizando o projeto
+    https://liquid.fish/current/creating-a-simple-laravel-docker-environment
+
+## autenticação
+    https://www.itsolutionstuff.com/post/laravel-7-auth-example-laravel-7-make-auth-commandexample.html
+
+## CRUD simples
+    https://www.itsolutionstuff.com/post/laravel-7-crud-example-laravel-7-tutorial-for-beginnersexample.html
+
+## multiple auth
+    https://therealprogrammer.com/how-to-use-multiple-authentication-guards-in-laravel-9-app/
+

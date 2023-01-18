@@ -1,0 +1,418 @@
+## Other server to based on ci/cd
+    Servidor Ubuntu - 66.175.222.159 (PuTTY e Filezilla)
+    root
+    linode2019
+
+## Commands
+    # docker
+        start
+        docker-compose up -d
+
+        insights
+        docker-compose exec app php artisan insights
+
+        unit test artisan command
+        docker-compose exec app php artisan test
+        docker-compose exec app php artisan test --filter MercadoLivreNotificationServiceTest
+        docker-compose exec app php artisan test --group ModelTest
+        docker-compose exec app php artisan test --coverage --group ModelTest
+
+        unit test php command
+        docker-compose exec app vendor/bin/phpunit
+        docker-compose exec app vendor/bin/phpunit --filter MercadoLivreNotificationServiceTest
+        docker-compose exec app vendor/bin/phpunit --group ModelTest
+        docker-compose exec app vendor/bin/phpunit --coverage-html reports/
+
+        migrate / migration
+        docker-compose exec app php artisan migrate
+        docker-compose exec app php artisan make:migration change_column_password_to_users_table --table=users
+
+        queue
+        docker-compose exec app php artisan queue:work --queue=payment --tries=3 --timeout=240
+        docker-compose exec app php artisan queue:retry all
+
+    # npm
+        npm run dev
+
+        rm -rf node_modules
+        rm package-lock.json yarn.lock
+        npm cache clear --force
+        npm install
+
+        rm -rf node_modules
+        rm package-lock.json
+        npm cache clear --force
+        npm install
+
+## Permission Apache
+    Change file:
+    sudo vi /etc/apache2/apache2.conf
+    From:
+        User ${APACHE_RUN_USER}
+        Group ${APACHE_RUN_GROUP}
+    To:
+        User deployer
+        Group deployer
+
+## Documentation
+    fluxograma de compras
+        https://www.sebrae.com.br/sites/PortalSebrae/artigos/o-passo-a-passo-das-vendas-virtuais,1156a674acbc5410VgnVCM2000003c74010aRCRD
+
+    Upgrade to php7.4 on local
+        https://www.digitalocean.com/community/tutorials/how-to-containerize-a-laravel-application-for-development-with-docker-compose-on-ubuntu-18-04-pt
+
+    Envoy file
+        https://medium.com/@lsfiege/how-to-deploy-a-laravel-app-with-envoy-inside-from-a-gitlab-ci-pipeline-d5b13906f35e
+
+## Services base
+    ecommerce
+        https://www.shalonartmdf.com.br/
+        https://www.lojaimperiodasartes.com/
+        https://www.palaciodaarte.com.br/madeira-mdf
+        https://github.com/dacolera/ecommerce
+
+    frete
+        https://github.com/diegoliv/Etiquetas-WooCommerce-Correios
+        https://github.com/osians/Calcula-o-Frete-dos-Correios/blob/master/calculadoraFrete.php
+        http://phpsigep.stavarengo.com/
+        http://stavarengo.github.io/php-sigep/
+        https://github.com/flyingluscas/correios-php#calcular-pre%C3%A7os-e-prazos
+
+    rastreio de pacote
+        https://www.mercadomail.com.br/rastreio/index.html
+
+    nota fiscal
+        https://sped-docs.readthedocs.io/pt/latest/iniciando/
+        https://github.com/nfephp-org/sped-nfe
+        https://imasters.com.br/back-end/emitindo-nfe-com-php
+        deprecated - https://github.com/docode-web/laravel-nfe
+
+    Crop Image
+        https://fengyuanchen.github.io/cropper/
+
+## Mercado livre
+    # Contas
+        Aplicativo
+            App ID: 114113715204334
+            Secret Key: dZxt7tdSjuvYvrBhlHUctkmqalHDgrIF
+            URI de redirect *: https://imperiodomdf.com.br/api/ml/auth
+
+        Du
+            ID: 4790396203388167
+            Secret key: 2f6ScXs9BHabJ7YwDgR51izAOiDwl65l
+            seller_id: 219258623
+            code: TG-6067dc2b9a308d000796c5d3-219258623
+            {
+                "access_token": "APP_USR-4790396203388167-040303-94eb720372a2e2a29f23fdd4df5b3059-219258623",
+                "token_type": "bearer",
+                "expires_in": 21600,
+                "scope": "offline_access payments read write",
+                "user_id": 219258623,
+                "refresh_token": "TG-6067dde2d2958900076a50b3-219258623"
+            }
+
+        Conta I
+            ID: 504943015795700
+            Secret key: m8pTec5pOkmprmgfyrgR5kARCxOWEjyd
+            seller_id: 132437915
+            https://imperiodomdf.com.br/?code=TG-606e124c0c4f1b00074e4c64-132437915
+            {
+                "access_token": "APP_USR-504943015795700-050301-49052f9554682e8022f07d1a211fda43-132437915",
+                "token_type": "bearer",
+                "expires_in": 21600,
+                "scope": "offline_access read write",
+                "user_id": 132437915,
+                "refresh_token": "TG-606e126679d20f0007b3f00c-132437915"
+            }
+
+        Conta II
+            user: jhenriqueramiroo@hotmail.com
+            pass: ramiroebueno211
+            ID: 8574084804199171
+            Secret key: eyQN0smtqTyNSdWcyEjRRIDoqrEa6inH
+            code: TG-5eda4527d23e6f0006b373d3-331666203
+            {
+                "access_token": "APP_USR-8574084804199171-110615-245b38b464fed98fd26d9123a6e91192-331666203",
+                "token_type": "bearer",
+                "expires_in": 21600,
+                "scope": "offline_access read write",
+                "user_id": 331666203,
+                "refresh_token": "TG-5eda45f19117c8000676a1d7-331666203"
+            }
+
+        Sandbox
+            vendedor
+                {
+                    "id": 805355940,
+                    "nickname": "TETE4850334",
+                    "password": "qatest9360",
+                    "site_status": "active",
+                    "email": "test_user_70949708@testuser.com"
+                }
+                anuncios
+                    Comprado - https://produto.mercadolivre.com.br/MLB-1975994805-item-de-teste-por-favor-no-ofertar-_JM
+                    Comprado - https://produto.mercadolivre.com.br/MLB-1990936765-item-de-teste-por-favor-no-ofertar-_JM
+                    Comprado - https://produto.mercadolivre.com.br/MLB-2015363062-item-de-teste-por-favor-no-ofertar-_JM
+                    A venda  - https://produto.mercadolivre.com.br/MLB-2018112837-item-de-teste-por-favor-no-ofertar-_JM
+
+            comprador
+                {
+                    "id": 805354267,
+                    "nickname": "TETE5430695",
+                    "password": "qatest4415",
+                    "site_status": "active",
+                    "email": "test_user_74086389@testuser.com"
+                }
+
+## Mercado pago
+
+    notificação
+        https://www.mercadopago.com/mlb/account/webhooks
+
+    documentação completa
+        https://www.mercadopago.com.br/developers/pt/guides/localization/payment-methods/
+        https://www.mercadopago.com.br/developers/pt/reference/merchant_orders/_merchant_orders_id/get/
+
+    Rick
+        Modo Sandbox
+            Public key:TEST-9b3a3c8e-9a9c-4420-899e-4429bab601d5
+            Access token:TEST-504943015795700-030418-dc2d872b1a3080fe1bf3569411e3c960-132437915
+        Modo Produção
+            Public key:APP_USR-0d744910-e92e-413c-a79a-ee73ef426fc8
+            Access token:APP_USR-504943015795700-030418-438ea5c21f6d2d56436bad6ef48f6b66-132437915
+        usuários sandbox
+            vendedor
+            {
+                "id": 524591919,
+                "nickname": "TETE8761127",
+                "password": "qatest6539",
+                "site_status": "active",
+                "email": "test_user_46354258@testuser.com"
+            }
+            comprador 1
+            {
+                "id": 524590415,
+                "nickname": "TETE9032589",
+                "password": "qatest5268",
+                "site_status": "active",
+                "email": "test_user_4960947@testuser.com"
+            }
+            comprador 2
+            {
+                "id": 669096977,
+                "nickname": "TETE852205",
+                "password": "qatest430",
+                "site_status": "active",
+                "email": "test_user_73642752@testuser.com"
+            }
+
+    Eduardo
+        Modo Produção
+            Access token: APP_USR-114113715204334-092802-a2aaaabb7acc1429539a64c1379a5d9e-219258623
+            vendedor
+            {
+                "id": 1118028699,
+                "nickname": "TESTRTXZHESD",
+                "password": "qatest3259",
+                "site_status": "active",
+                "email": "test_user_11098410@testuser.com"
+            }
+
+            comprador
+            {
+                "id": 1118032533,
+                "nickname": "TESTVQSUNBPR",
+                "password": "qatest2289",
+                "site_status": "active",
+                "email": "test_user_31482540@testuser.com"
+            }
+
+        Modo Sandbox
+            Public Key: TEST-2ab567a9-19ed-472c-bbdf-118c2e50324a
+            Access token: TEST-114113715204334-092802-505d991071fb4c99c394ef10ec5d36fc-219258623
+            vendedor
+            Access token TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
+            {
+                "id": 1078876951,
+                "nickname": "TEST8UBBVPFT",
+                "password": "qatest6807",
+                "site_status": "active",
+                "email": "test_user_74610589@testuser.com"
+            }
+
+            comprador
+            {
+                "id": 1078882145,
+                "nickname": "TETE3004285",
+                "password": "qatest5260",
+                "site_status": "active",
+                "email": "test_user_55737184@testuser.com"
+            }
+
+            payment_id=1246412007
+            payment_id=1246413170
+            payment_id=1246432796
+
+
+## Auto message html
+    Olá NOME, agradecemos sua compra.
+    ============================================================================================
+    ATENÇÃO:
+    ============================================================================================
+    Veja se o anúncio atende às suas necessidades. Após a produção não devolveremos o dinheiro por se tratar de produto personalizado.
+
+    CORES: Poderá haver uma variação na cor da arte visualizada na tela do computador em decorrência das diferentes resoluções de cada monitor.
+
+    Caso o produto atenda às suas necessidades daremos continuidade, por gentileza nos informe:
+
+    1) A data de seu evento (apenas para nosso controle de prazo);
+    2) O(s) tema(s) de sua preferência e;
+    3) Os dados para personalização de sua arte (nome, idade do aniversariante, data, etc);
+
+    ============================================================================================
+    IMPORTANTE:
+    ============================================================================================
+    1) Lembrando que seu pedido só será produzido após aprovação da arte
+    2) Conforme consta do anúncio, o produto adquirido é personalizado, portanto, temos prazo para produção (4 dias)
+
+    ============================================================================================
+    em caso de dúvidas, por favor, estamos à disposição por esse canal para quaisquer esclarecimentos.
+    ============================================================================================
+
+    Abraços Equipe Império do Mdf
+
+## Mensagem resposta automatizado
+    Pagamento aprovado
+    Prezado(a) [NomeComprador],
+    Obrigado por comprar conosco através do Mercado Livre. Por favor se o seu produto for personalizado informe o NOME a ser GRAVADO e o MODELO.
+    Importante:
+    Caso você não responda essa mesnagem em 6 horas ou até o início da produção estaremos confeccionando conforme a imagem do anúncio!
+    Em caso de dúvidas ou problemas, por favor, entre em contato via chat de mensagens.
+
+    Acompanhamento do seu pedido:
+    Você receberá um novo e-mail a cada evolução no andamento de seu pedido. Caso prefira, você pode acompanhar também pelo site.
+
+    Atenciosamente,
+
+## Uteis
+    # Restore database backup
+        copiando arquivo para servidor
+        scp ecommerce_backup.sql root@159.203.20.228:/var/www
+
+        executando o restore
+        docker exec -i container_db_name mysql -uimperio -p ecommerce < ecommerce_backup.sql
+
+    # Remove all products
+        truncate table `products_comment`;
+        truncate table `products_exclusive`;
+        truncate table `products_related`;
+        truncate table `products_specification`;
+        truncate table `products`;
+        truncate table `categories`;
+
+    # Remove all orders
+        truncate table orders_payment;
+        truncate table orders_comment;
+        truncate table orders_merchant;
+        truncate table orders_item;
+        truncate table orders_history;
+        truncate table orders_address;
+        truncate table orders;
+
+    # Fluxo access_token
+        gerar api token
+        https://developers.mercadolivre.com.br/devcenter
+
+        autorizar
+        https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=504943015795700&redirect_uri=https://imperiodomdf.com.br
+
+        codigo gerado + url de redirecionamento
+        https://imperiodomdf.com.br/?code=TG-5eda4527d23e6f0006b373d3-331666203
+
+    # Fluxo de compra completo
+        Passo 1: Adicionar token referente ao vendedor MERCADO_PAGO_TOKEN
+            TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
+
+        Passo 2: Efetuar compra com o e-mail de comprador
+            {
+                "email": "test_user_55737184@testuser.com",
+                "password": "qatest5260"
+            }
+
+        Passo 3: Executar uma chamada a API de IPN via Postman (simulando o processo automatizado quando estiver em Live)
+            POST http://localhost:8000/api/mp/notifications
+            body
+            {
+                "type": "payment",
+                "data": {
+                    "id": "1247878067"
+                }
+            }
+
+        Passo 4: Executar queue work do laravel para processar a requisição
+            docker-compose exec app php artisan queue:work --queue=payment --tries=3 --timeout=240
+            ou
+            docker exec -it app php artisan queue:work --queue=payment --tries=3 --timeout=240
+
+        Passo 5: Pronto, a simulação do mercado pago esta executada com sucesso
+            O cliente deve ter seu status em "Pagamento Aprovado"
+            O administrador deve ter recebido uma notificação "Pagamento recebido" no e-mai
+            O administrador deve ter recebido uma nova notificação no site o o pedido é exibido como "Pago" no painel
+
+    # Teste carregar perguntas local
+        Passo 1: Executar uma chamada a API via Postman com protocolo POST
+            http://localhost:8082/api/ml/loads/questions
+
+        Passo 2: Executar queue work do laravel para processar a requisição
+            docker-compose exec app php artisan queue:work --queue=questions --tries=3 --timeout=240
+
+    # Fluxo de notification
+        Base: https://blog.especializati.com.br/aprenda-como-trabalhar-com-eventos-no-laravel/
+
+        Passo 1: Gerar um novo event
+        php artisan make:event ContactRegistered
+
+        Passo 2: Gerar um novo listener
+        php artisan make:listener SendNewContactNotification --event=ContactRegistered
+
+        Passo 3: Registrar o evento no listen da classe EventServiceProvider
+
+        Passo 4: Gerar uma nova notification
+        docker exec -it app php artisan make:notification ContactNotification
+
+        Passo 5: Acionar o evento
+        event(new ContactRegistered($request->input('subject')));
+
+    # Fluxo de job
+        Base: https://www.itsolutionstuff.com/post/example-of-cron-job-in-laravel-5example.html
+
+        Criar novo job
+        docker-compose exec app php artisan make:console DemoCron --command=demo:cron
+
+        Injetar o command no Kernel
+        app/Console/Kernel.php
+
+    # Fluxo de Queue
+        Base: https://blog.especializati.com.br/queues-no-laravel-filas/
+
+        Criar Novo Job
+        docker-compose exec app php artisan make:job AfterSalesMessage
+
+        Definir um nome para queue. Ex: queue-test
+
+        Acessar o servidor e entrar na pasta:
+        cd /etc/supervisor/conf.d/
+
+        Criar um novo arquivo com extensão .conf apontando para o mesmo nome da queue. Ex: queue-test
+
+        Executar os comandos para carregar as novas configurações
+        supervisorctl reread
+        supervisorctl update
+
+        Executar comando para atualizar algum ajuste no fluxo
+        supervisorctl restart all
+
+    # Pós venda - exemplo de mensagem
+        https://api.mercadolibre.com/messages/packs/4225883428/sellers/132437915
+        https://api.mercadolibre.com/messages/packs/4600985462/sellers/132437915
+        /orders/4600985462

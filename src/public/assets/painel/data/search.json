@@ -1,0 +1,86 @@
+[
+    {
+        "label": "Ecommerce",
+        "link": "/",
+        "tags": "ecommerce, dashboard, painel, resultados",
+        "location": "Dashboard"
+    },
+    {
+        "label": "Comunicação",
+        "link": "/orders/comments",
+        "tags": "comentários, pedidos, notificações",
+        "location": "Comentários de pedidos"
+    },
+    {
+        "label": "Comunicação",
+        "link": "/products/comments",
+        "tags": "comentários, produtos, notificações",
+        "location": "Comentários de produtos"
+    },
+    {
+        "label": "Comunicação",
+        "link": "/contacts",
+        "tags": "comentários, e-mails, notificações",
+        "location": "E-mails"
+    },
+    {
+        "label": "Comunicação",
+        "link": "/newsletters",
+        "tags": "comentários, newsletter, notificações",
+        "location": "Newsletter"
+    },
+    {
+        "label": "Pedidos",
+        "link": "/orders",
+        "tags": "pedidos, compras, status",
+        "location": "Listagem dos pedidos"
+    },
+    {
+        "label": "Vales",
+        "link": "/vouchers",
+        "tags": "vales, presente, desconto",
+        "location": "Listagem dos vales"
+    },
+    {
+        "label": "Produtos",
+        "link": "/categories",
+        "tags": "produtos, categorias, tipos",
+        "location": "Categorias"
+    },
+    {
+        "label": "Produtos",
+        "link": "/products",
+        "tags": "produtos, itens, tipos",
+        "location": "Listagem de produtos"
+    },
+    {
+        "label": "Produtos",
+        "link": "/loads/histories",
+        "tags": "produtos, carga, carregar",
+        "location": "Carga de produtos"
+    },
+    {
+        "label": "Banner",
+        "link": "/banners",
+        "tags": "banners, propaganda, marketing",
+        "location": "Listagem de banners"
+    },
+    {
+        "label": "Características",
+        "link": "/features",
+        "tags": "caracteristicas, tipo, marketing",
+        "location": "Listagem de caracteristicas"
+    },
+    {
+        "label": "Marcas",
+        "link": "/brands",
+        "tags": "marcas, parceiros, outros",
+        "location": "Listagem de marcas"
+    },
+    {
+        "label": "Empresa",
+        "link": "/companies",
+        "tags": "empresa, dados, informações",
+        "location": "Dados da empresa"
+    }
+]

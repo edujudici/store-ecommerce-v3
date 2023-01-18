@@ -1,0 +1,120 @@
+variables:
+  VPS_HOST: "159.203.20.228"
+  IDENTIFICACAO_PROJETO: "*$CI_PROJECT_NAME $CI_COMMIT_REF_NAME*"
+  SLACK_USERNAME: "DevOps - $CI_PROJECT_NAME $CI_COMMIT_REF_NAME"
+  SLACK_CHANNEL: "#monitoramento"
+
+stages:
+  - prepare
+  # - test
+  # - analysis
+  - build
+  - deploy
+  - notification
+
+cache:
+  untracked: true
+  paths:
+    - node_modules/
+    - vendor/
+
+1_prepare_project:
+  image: registry.gitlab.com/edujudici/store-ecommerce-v2
+  stage: prepare
+  script:
+    - echo "Running composer install..."
+    - composer install --no-progress
+    - cp .env.testing .env
+    - php artisan key:generate
+
+# 2_unit_tests:
+#   image: registry.gitlab.com/edujudici/store-ecommerce-v2
+#   stage: test
+#   dependencies:
+#     - 1_prepare_project
+#   script:
+#     - echo "Running PHP Unit Tests..."
+#     - ./vendor/bin/phpunit -c phpunit.xml --coverage-text --colors=never
+
+# 3_static_analysis:
+#   image: registry.gitlab.com/edujudici/store-ecommerce-v2
+#   stage: analysis
+#   dependencies:
+#     - 1_prepare_project
+#   script:
+#     - echo "Running Static Analysis..."
+##     - ./vendor/bin/psalm --show-info=true
+#     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
+
+4_build_assets:
+  image: registry.gitlab.com/edujudici/store-ecommerce-v2
+  stage: build
+  script:
+    - echo "Compiling Assets..."
+    - npm install --no-progress
+    - npm run prod --no-progress
+  artifacts:
+    paths:
+      - public/assets/
+      - public/css/
+      - public/images/
+      - public/js/
+      - public/mix-manifest.json
+    expire_in: 1 days
+    when: always
+
+5_deploy_project:
+  image: registry.gitlab.com/edujudici/store-ecommerce-v2
+  stage: deploy
+  dependencies:
+    - 4_build_assets
+  script:
+    - echo "Deploying Project..."
+
+    # verificar se o ssh-agent ta instalado
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+
+    # adicionar nossa SSH KEY que está armazenada em SSH_PRIVATE_KEY (agent)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    - echo "Checking System Requirements..."
+    - php -v
+    - composer -V
+    - ~/.composer/vendor/bin/envoy -V
+
+    - echo "Deploying Project to $VPS_HOST..."
+
+    # Run Envoy
+    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --env=production
+  only:
+    - main
+
+6_success_notification:
+  stage: notification
+  when: on_success
+  only:
+    - main
+  variables:
+    SLACK_ICON: ':heavy_check_mark:'
+    NOTIFICATION_MESSAGE: "$SLACK_ICON Fim da atualização do $IDENTIFICACAO_PROJETO"
+    NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
+  script:
+    - eval "$NOTIFY_NOW"
+
+6_failure_notification:
+  stage: notification
+  when: on_failure
+  only:
+    - main
+  variables:
+    SLACK_ICON: ':heavy_check_mark:'
+    NOTIFICATION_MESSAGE: "$SLACK_ICON Falha no $IDENTIFICACAO_PROJETO"
+    NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
+  script:
+    - eval "$NOTIFY_NOW"

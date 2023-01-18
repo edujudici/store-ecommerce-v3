@@ -1,0 +1,14 @@
+ALERT JS
+PARA USAR BASTA INCLUIR OS ARQUIVOS:
+	/js/alert.js
+	/css/alert.css
+e na pagina principal do site incluir um elemento:
+	<ul id="alerts"></ul>
+
+Uso:
+	
+Alert.info(message, title, options)
+Alert.warning(message, title, options)
+Alert.error(message, title, options)
+Alert.success(message, title, options)
+Alert.confirm(message, title, callback)
