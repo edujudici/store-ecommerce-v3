@@ -22,9 +22,6 @@ services:
     build:
       context: ./dockerfiles/php
       dockerfile: root.Dockerfile
-      args:
-        - UID=${UID:-1000}
-        - GID=${GID:-1000}
     ports:
       - "9000:9000"
     volumes:
