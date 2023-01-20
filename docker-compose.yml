@@ -26,7 +26,6 @@ services:
       - "9000:9000"
     volumes:
       - ./src:/var/www:delegated
-      - ./dockerfiles/php/supervisord.conf:/var/www/supervisord.conf
     networks:
       - app-network
 
