@@ -8,6 +8,9 @@ RUN mkdir -p /var/www
 
 WORKDIR /var/www
 
+RUN apk add --update --no-cache \
+    supervisor
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN addgroup -g ${GID} --system ${USER}
@@ -26,4 +29,6 @@ RUN mkdir -p /usr/src/php/ext/redis \
     
 USER ${USER}
 
-CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
+ADD supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/store-ecommerce.conf"]
