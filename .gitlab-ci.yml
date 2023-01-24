@@ -1,5 +1,6 @@
+image: registry.gitlab.com/edujudici/store-ecommerce-v3
+
 variables:
-  VPS_HOST: "159.203.20.228"
   IDENTIFICACAO_PROJETO: "*$CI_PROJECT_NAME $CI_COMMIT_REF_NAME*"
   SLACK_USERNAME: "DevOps - $CI_PROJECT_NAME $CI_COMMIT_REF_NAME"
   SLACK_CHANNEL: "#monitoramento"
@@ -8,7 +9,6 @@ stages:
   - prepare
   # - test
   # - analysis
-  - build
   - deploy
   - notification
 
@@ -19,16 +19,15 @@ cache:
     - vendor/
 
 1_prepare_project:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v2
   stage: prepare
   script:
     - echo "Running composer install..."
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
+    - php artisan migrate
 
 # 2_unit_tests:
-#   image: registry.gitlab.com/edujudici/store-ecommerce-v2
 #   stage: test
 #   dependencies:
 #     - 1_prepare_project
@@ -37,7 +36,6 @@ cache:
 #     - ./vendor/bin/phpunit -c phpunit.xml --coverage-text --colors=never
 
 # 3_static_analysis:
-#   image: registry.gitlab.com/edujudici/store-ecommerce-v2
 #   stage: analysis
 #   dependencies:
 #     - 1_prepare_project
@@ -46,25 +44,8 @@ cache:
 ##     - ./vendor/bin/psalm --show-info=true
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
 
-4_build_assets:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v2
-  stage: build
-  script:
-    - echo "Compiling Assets..."
-    - npm install --no-progress
-    - npm run prod --no-progress
-  artifacts:
-    paths:
-      - public/assets/
-      - public/css/
-      - public/images/
-      - public/js/
-      - public/mix-manifest.json
-    expire_in: 1 days
-    when: always
-
 5_deploy_project:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v2
+  image: registry.gitlab.com/edujudici/store-ecommerce-v3
   stage: deploy
   dependencies:
     - 4_build_assets
@@ -88,7 +69,7 @@ cache:
     - composer -V
     - ~/.composer/vendor/bin/envoy -V
 
-    - echo "Deploying Project to $VPS_HOST..."
+    - echo "Deploying Project on VPS HOST"
 
     # Run Envoy
     - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --env=production
