@@ -29,6 +29,9 @@ RUN mkdir -p /usr/src/php/ext/redis \
     
 USER ${USER}
 
+# Install Laravel Envoy
+RUN composer global require laravel/envoy --dev
+
 ADD supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/store-ecommerce.conf"]
