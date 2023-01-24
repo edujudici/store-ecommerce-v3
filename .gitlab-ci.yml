@@ -45,7 +45,6 @@ cache:
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
 
 5_deploy_project:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v3
   stage: deploy
   dependencies:
     - 4_build_assets
