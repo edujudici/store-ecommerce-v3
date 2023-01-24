@@ -72,6 +72,7 @@ cache:
 
     # Run Envoy
     - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --env=production
+  when: manual
   only:
     - main
 
