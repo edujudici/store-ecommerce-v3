@@ -1,3 +1,5 @@
+image: registry.gitlab.com/edujudici/store-ecommerce-v3
+
 variables:
   IDENTIFICACAO_PROJETO: "*$CI_PROJECT_NAME $CI_COMMIT_REF_NAME*"
   SLACK_USERNAME: "DevOps - $CI_PROJECT_NAME $CI_COMMIT_REF_NAME"
@@ -17,7 +19,6 @@ cache:
     - vendor/
 
 1_prepare_project:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v2
   stage: prepare
   script:
     - echo "Running composer install..."
@@ -27,7 +28,6 @@ cache:
     - php artisan migrate
 
 # 2_unit_tests:
-#   image: registry.gitlab.com/edujudici/store-ecommerce-v2
 #   stage: test
 #   dependencies:
 #     - 1_prepare_project
@@ -36,7 +36,6 @@ cache:
 #     - ./vendor/bin/phpunit -c phpunit.xml --coverage-text --colors=never
 
 # 3_static_analysis:
-#   image: registry.gitlab.com/edujudici/store-ecommerce-v2
 #   stage: analysis
 #   dependencies:
 #     - 1_prepare_project
@@ -46,10 +45,9 @@ cache:
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
 
 5_deploy_project:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v2
   stage: deploy
-  dependencies:
-    - 4_build_assets
+  only:
+    - main
   script:
     - echo "Deploying Project..."
 
@@ -74,8 +72,6 @@ cache:
 
     # Run Envoy
     - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --env=production
-  only:
-    - main
 
 6_success_notification:
   stage: notification
