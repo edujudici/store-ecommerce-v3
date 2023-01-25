@@ -7,7 +7,6 @@ stages:
   - prepare
   # - test
   # - analysis
-  - build
   - deploy
   - notification
 
@@ -25,6 +24,7 @@ cache:
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
+    - php artisan migrate
 
 # 2_unit_tests:
 #   image: registry.gitlab.com/edujudici/store-ecommerce-v2
@@ -44,23 +44,6 @@ cache:
 #     - echo "Running Static Analysis..."
 ##     - ./vendor/bin/psalm --show-info=true
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
-
-4_build_assets:
-  image: registry.gitlab.com/edujudici/store-ecommerce-v2
-  stage: build
-  script:
-    - echo "Compiling Assets..."
-    - npm install --no-progress
-    - npm run prod --no-progress
-  artifacts:
-    paths:
-      - public/assets/
-      - public/css/
-      - public/images/
-      - public/js/
-      - public/mix-manifest.json
-    expire_in: 1 days
-    when: always
 
 5_deploy_project:
   image: registry.gitlab.com/edujudici/store-ecommerce-v2
@@ -87,6 +70,7 @@ cache:
     - composer -V
     - ~/.composer/vendor/bin/envoy -V
 
+    - echo "Deploying Project on VPS HOST"
 
     # Run Envoy
     - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --env=production
