@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  nginx:
+  web:
     image: nginx:stable-alpine
     restart: unless-stopped
     ports:

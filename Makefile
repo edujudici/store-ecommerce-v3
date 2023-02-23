@@ -54,7 +54,7 @@ cache-clear:
 	@make optimize-clear
 	docker compose exec app php artisan event:clear
 nginx:
-	docker compose exec nginx sh
+	docker compose exec web sh
 app:
 	docker compose exec app sh
 redis:
