@@ -21,12 +21,11 @@ cache:
 1_prepare_project:
   stage: prepare
   script:
-    - cd src
+    - cd src/
     - echo "Running composer install..."
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
-    - php artisan migrate
 
 # 2_unit_tests:
 #   stage: test
@@ -50,6 +49,7 @@ cache:
   only:
     - main
   script:
+    - cd src/
     - echo "Deploying Project..."
 
     # verificar se o ssh-agent ta instalado
