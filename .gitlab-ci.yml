@@ -21,12 +21,8 @@ cache:
 1_prepare_project:
   stage: prepare
   script:
+    - cd src
     - echo "Running composer install..."
-    - pwd
-    - whoami
-    - ls -la
-    - ls -la src/
-    - ls -la dockerfiles/
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
