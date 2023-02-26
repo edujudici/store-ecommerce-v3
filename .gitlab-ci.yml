@@ -22,6 +22,8 @@ cache:
   stage: prepare
   script:
     - echo "Running composer install..."
+    - pwd
+    - whoami
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
