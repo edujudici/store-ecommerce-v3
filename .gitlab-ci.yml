@@ -24,6 +24,7 @@ cache:
     - echo "Running composer install..."
     - pwd
     - whoami
+    - ls -la
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
