@@ -25,6 +25,8 @@ cache:
     - pwd
     - whoami
     - ls -la
+    - ls -la src/
+    - ls -la dockerfiles/
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
