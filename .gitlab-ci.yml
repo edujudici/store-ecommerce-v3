@@ -1,4 +1,4 @@
-image: registry.gitlab.com/edujudici/store-ecommerce-v3
+image: registry.gitlab.com/edujudici/store-ecommerce-v3:v1
 
 variables:
   IDENTIFICACAO_PROJETO: "*$CI_PROJECT_NAME $CI_COMMIT_REF_NAME*"
