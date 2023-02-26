@@ -53,7 +53,7 @@ cache:
     - echo "Deploying Project..."
 
     # verificar se o ssh-agent ta instalado
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which ssh-agent || ( apk add --update --no-cache openssh-client -y )'
     - eval $(ssh-agent -s)
 
     # adicionar nossa SSH KEY que está armazenada em SSH_PRIVATE_KEY (agent)
