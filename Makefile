@@ -53,7 +53,7 @@ cache-clear:
 	docker compose exec app composer clear-cache
 	@make optimize-clear
 	docker compose exec app php artisan event:clear
-nginx:
+web:
 	docker compose exec web sh
 app:
 	docker compose exec app sh
@@ -65,3 +65,5 @@ db:
 	docker compose exec db bash
 sql:
 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
+supervisor:
+	docker compose exec supervisor sh

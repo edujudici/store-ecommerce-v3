@@ -59,6 +59,25 @@ services:
     networks:
       - app-network
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - app-network
+
+  supervisor:
+    image: store-ecommerce-v3-app
+    depends_on:
+      - web
+      - app
+    volumes:
+      - ./src:/var/www
+    networks:
+      - app-network
+    command: supervisord -c /etc/supervisor/conf.d/store-ecommerce.conf
+
   npm:
     image: node:current-alpine
     volumes:
@@ -72,14 +91,6 @@ services:
     networks:
       - app-network
 
-  mailhog:
-    image: mailhog/mailhog:latest
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-    networks:
-      - app-network
-      
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: unless-stopped
