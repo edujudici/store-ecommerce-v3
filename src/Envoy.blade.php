@@ -1,28 +1,31 @@
-@servers(['web' => 'deployer@159.203.20.228'])
+@servers(['web' => env('DEPLOY_HOST')])
 
 @setup
-    $branch = 'main';
-    $repository = 'git@gitlab.com:edujudici/store-ecommerce-v3.git';
-    $app_dir = '/var/www/reverse-nginx-proxy/sites/imperiodomdf.com.br';
+    $branch = env('BRANCH');
+    $repository = env('REPOSITORY');
+    $app_dir = env('APP_DIR');
     $releases_dir = $app_dir . '/releases';
     $release = date('YmdHis');
     $new_release_dir = $releases_dir .'/'. $release;
 @endsetup
 
 @story('deploy')
-    work_test
-    {{--  stop_containeres
-    clone_repository
-    update_symlinks
-    fix_permissions
-    start_containeres
+    testing_environments
+    {{--  stop_containeres  --}}
+    {{--  clone_repository
+    update_symlinks  --}}
+    {{--  fix_permissions  --}}
+    {{--  start_containeres
     run_composer
     run_migrations
     run_npm  --}}
 @endstory
 
-@task('work_test')
-    echo 'Stopping all services containeres'
+@task('testing_environments')
+    echo 'Testing deploy host: ' . env('DEPLOY_HOST')
+    echo 'Testing branch: ' . env('BRANCH')
+    echo 'Testing repository: ' . env('REPOSITORY')
+    echo 'Testing app dir: ' . env('APP_DIR')
 @endtask
 
 @task('stop_containeres')
@@ -51,11 +54,11 @@
     ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
 @endtask
 
-@task('fix_permissions')
+{{--  @task('fix_permissions')
     echo "Setting file and folder permissions"
     cd {{ $app_dir }}/current
     ./setup.sh
-@endtask
+@endtask  --}}
 
 @task('start_containeres')
     echo 'Start all services containeres'
@@ -67,18 +70,17 @@
 @task('run_composer')
     echo "Starting deployment ({{ $release }})"
     cd {{ $app_dir }}/current
-    docker-compose -f docker-compose-production.yml exec -T app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    docker-compose -f docker-compose-production.yml exec app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 @endtask
 
 @task('run_migrations')
     echo "Running migrations..."
     cd {{ $app_dir }}/current
-    docker-compose -f docker-compose-production.yml exec -T app php artisan migrate --force
+    docker-compose -f docker-compose-production.yml exec app php artisan migrate --force
 @endtask
 
  @task('run_npm')
     echo "Running npm..."
     cd {{ $app_dir }}/current
-    docker-compose -f docker-compose-production.yml exec -T app npm install --no-progress
-    docker-compose -f docker-compose-production.yml exec -T app npm run prod --no-progress
+    docker compose -f docker-compose-production.yml run --rm --service-ports npm run production
 @endtask
