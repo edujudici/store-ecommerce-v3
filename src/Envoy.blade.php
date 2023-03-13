@@ -22,7 +22,7 @@
 @endstory
 
 @task('work_test')
-    echo 'Stopping all services containeres'
+    echo 'Working sucessfuly...'
 @endtask
 
 @task('stop_containeres')
