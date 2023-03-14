@@ -1,84 +1,97 @@
-@servers(['web' => 'deployer@159.203.20.228'])
-
 @setup
-    $branch = 'main';
-    $repository = 'git@gitlab.com:edujudici/store-ecommerce-v3.git';
-    $app_dir = '/var/www/reverse-nginx-proxy/sites/imperiodomdf.com.br';
-    $releases_dir = $app_dir . '/releases';
+    require __DIR__.'/vendor/autoload.php';
+
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+
+    try {
+        $dotenv->load();
+        $dotenv->required(['DEPLOY_USER', 'DEPLOY_SERVER', 'DEPLOY_BRANCH', 'DEPLOY_REPO', 'DEPLOY_BASE_DIR'])->notEmpty();
+    } catch ( Exception $e )  {
+        echo "Environments doesn`t exists or empty value, error: " . $e->getMessage();
+    }
+
+    $branch = env('DEPLOY_BRANCH');
+    $repository = env('REPOSITORY');
+    $appDir = env('DEPLOY_BASE_DIR');
+    $releasesDir = $appDir . '/releases';
     $release = date('YmdHis');
-    $new_release_dir = $releases_dir .'/'. $release;
+    $newReleaseDir = $releasesDir .'/'. $release;
 @endsetup
 
+@servers(['prod' => env('DEPLOY_USER').'@'.env('DEPLOY_SERVER')])
+
 @story('deploy')
-    work_test
-    {{--  stop_containeres
-    clone_repository
-    update_symlinks
-    fix_permissions
-    start_containeres
+    testing_environments
+    {{--  stop_containeres  --}}
+    {{--  clone_repository
+    update_symlinks  --}}
+    {{--  fix_permissions  --}}
+    {{--  start_containeres
     run_composer
     run_migrations
     run_npm  --}}
 @endstory
 
-@task('work_test')
-    echo 'Working sucessfuly...'
+@task('testing_environments')
+    echo 'Testing deploy host: ' . env('DEPLOY_HOST')
+    echo 'Testing branch: ' . env('BRANCH')
+    echo 'Testing repository: ' . env('REPOSITORY')
+    echo 'Testing app dir: ' . env('APP_DIR')
 @endtask
 
 @task('stop_containeres')
     echo 'Stopping all services containeres'
-    cd {{ $app_dir }}/current
+    cd {{ $appDir }}/current
     docker-compose -f docker-compose-production.yml down
 @endtask
 
 @task('clone_repository')
     echo 'Cloning repository'
-    [ -d {{ $releases_dir }} ] || mkdir {{ $releases_dir }}
-    git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
-    cd {{ $new_release_dir }}
+    [ -d {{ $releasesDir }} ] || mkdir {{ $releasesDir }}
+    git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $newReleaseDir }}
+    cd {{ $newReleaseDir }}
     git reset --hard {{ $commit }}
 @endtask
 
 @task('update_symlinks')
     echo "Remove storage folder"
-    rm -rf {{ $new_release_dir }}/storage
+    rm -rf {{ $newReleaseDir }}/storage
 
     echo 'Copy storage and env inside new version'
-    cp -r {{ $app_dir }}/shared/storage {{ $new_release_dir }}
-    cp {{ $app_dir }}/shared/.env {{ $new_release_dir }}
+    cp -r {{ $appDir }}/shared/storage {{ $newReleaseDir }}
+    cp {{ $appDir }}/shared/.env {{ $newReleaseDir }}
 
     echo 'Linking current release'
-    ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
+    ln -nfs {{ $newReleaseDir }} {{ $appDir }}/current
 @endtask
 
-@task('fix_permissions')
+{{--  @task('fix_permissions')
     echo "Setting file and folder permissions"
-    cd {{ $app_dir }}/current
+    cd {{ $appDir }}/current
     ./setup.sh
-@endtask
+@endtask  --}}
 
 @task('start_containeres')
     echo 'Start all services containeres'
-    cd {{ $app_dir }}/current
+    cd {{ $appDir }}/current
     docker-compose -f docker-compose-production.yml up -d --build
     sleep 15
 @endtask
 
 @task('run_composer')
     echo "Starting deployment ({{ $release }})"
-    cd {{ $app_dir }}/current
-    docker-compose -f docker-compose-production.yml exec -T app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    cd {{ $appDir }}/current
+    docker-compose -f docker-compose-production.yml exec app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 @endtask
 
 @task('run_migrations')
     echo "Running migrations..."
-    cd {{ $app_dir }}/current
-    docker-compose -f docker-compose-production.yml exec -T app php artisan migrate --force
+    cd {{ $appDir }}/current
+    docker-compose -f docker-compose-production.yml exec app php artisan migrate --force
 @endtask
 
  @task('run_npm')
     echo "Running npm..."
-    cd {{ $app_dir }}/current
-    docker-compose -f docker-compose-production.yml exec -T app npm install --no-progress
-    docker-compose -f docker-compose-production.yml exec -T app npm run prod --no-progress
+    cd {{ $appDir }}/current
+    docker compose -f docker-compose-production.yml run --rm --service-ports npm run production
 @endtask
