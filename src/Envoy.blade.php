@@ -33,9 +33,6 @@
 @task('testing_environments')
     {{ logMessage("Testing environments") }}
 
-    echo 'Testing deploy host: ' . env('DEPLOY_USER')
-    echo 'Testing branch: ' . env('DEPLOY_SERVER')
-    echo 'Testing repository: ' . env('DEPLOY_BRANCH')
-    echo 'Testing app dir: ' . env('DEPLOY_REPO')
-    echo 'Testing app dir: ' . env('DEPLOY_BASE_DIR')
+    echo {{ $branch }}
+
 @endtask
