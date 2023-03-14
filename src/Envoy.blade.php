@@ -3,6 +3,8 @@
 
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 
+    echo "load environments";
+
     try {
         $dotenv->load();
         $dotenv->required(['DEPLOY_USER', 'DEPLOY_SERVER', 'DEPLOY_BRANCH', 'DEPLOY_REPO', 'DEPLOY_BASE_DIR'])->notEmpty();
@@ -31,8 +33,9 @@
 @task('testing_environments')
     {{ logMessage("Testing environments") }}
 
-    echo 'Testing deploy host: ' . env('DEPLOY_HOST')
-    echo 'Testing branch: ' . env('BRANCH')
-    echo 'Testing repository: ' . env('REPOSITORY')
-    echo 'Testing app dir: ' . env('APP_DIR')
+    echo 'Testing deploy host: ' . env('DEPLOY_USER')
+    echo 'Testing branch: ' . env('DEPLOY_SERVER')
+    echo 'Testing repository: ' . env('DEPLOY_BRANCH')
+    echo 'Testing app dir: ' . env('DEPLOY_REPO')
+    echo 'Testing app dir: ' . env('DEPLOY_BASE_DIR')
 @endtask
