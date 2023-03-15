@@ -23,14 +23,14 @@
 @servers(['prod' => env('DEPLOY_USER').'@'.env('DEPLOY_SERVER')])
 
 @story('deploy')
-    stop_containeres
+    {{--  stop_containeres  --}}
     clone_repository
-    update_symlinks
+    {{--  update_symlinks  --}}
     {{--  fix_permissions  --}}
-    start_containeres
+    {{--  start_containeres
     run_composer
     run_migrations
-    run_npm
+    run_npm  --}}
 @endstory
 
 @task('stop_containeres')
@@ -43,8 +43,8 @@
     echo 'Cloning repository'
     [ -d {{ $releaseDir }} ] || mkdir {{ $releaseDir }}
 
+    mkdir {{ $currentReleaseDir }}
     echo 'directory created successfully'
-    ls -la
 
     git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $currentReleaseDir }}
 
