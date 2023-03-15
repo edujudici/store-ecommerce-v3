@@ -42,7 +42,14 @@
 @task('clone_repository')
     echo 'Cloning repository'
     [ -d {{ $releaseDir }} ] || mkdir {{ $releaseDir }}
+
+    echo 'directory created successfully'
+    ls -la
+
     git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $currentReleaseDir }}
+
+    echo 'project cloned successfully'
+
     cd {{ $currentReleaseDir }}
     git reset --hard {{ $commit }}
 @endtask
