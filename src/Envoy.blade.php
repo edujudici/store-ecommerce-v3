@@ -43,10 +43,10 @@
     echo 'Cloning repository'
     [ -d {{ $releaseDir }} ] || mkdir {{ $releaseDir }}
 
-    mkdir {{ $currentReleaseDir }}
     echo 'directory created successfully'
 
-    git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $currentReleaseDir }}
+    {{--  git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $currentReleaseDir }}  --}}
+    git clone {{ $repository }} {{ $currentReleaseDir }}
 
     echo 'project cloned successfully'
 
