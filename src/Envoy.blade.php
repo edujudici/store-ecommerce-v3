@@ -11,7 +11,7 @@
     }
 
     $branch = env('DEPLOY_BRANCH');
-    $repository = env('REPOSITORY');
+    $repository = env('DEPLOY_REPO');
     $baseDir = env('DEPLOY_BASE_DIR');
 
     $releaseDir = $baseDir . '/releases';
@@ -40,12 +40,9 @@
 @endtask
 
 @task('clone_repository')
-    echo 'Creating release dir for project'
-    [ -d {{ $currentReleaseDir }} ] || mkdir -p {{ $currentReleaseDir }}
-
     echo 'Cloning repository'
-    cd {{ $currentReleaseDir }}
-    git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }}
+    [ -d {{ $currentReleaseDir }} ] || mkdir -p {{ $currentReleaseDir }}
+    git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $currentReleaseDir }}
 @endtask
 
 @task('update_symlinks')
