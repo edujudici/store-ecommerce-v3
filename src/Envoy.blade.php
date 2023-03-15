@@ -47,14 +47,14 @@
 
 @task('update_symlinks')
     echo "Remove storage folder"
-    rm -rf {{ $currentReleaseDir }}/storage
+    rm -rf {{ $currentReleaseDir }}/src/storage
 
     echo 'Copy storage and env inside new version'
-    cp -r {{ $baseDir }}/shared/storage {{ $currentReleaseDir }}
-    cp {{ $baseDir }}/shared/.env {{ $currentReleaseDir }}
+    cp -r {{ $baseDir }}/shared/storage {{ $currentReleaseDir }}/src
+    cp {{ $baseDir }}/shared/.env {{ $currentReleaseDir }}/src
 
-    //echo 'Linking current release'
-    //ln -nfs {{ $currentReleaseDir }} {{ $baseDir }}/current
+    {{--  echo 'Linking current release'  --}}
+    {{--  ln -nfs {{ $currentReleaseDir }} {{ $currentDir }}  --}}
 @endtask
 
 {{--  @task('fix_permissions')
