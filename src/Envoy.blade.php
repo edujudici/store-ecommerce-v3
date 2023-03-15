@@ -30,7 +30,7 @@
     start_containeres
     run_composer
     run_migrations
-    run_npm
+    {{--  run_npm  --}}
 @endstory
 
 @task('stop_containeres')
@@ -73,20 +73,20 @@
 @task('run_composer')
     echo "Starting deployment ({{ $release }})"
     cd {{ $currentDir }}
-    docker-compose -f docker-compose-production.yml exec app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    docker-compose -f docker-compose-production.yml exec -T app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 @endtask
 
 @task('run_migrations')
     echo "Running migrations..."
     cd {{ $currentDir }}
-    docker-compose -f docker-compose-production.yml exec app php artisan migrate --force
+    docker-compose -f docker-compose-production.yml exec -T app php artisan migrate --force
 @endtask
 
- @task('run_npm')
+ {{--  @task('run_npm')
     echo "Running npm..."
     cd {{ $currentDir }}
     docker compose -f docker-compose-production.yml run --rm --service-ports npm run production
-@endtask
+@endtask  --}}
 
 @finished
     echo "Envoy deployment script finished.\r\n";
