@@ -40,18 +40,12 @@
 @endtask
 
 @task('clone_repository')
+    echo 'Creating release dir for project'
+    [ -d {{ $currentReleaseDir }} ] || mkdir -p {{ $currentReleaseDir }}
+
     echo 'Cloning repository'
-    [ -d {{ $releaseDir }} ] || mkdir {{ $releaseDir }}
-
-    echo 'directory created successfully'
-
-    {{--  git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }} {{ $currentReleaseDir }}  --}}
-    git clone {{ $repository }} {{ $currentReleaseDir }}
-
-    echo 'project cloned successfully'
-
     cd {{ $currentReleaseDir }}
-    git reset --hard {{ $commit }}
+    git clone --depth 1 --single-branch --branch {{ $branch }} {{ $repository }}
 @endtask
 
 @task('update_symlinks')
