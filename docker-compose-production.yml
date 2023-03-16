@@ -18,7 +18,6 @@ services:
       - app
       - db
       - redis
-      - mailhog
     networks:
       - app-network
       - proxy
@@ -37,6 +36,7 @@ services:
       - ./src:/var/www:delegated
       - ../../shared/storage/:/var/www/storage/
       - ../../shared/.env:/var/www/.env
+    env_file: ./src/.env
     networks:
       - app-network
 
