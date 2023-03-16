@@ -30,7 +30,7 @@
     start_containeres
     run_composer
     run_migrations
-    {{--  run_npm  --}}
+    run_npm
 @endstory
 
 @task('stop_containeres')
@@ -53,8 +53,8 @@
     cp -r {{ $baseDir }}/shared/storage {{ $currentReleaseDir }}/src
     cp {{ $baseDir }}/shared/.env {{ $currentReleaseDir }}/src
 
-    {{--  echo 'Linking current release'  --}}
-    {{--  ln -nfs {{ $currentReleaseDir }} {{ $currentDir }}  --}}
+    echo 'Linking current release'  --}}
+    {{--  ln -nfs {{ $currentReleaseDir }} {{ $currentDir }}
 @endtask
 
 {{--  @task('fix_permissions')
@@ -82,11 +82,11 @@
     docker-compose -f docker-compose-production.yml exec -T app php artisan migrate --force
 @endtask
 
- {{--  @task('run_npm')
+ @task('run_npm')
     echo "Running npm..."
     cd {{ $currentDir }}
     docker compose -f docker-compose-production.yml run --rm --service-ports npm run production
-@endtask  --}}
+@endtask
 
 @finished
     echo "Envoy deployment script finished.\r\n";
