@@ -9,7 +9,6 @@ services:
     volumes:
       - ./src:/var/www
       - ./dockerfiles/nginx/conf.d/:/etc/nginx/conf.d/
-    env_file: ./src/.env
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
@@ -36,7 +35,6 @@ services:
       - ./src:/var/www:delegated
       - ../../shared/storage/:/var/www/storage/
       - ../../shared/.env:/var/www/.env
-    env_file: ./src/.env
     networks:
       - app-network
 
@@ -44,7 +42,6 @@ services:
     image: mariadb:10.6
     restart: unless-stopped
     tty: true
-    env_file: ./src/.env
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-homestead}
       MYSQL_USER: ${DB_USERNAME:-homestead}
@@ -64,7 +61,6 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
-    env_file: ./src/.env
     volumes:
       - redis:/data
       - ./dockerfiles/redis/redis.conf:/usr/local/etc/redis/redis.conf

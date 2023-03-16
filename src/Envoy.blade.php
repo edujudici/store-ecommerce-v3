@@ -36,7 +36,7 @@
 @task('stop_containeres')
     echo 'Stopping all actual services containeres'
     cd {{ $currentDir }}
-    docker-compose -f docker-compose-production.yml down
+    docker compose -f docker-compose-production.yml down
 @endtask
 
 @task('clone_repository')
@@ -66,26 +66,26 @@
 @task('start_containeres')
     echo 'Start all services containeres'
     cd {{ $currentDir }}
-    docker-compose --env-file src/.env -f docker-compose-production.yml up -d --build
+    docker compose --env-file ./src/.env -f docker-compose-production.yml up -d --build
     sleep 15
 @endtask
 
 @task('run_composer')
     echo "Starting deployment ({{ $release }})"
     cd {{ $currentDir }}
-    docker-compose --env-file src/.env -f docker-compose-production.yml exec -T app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    docker compose --env-file ./src/.env -f docker-compose-production.yml exec -T app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 @endtask
 
 @task('run_migrations')
     echo "Running migrations..."
     cd {{ $currentDir }}
-    docker-compose --env-file src/.env -f docker-compose-production.yml exec -T app php artisan migrate --force
+    docker compose --env-file ./src/.env -f docker-compose-production.yml exec -T app php artisan migrate --force
 @endtask
 
  @task('run_npm')
     echo "Running npm..."
     cd {{ $currentDir }}
-    docker compose --env-file src/.env -f docker-compose-production.yml run --rm --service-ports npm run production
+    docker compose --env-file ./src/.env -f docker-compose-production.yml run --rm --service-ports npm run production
 @endtask
 
 @finished
