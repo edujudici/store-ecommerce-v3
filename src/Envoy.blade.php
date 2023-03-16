@@ -53,8 +53,8 @@
     cp -r {{ $baseDir }}/shared/storage {{ $currentReleaseDir }}/src
     cp {{ $baseDir }}/shared/.env {{ $currentReleaseDir }}/src
 
-    echo 'Linking current release'  --}}
-    {{--  ln -nfs {{ $currentReleaseDir }} {{ $currentDir }}
+    echo 'Linking current release'
+    ln -nfs {{ $currentReleaseDir }} {{ $currentDir }}
 @endtask
 
 {{--  @task('fix_permissions')
