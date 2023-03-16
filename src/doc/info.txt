@@ -295,12 +295,15 @@
     Atenciosamente,
 
 ## Uteis
-    # Restore database backup
-        copiando arquivo para servidor
-        scp ecommerce_backup.sql root@159.203.20.228:/var/www
+    # Backup database
+        # Backup
+        docker exec CONTAINER /usr/bin/mysqldump -u imperio --password=PASSWORD ecommerce > backup.mysql
 
-        executando o restore
-        docker exec -i container_db_name mysql -uimperio -p ecommerce < ecommerce_backup.sql
+        # Restore
+        cat backup.sql | docker exec -i CONTAINER /usr/bin/mysql -u imperio --password=PASSWORD ecommerce
+
+        # Copiando arquivo
+        scp deployer@159.203.20.228:/var/www/backup.sql .
 
     # Remove all products
         truncate table `products_comment`;
