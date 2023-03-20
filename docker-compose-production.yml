@@ -94,8 +94,8 @@ services:
 
 networks:
   proxy:
-    external:
-      name: nginx-proxy
+    name: nginx-proxy
+    external: true
   app-network:
     name: store-ecommerce_network
     driver: bridge

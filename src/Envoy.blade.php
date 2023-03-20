@@ -85,6 +85,7 @@
  @task('run_npm')
     echo "Running npm..."
     cd {{ $currentDir }}
+    docker compose --env-file ./src/.env -f docker-compose-production.yml run --rm --service-ports npm install
     docker compose --env-file ./src/.env -f docker-compose-production.yml run --rm --service-ports npm run production
 @endtask
 
