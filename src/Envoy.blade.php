@@ -36,7 +36,7 @@
 @task('stop_containeres')
     echo 'Stopping all actual services containeres'
     cd {{ $currentDir }}
-    docker-compose -f docker-compose-production.yml down
+    docker compose --env-file ./src/.env -f docker-compose-production.yml down
 @endtask
 
 @task('clone_repository')
