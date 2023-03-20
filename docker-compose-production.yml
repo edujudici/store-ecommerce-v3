@@ -33,8 +33,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/var/www:delegated
-      - ../../shared/storage/:/var/www/storage/
-      - ../../shared/.env:/var/www/.env
+      - ../shared/storage/:/var/www/storage/
+      - ../shared/.env:/var/www/.env
     networks:
       - app-network
 
