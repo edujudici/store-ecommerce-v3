@@ -40,6 +40,8 @@ tinker:
 	docker compose exec app php artisan tinker
 test:
 	docker compose exec app php artisan test
+test-group:
+	docker compose exec app php artisan test
 optimize:
 	docker compose exec app php artisan optimize
 optimize-clear:

@@ -31,9 +31,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('questions:load')->everyFifteenMinutes();
-        $schedule->command('questions:answered')->hourly();
-        $schedule->command('aftersalesmessage:send')->everyFifteenMinutes();
+        // $schedule->command('questions:load')->everyFifteenMinutes();
+        // $schedule->command('questions:answered')->hourly();
+        // $schedule->command('aftersalesmessage:send')->everyFifteenMinutes();
     }
 
     /**
