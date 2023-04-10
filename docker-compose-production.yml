@@ -74,7 +74,9 @@ services:
       - web
       - app
     volumes:
-      - ./src:/var/www
+      - ./src:/var/www:delegated
+      - ../shared/storage:/var/www/storage:delegated
+      - ../shared/.env:/var/www/.env
     networks:
       - app-network
     command: supervisord -c /etc/supervisor/conf.d/store-ecommerce.conf
