@@ -49,9 +49,9 @@
     echo "Remove storage folder"
     rm -rf {{ $currentReleaseDir }}/src/storage
 
-    echo 'Copy storage and env inside new version'
-    cp -r {{ $baseDir }}/shared/storage {{ $currentReleaseDir }}/src
-    cp {{ $baseDir }}/shared/.env {{ $currentReleaseDir }}/src
+    echo 'Linking storage and env config'
+    ln -nfs {{ $baseDir }}/shared/storage {{ $currentReleaseDir }}/src/storage
+    ln -nfs {{ $baseDir }}/shared/.env {{ $currentReleaseDir }}/src/.env
 
     echo 'Linking current release'
     ln -nfs {{ $currentReleaseDir }} {{ $currentDir }}
