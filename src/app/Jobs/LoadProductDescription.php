@@ -13,16 +13,16 @@ class LoadProductDescription implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $skus;
+    private $sku;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($skus)
+    public function __construct($sku)
     {
-        $this->skus = $skus;
+        $this->sku = $sku;
     }
 
     /**
@@ -32,6 +32,6 @@ class LoadProductDescription implements ShouldQueue
      */
     public function handle(LoadDescriptionService $loadDescriptionService)
     {
-        $loadDescriptionService->loadDescriptions($this->skus);
+        $loadDescriptionService->loadDescription($this->sku);
     }
 }

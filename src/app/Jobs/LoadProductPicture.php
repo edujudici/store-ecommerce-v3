@@ -13,16 +13,18 @@ class LoadProductPicture implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $skus;
+    private $sku;
+    private $pictures;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($skus)
+    public function __construct($sku, $pictures)
     {
-        $this->skus = $skus;
+        $this->sku = $sku;
+        $this->pictures = $pictures;
     }
 
     /**
@@ -32,6 +34,6 @@ class LoadProductPicture implements ShouldQueue
      */
     public function handle(LoadPictureService $loadPictureService)
     {
-        $loadPictureService->loadPictures($this->skus);
+        $loadPictureService->loadPictures($this->sku, $this->pictures);
     }
 }

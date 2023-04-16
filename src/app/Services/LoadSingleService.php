@@ -38,7 +38,7 @@ class LoadSingleService extends BaseService
         $product = $this->store($data);
         $this->loadPictureService->store($product, $data->pictures);
         $this->loadCategoryService->store($product->pro_category_id);
-        $this->loadDescriptionService->store($sku);
+        $this->loadDescriptionService->loadDescription($sku);
     }
 
     public function store($data): Product

@@ -11,6 +11,7 @@ class MercadoLibre
 
     private const ML = 'https://api.mercadolibre.com';
     private const ML_ITEMS = '/items';
+    private const ML_ITEMS_SEARCH = '/items/search?';
     private const ML_SITES = '/sites/MLB/search?';
     private const ML_CATEGORIES = '/categories/';
     private const ML_OAUTH = '/oauth/token?';
@@ -23,6 +24,7 @@ class MercadoLibre
     private const AUTHORIZATION_CODE = 'authorization_code';
     private const STATUS_NOT_AUTH = 401;
     private const STATUS_INVALID_GRANT = 400;
+    private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity',];
 
     private $mercadoLivre;
 
@@ -33,15 +35,11 @@ class MercadoLibre
 
     public function getSingleProduct($sku, $attributes = [])
     {
-        $defaultAttributes = ['id', 'title', 'price', 'seller_id',
-            'category_id', 'condition', 'permalink', 'thumbnail',
-            'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity',
-        ];
         $url = self::ML . self::ML_ITEMS . '/' . $sku
             . '?attributes='
             . implode(
                 ',',
-                array_merge($attributes, $defaultAttributes)
+                array_merge($attributes, self::ITEMS_ATTRIBUTES)
             );
         return json_decode($this->runCurl($url));
     }
@@ -54,25 +52,43 @@ class MercadoLibre
         return json_decode($this->runCurl($url));
     }
 
-    public function getMultipleProducts($offset, $accountId, $limit = 50)
+    public function getMultipleProducts($accountId, $offset = 0, $limit = 50)
     {
         $model = $this->findById($accountId);
         $params = http_build_query([
-            'search_type' => $model->mel_search_type,
-            'seller_id' => $model->mel_user_id,
             'offset' => $offset,
-            'access_token' => $model->mel_access_token,
-            'attributes' => 'paging,results',
             'limit' => $limit,
         ]);
-        $url = self::ML . self::ML_SITES . $params;
+        $url = self::ML . self::ML_USERS . $model->mel_user_id . self::ML_ITEMS_SEARCH . $params;
         $response = json_decode($this->runCurl($url, [
             'bearerKey' => $model->mel_access_token,
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->getMultipleProducts($offset, $accountId, $limit);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->getMultipleProducts($accountId, $offset, $limit);
+            }
+        }
+        return $response;
+    }
+
+    public function getMultipleProductsDetails($accountId, $skus, $attributes = [])
+    {
+        $model = $this->findById($accountId);
+        $url = self::ML . self::ML_ITEMS
+            . '?ids=' . implode(',', $skus)
+            . '&attributes='
+            . implode(
+                ',',
+                array_merge($attributes, self::ITEMS_ATTRIBUTES)
+            );
+        $response = json_decode($this->runCurl($url, [
+            'bearerKey' => $model->mel_access_token,
+        ]));
+        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
+            $resToken = $this->refreshToken($model);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->getMultipleProducts($accountId, $skus);
             }
         }
         return $response;
@@ -98,7 +114,7 @@ class MercadoLibre
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
                 return $this->deleteQuestions($model, $questionId);
             }
         }
@@ -117,7 +133,7 @@ class MercadoLibre
     public function getQuestions($offset, $accountId, $limit = 50, $data = null)
     {
         $model = $this->findById($accountId);
-        $params = ! is_null($data) ? $data : http_build_query([
+        $params = !is_null($data) ? $data : http_build_query([
             'seller_id' => $model->mel_user_id,
             'sort_fields' => 'date_created',
             'sort_types' => 'DESC',
@@ -132,7 +148,7 @@ class MercadoLibre
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
                 return $this->getQuestions($offset, $accountId, $limit, $data);
             }
         }
@@ -152,7 +168,7 @@ class MercadoLibre
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
                 return $this->answerQuestion($model, $questionId, $text);
             }
         }
@@ -169,7 +185,7 @@ class MercadoLibre
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
                 return $this->deleteQuestions($model, $questionId);
             }
         }
@@ -209,7 +225,7 @@ class MercadoLibre
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
                 return $this->answerQuestion($model, $to, $text);
             }
         }
@@ -225,7 +241,7 @@ class MercadoLibre
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
-            if (! $this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
                 return $this->searchByUrl($model, $url);
             }
         }
@@ -269,8 +285,10 @@ class MercadoLibre
 
     private function update($model, $response): void
     {
-        if (! $this->hasStatus($response, self::STATUS_INVALID_GRANT)
-            && isset($response->access_token)) {
+        if (
+            !$this->hasStatus($response, self::STATUS_INVALID_GRANT)
+            && isset($response->access_token)
+        ) {
             $accessToken = $response->access_token;
             $tokenType = $response->token_type;
             $expiresIn = $response->expires_in;

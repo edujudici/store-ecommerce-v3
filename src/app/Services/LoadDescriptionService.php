@@ -17,20 +17,14 @@ class LoadDescriptionService extends BaseService
         $this->productService = $productService;
     }
 
-    public function loadDescriptions($skus): void
+    public function loadDescription($sku): void
     {
-        debug('load long description to the products');
-        foreach ($skus as $sku) {
-            $this->store($sku);
-        }
-    }
+        debug('load description to the product sku: ' . $sku);
 
-    public function store($sku): void
-    {
-        $description = $this->apiMercadoLibre->getDescriptionProduct($sku);
+        $data = $this->apiMercadoLibre->getDescriptionProduct($sku);
         $product = $this->productService->findBySku($sku);
-        if (isset($description->plain_text)) {
-            $product->pro_description_long = $description->plain_text;
+        if (isset($data->plain_text)) {
+            $product->pro_description_long = $data->plain_text;
             $product->save();
         }
     }

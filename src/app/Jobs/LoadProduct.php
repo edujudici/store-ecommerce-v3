@@ -13,9 +13,9 @@ class LoadProduct implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $offset;
     private $loadDate;
     private $mlAccountId;
+    private $skus;
 
     /**
      * Create a new job instance.
@@ -23,13 +23,13 @@ class LoadProduct implements ShouldQueue
      * @return void
      */
     public function __construct(
-        $offset,
         $loadDate,
-        $mlAccountId
+        $mlAccountId,
+        $skus
     ) {
-        $this->offset = $offset;
         $this->loadDate = $loadDate;
         $this->mlAccountId = $mlAccountId;
+        $this->skus = $skus;
     }
 
     /**
@@ -40,9 +40,9 @@ class LoadProduct implements ShouldQueue
     public function handle(LoadMultipleService $loadService)
     {
         $loadService->loadProducts(
-            $this->offset,
             $this->loadDate,
-            $this->mlAccountId
+            $this->mlAccountId,
+            $this->skus
         );
     }
 }

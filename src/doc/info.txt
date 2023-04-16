@@ -63,6 +63,11 @@
                 "site_status": "active",
                 "password": "O67FwVSt1q"
             }
+            Produtos:
+            https://produto.mercadolivre.com.br/MLB-3345582076-item-de-teste-por-favor-no-ofertar-_JM
+            https://produto.mercadolivre.com.br/MLB-3449006754-item-de-teste-por-favor-no-ofertar-_JM
+            https://produto.mercadolivre.com.br/MLB-3453558114-item-de-teste-por-favor-no-ofertar-_JM
+
             Comprador
             {
                 "id": 1336951986,

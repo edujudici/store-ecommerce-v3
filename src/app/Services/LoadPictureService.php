@@ -2,26 +2,21 @@
 
 namespace App\Services;
 
-use App\Api\MercadoLibre;
-
 class LoadPictureService extends BaseService
 {
-    private $apiMercadoLibre;
     private $productService;
 
     public function __construct(
-        MercadoLibre $apiMercadoLibre,
         ProductService $productService
     ) {
-        $this->apiMercadoLibre = $apiMercadoLibre;
         $this->productService = $productService;
     }
 
-    public function loadPictures($skus): void
+    public function loadPictures($sku, $pictures): void
     {
-        debug('load pictures to the products');
-        $products = $this->apiMercadoLibre->getProductsPictures($skus);
-        $this->processPictures($products);
+        debug('load pictures to the product sku: ' . $sku);
+        $product = $this->productService->findBySku($sku);
+        $this->store($product, $pictures);
     }
 
     public function store($product, $pictures): void
@@ -49,13 +44,5 @@ class LoadPictureService extends BaseService
                 'pic_quality' => $item->quality,
             ];
         }, $list);
-    }
-
-    private function processPictures($products): void
-    {
-        foreach ($products as $value) {
-            $product = $this->productService->findBySku($value->body->id);
-            $this->store($product, $value->body->pictures);
-        }
     }
 }
