@@ -7,7 +7,7 @@
         <div class="col-lg-12">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    <h2>Cadastro de Voucher</h2>
+                    <h2>Cadastro de Cupom</h2>
                 </div>
                 <div class="card-body">
                     <form>
@@ -54,12 +54,12 @@
     <!-- /ko -->
     <div class="row" data-bind="visible: !voucher()" style="display: none">
         <div class="col-lg-4 mb-2">
-            <button type="button" class="btn btn-primary btn-default" data-bind="click: addVoucher">Novo Vale</button>
+            <button type="button" class="btn btn-primary btn-default" data-bind="click: addVoucher">Novo Cupom</button>
         </div>
         <div class="col-lg-12">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    <h2>Listagem de Vouchers</h2>
+                    <h2>Listagem de Cupons</h2>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover ">
