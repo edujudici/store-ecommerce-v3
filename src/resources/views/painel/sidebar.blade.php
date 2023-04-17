@@ -19,7 +19,7 @@
             </a>
         </div>
         <!-- begin sidebar scrollbar -->
-        <div class="sidebar-scrollbar">
+        <div class="sidebar-scrollbar" style="padding-bottom: 20px">
             <!-- sidebar menu -->
             <ul class="nav sidebar-inner" id="sidebar-menu">
                 <li class="has-sub active">
@@ -27,6 +27,55 @@
                         <i class="mdi mdi-view-dashboard-outline"></i>
                         <span class="nav-text">Dashboard</span>
                     </a>
+                </li>
+                <li class="has-sub">
+                    <a class="sidenav-item-link" href="{{route('painel.orders.index')}}">
+                        <i class="mdi mdi-cart"></i>
+                        <span class="nav-text">Pedidos</span>
+                    </a>
+                </li>
+                <li class="has-sub">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#communication"
+                        aria-expanded="false" aria-controls="communication">
+                        <i class="mdi mdi-comment"></i>
+                        <span class="nav-text">Comunicação</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="communication" data-parent="#sidebar-menu">
+                        <div class="sub-menu">
+                            <li class="has-sub" >
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#comments"
+                                    aria-expanded="false" aria-controls="comments">
+                                    <span class="nav-text">Comentários</span> <b class="caret"></b>
+                                </a>
+                                <ul class="collapse" id="comments">
+                                    <div class="sub-menu">
+                                        <li >
+                                            <a href="{{route('painel.orders.comments.index')}}">
+                                                Pedidos
+                                            </a>
+                                        </li>
+
+                                        <li >
+                                            <a href="{{route('painel.products.comments.index')}}">
+                                                Produtos
+                                                {{--  <span class="badge badge-success">new</span>  --}}
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="sidenav-item-link" href="{{route('painel.contacts.index')}}">
+                                    <span class="nav-text">E-mails</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidenav-item-link" href="{{route('painel.newsletters.index')}}">
+                                    <span class="nav-text">Newsletters</span>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
                 </li>
                 <li class="has-sub">
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#mercadolivre"
@@ -73,68 +122,6 @@
                             </li>
                         </div>
                     </ul>
-                </li>
-                <li class="has-sub">
-                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#communication"
-                        aria-expanded="false" aria-controls="communication">
-                        <i class="mdi mdi-comment"></i>
-                        <span class="nav-text">Comunicação</span> <b class="caret"></b>
-                    </a>
-                    <ul class="collapse" id="communication" data-parent="#sidebar-menu">
-                        <div class="sub-menu">
-                            <li class="has-sub" >
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#comments"
-                                    aria-expanded="false" aria-controls="comments">
-                                    <span class="nav-text">Comentários</span> <b class="caret"></b>
-                                </a>
-                                <ul class="collapse" id="comments">
-                                    <div class="sub-menu">
-                                        <li >
-                                            <a href="{{route('painel.orders.comments.index')}}">
-                                                Pedidos
-                                            </a>
-                                        </li>
-
-                                        <li >
-                                            <a href="{{route('painel.products.comments.index')}}">
-                                                Produtos
-                                                {{--  <span class="badge badge-success">new</span>  --}}
-                                            </a>
-                                        </li>
-                                    </div>
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="sidenav-item-link" href="{{route('painel.contacts.index')}}">
-                                    <span class="nav-text">E-mails</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="sidenav-item-link" href="{{route('painel.newsletters.index')}}">
-                                    <span class="nav-text">Newsletters</span>
-                                </a>
-                            </li>
-                        </div>
-                    </ul>
-                </li>
-                <li class="has-sub">
-                    <a class="sidenav-item-link" href="{{route('painel.orders.index')}}">
-                        <i class="mdi mdi-content-paste"></i>
-                        <span class="nav-text">Pedidos</span>
-                    </a>
-                </li>
-                <li class="has-sub">
-                    <a class="sidenav-item-link" href="{{route('painel.vouchers.index')}}">
-                        <i class="mdi mdi-gift"></i>
-                        <span class="nav-text">Vales</span>
-                    </a>
-                </li>
-
-                <li class="has-sub">
-                    <a class="sidenav-item-link" href="{{route('painel.users.index')}}">
-                        <i class="mdi mdi-account"></i>
-                        <span class="nav-text">Usuários</span>
-                    </a>
                 </li>
                 <li class="has-sub">
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#website"
@@ -198,6 +185,18 @@
                             </li>
                         </div>
                     </ul>
+                </li>
+                <li class="has-sub">
+                    <a class="sidenav-item-link" href="{{route('painel.vouchers.index')}}">
+                        <i class="mdi mdi-gift"></i>
+                        <span class="nav-text">Cupons</span>
+                    </a>
+                </li>
+                <li class="has-sub">
+                    <a class="sidenav-item-link" href="{{route('painel.users.index')}}">
+                        <i class="mdi mdi-account"></i>
+                        <span class="nav-text">Usuários</span>
+                    </a>
                 </li>
             </ul>
         </div>
