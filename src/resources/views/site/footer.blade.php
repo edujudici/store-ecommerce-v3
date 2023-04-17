@@ -101,18 +101,23 @@
                         data-hide-cover="false"></div>
                 </div>
             </div>
-            <div class="col-lg-3  col-md-6 col-sm-6 mb-3">
+            <div class="col-lg-4  col-md-6 col-sm-6 mb-3">
                 <div class="single-footer-widget">
                     <h6>Selos</h6>
                     <a target="_blank" href="https://letsencrypt.org/">
                         <img class="mr-3" src="{{ asset('assets/site/img/letsencrypt.png') }}"
                             alt="Selo segurança" title="Selo segurança"
-                            width="65" height="65"/>
+                            width="80" height="80"/>
                     </a>
                     <a target="_blank" href="https://www.mercadopago.com.br/">
                         <img class="mr-3" src="{{ asset('assets/site/img/mercadopago.jpg') }}"
                             alt="Selo segurança" title="Selo segurança"
-                            width="65" height="65"/>
+                            width="80" height="80"/>
+                    </a>
+                    <a target="_blank" href="https://transparencyreport.google.com/safe-browsing/search#url=https://www.imperiodomdf.com.br/">
+                        <img class="mr-3" src="{{ asset('assets/site/img/google-security.jpg') }}"
+                            alt="Selo segurança" title="Selo segurança"
+                            width="80" height="80"/>
                     </a>
                 </div>
             </div>
