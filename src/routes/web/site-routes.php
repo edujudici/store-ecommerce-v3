@@ -8,6 +8,7 @@ use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\PayController;
 use App\Http\Controllers\Site\PrivacyController;
 use App\Http\Controllers\Site\ShopController;
+use App\Http\Controllers\Site\ZipcodeController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('site.home.index');
@@ -28,10 +29,12 @@ Route::controller(CheckoutController::class)->group(function () {
     Route::get('/checkout', 'index')->name('site.checkout.index');
     Route::post('/checkout', 'store')->name('site.checkout.store');
 });
-
 Route::name('site.')->group(static function () {
     Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::any('payment/{status}', [PayController::class, 'confirmation'])->name('payment.confirmation');
     Route::get('/privacy', [PrivacyController::class, 'index'])->name('privacy.index');
+});
+Route::controller(ZipcodeController::class)->group(function () {
+    Route::get('/zipcode/{zipcode?}', 'index')->name('site.zipcode.index');
 });

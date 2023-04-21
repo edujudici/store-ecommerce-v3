@@ -1,5 +1,6 @@
 <?php
 
+use Claudsonm\CepPromise\CepPromise;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +22,9 @@ foreach (glob($glob_file) as $file) {
 /**
  * Show PHP config
  */
-// Route::get('/phpinfo', static function () {
-//     phpinfo();
-// })->name('phpinfo');
+/* Route::get('/phpinfo', static function () {
+    phpinfo();
+})->name('phpinfo'); */
 
 /**
  * Test sentry for debug
@@ -53,4 +54,13 @@ Route::get('/debug-env', function () {
         'MAIL_ROOT' => env('MAIL_ROOT'),
         'MERCADO_PAGO_TOKEN' => env('MERCADO_PAGO_TOKEN'),
     ];
+});
+
+/**
+ * Test search cep
+ */
+Route::get('/debug-cep/{cep?}', function ($cep) {
+    $address = CepPromise::fetch($cep);
+    debug(['debug reponse address' => $address]);
+    return $address;
 });
