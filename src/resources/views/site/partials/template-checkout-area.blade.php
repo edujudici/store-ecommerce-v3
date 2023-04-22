@@ -192,6 +192,7 @@
 
     function checkoutArea(){[native/code]}
     checkoutArea.urlCheckout = "{{ route('site.checkout.store') }}";
+    checkoutArea.urlSearchZipcode = "{{ route('site.zipcode.index') }}";
     checkoutArea.data = {!! $data !!};
     checkoutArea.sessionProducts = checkoutArea.data.response.products;
     checkoutArea.sessionSubtotal = checkoutArea.data.response.subtotal;
@@ -312,20 +313,20 @@
         });
         self.searchZipcode = function()
         {
-            base.loading.show(true);
-
-            let zipcode = self.zipcode().toString().replace(/\D/g, '');
-            $.getJSON("https://viacep.com.br/ws/"+ zipcode +"/json/?callback=?", function(dados) {
-                if (!("erro" in dados)) {
-                    self.address(dados.logradouro);
-                    self.district(dados.bairro);
-                    self.city(dados.localidade);
-                    self.complement(dados.complemento);
-                    self.uf(dados.uf);
+            let
+            zipcode = self.zipcode().toString().replace(/\D/g, ''),
+            callback = function(data) {
+                if(!data.status) {
+                    Alert.error(data.message);
+                    return;
                 }
-            }).always(function() {
-                base.loading.show(false);
-            });
+                self.address(data.response.street);
+                self.district(data.response.district);
+                self.city(data.response.city);
+                self.uf(data.response.state);
+
+            };
+            base.post(checkoutArea.urlSearchZipcode + '/' + zipcode, null, callback, 'GET');
         }
     }
 
