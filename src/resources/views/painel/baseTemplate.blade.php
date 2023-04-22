@@ -92,6 +92,7 @@
     <script src="{{ asset('assets/painel/plugins/jquery-ui/js/jquery-ui.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/cropper/cropper.min.js') }}"></script>
     <script src="{{ asset('assets/knockoutjs-3.5.0/knockout.cropper.js') }}"></script>
+    <script src="{{asset('assets/site/js/jquery.maskedinput.js')}}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

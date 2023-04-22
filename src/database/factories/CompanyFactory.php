@@ -22,11 +22,17 @@ class CompanyFactory extends Factory
             'com_title' => $this->faker->word,
             'com_description' => $this->faker->paragraph,
             'com_image' => 'https://via.placeholder.com/380x50',
-            'com_address' => $this->faker->address,
             'com_phone' => $this->faker->phoneNumber,
             'com_work_hours' => 'aberto das 8h até as 18h',
             'com_mail' => $this->faker->email,
             'com_iframe' => $this->faker->url,
+            'com_address' => $this->faker->address,
+            'com_zipcode' => $this->faker->postcode,
+            'com_number' => $this->faker->randomNumber(9),
+            'com_district' => $this->faker->streetAddress,
+            'com_city' => $this->faker->city,
+            'com_complement' => $this->faker->address,
+            'com_uf' => 'SP',
         ];
     }
 }
