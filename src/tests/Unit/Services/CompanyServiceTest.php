@@ -53,10 +53,16 @@ class CompanyServiceTest extends TestCase
         $this->assertInstanceOf(Company::class, $response);
         $this->assertEquals($request->input('title'), $response->com_title);
         $this->assertEquals($request->input('description'), $response->com_description);
-        $this->assertEquals($request->input('address'), $response->com_address);
         $this->assertEquals($request->input('phone'), $response->com_phone);
         $this->assertEquals($request->input('mail'), $response->com_mail);
         $this->assertEquals($request->input('workHours'), $response->com_work_hours);
+        $this->assertEquals($request->input('address'), $response->com_address);
+        $this->assertEquals($request->input('zipcode'), $response->com_zipcode);
+        $this->assertEquals($request->input('number'), $response->com_number);
+        $this->assertEquals($request->input('district'), $response->com_district);
+        $this->assertEquals($request->input('city'), $response->com_city);
+        $this->assertEquals($request->input('complement'), $response->com_complement);
+        $this->assertEquals($request->input('uf'), $response->com_uf);
     }
 
     /** @test  */
@@ -81,9 +87,15 @@ class CompanyServiceTest extends TestCase
         $this->assertEquals($request->input('id'), $response->com_id);
         $this->assertEquals($request->input('title'), $response->com_title);
         $this->assertEquals($request->input('description'), $response->com_description);
-        $this->assertEquals($request->input('address'), $response->com_address);
         $this->assertEquals($request->input('phone'), $response->com_phone);
         $this->assertEquals($request->input('mail'), $response->com_mail);
         $this->assertEquals($request->input('workHours'), $response->com_work_hours);
+        $this->assertEquals($request->input('address'), $response->com_address);
+        $this->assertEquals($request->input('zipcode'), $response->com_zipcode);
+        $this->assertEquals($request->input('number'), $response->com_number);
+        $this->assertEquals($request->input('district'), $response->com_district);
+        $this->assertEquals($request->input('city'), $response->com_city);
+        $this->assertEquals($request->input('complement'), $response->com_complement);
+        $this->assertEquals($request->input('uf'), $response->com_uf);
     }
 }

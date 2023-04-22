@@ -20,8 +20,9 @@ class CompanyTest extends TestCase
         $this->assertTrue(
             Schema::hasColumns('company', [
                 'com_id', 'com_title', 'com_description', 'com_image',
-                'com_address', 'com_phone', 'com_work_hours', 'com_mail',
-                'com_iframe',
+                'com_phone', 'com_work_hours', 'com_mail', 'com_iframe',
+                'com_address', 'com_zipcode', 'com_number', 'com_district',
+                'com_city', 'com_complement', 'com_uf'
             ]),
             1
         );
