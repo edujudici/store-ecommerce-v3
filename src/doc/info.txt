@@ -77,14 +77,33 @@
                 "password": "h124laAlnu"
             }
 
-## Mercado pago
-
+## Mercado Pago
     notificação
         https://www.mercadopago.com/mlb/account/webhooks
 
     documentação completa
         https://www.mercadopago.com.br/developers/pt/guides/localization/payment-methods/
         https://www.mercadopago.com.br/developers/pt/reference/merchant_orders/_merchant_orders_id/get/
+
+    Contas de teste
+        Vendedor
+        Access token TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
+        {
+            "id": 1078876951,
+            "nickname": "TEST8UBBVPFT",
+            "password": "qatest6807",
+            "site_status": "active",
+            "email": "test_user_74610589@testuser.com"
+        }
+
+        comprador
+        {
+            "id": 1078882145,
+            "nickname": "TETE3004285",
+            "password": "qatest5260",
+            "site_status": "active",
+            "email": "test_user_55737184@testuser.com"
+        }
 
 ## Messages
 
