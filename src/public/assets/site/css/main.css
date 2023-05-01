@@ -5016,6 +5016,15 @@ label {
   }
 }
 
+.container .card .card-header .btn-outline-info {
+  color: #f8f9fa;
+  border-color: #d0d8da;
+}
+.container .card .card-header .btn-outline-info:hover {
+  color: #4a4848;
+  background-color: #f6f6f6;
+  border-color: #948328;
+}
 .container .card .card-body .quantity {
   float: left;
   margin-right: 15px;
