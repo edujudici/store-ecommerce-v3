@@ -46,22 +46,24 @@ class PayService extends BaseService
 
         $this->intanceClass();
 
-        switch ($params['type']) {
-            case 'payment':
-                $payment = $this->payment::find_by_id($params['data']['id']);
-                if (is_null($payment)) {
-                    throw new BusinessError('Payment not found');
-                }
-                $merchantOrder = $this->merchantOrder::find_by_id(
-                    $payment->order->id
-                );
-                if (is_null($merchantOrder)) {
-                    throw new BusinessError('Merchant order not found');
-                }
-                $this->storePaymentOrder($payment, $merchantOrder);
-                break;
-            default:
-                throw new BusinessError('Notification type does not exists');
+        if (isset($params['type'])) {
+            switch ($params['type']) {
+                case 'payment':
+                    $payment = $this->payment::find_by_id($params['data']['id']);
+                    if (is_null($payment)) {
+                        throw new BusinessError('Payment not found');
+                    }
+                    $merchantOrder = $this->merchantOrder::find_by_id(
+                        $payment->order->id
+                    );
+                    if (is_null($merchantOrder)) {
+                        throw new BusinessError('Merchant order not found');
+                    }
+                    $this->storePaymentOrder($payment, $merchantOrder);
+                    break;
+                default:
+                    throw new BusinessError('Notification type does not exists');
+            }
         }
     }
 
