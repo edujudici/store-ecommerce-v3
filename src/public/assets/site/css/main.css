@@ -4696,9 +4696,9 @@ label {
   position: relative;
   height: 40px;
   width: 40px;
-  line-height: 40px;
+  line-height: 45px;
   text-align: center;
-  background: #828bb2;
+  background: linear-gradient(90deg, #575757 0%, #000000 100%);
   border-radius: 50%;
   display: inline-block;
   color: #fff;
