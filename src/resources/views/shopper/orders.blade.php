@@ -223,9 +223,11 @@
             </div>
         </div>
 
-        <a href="javascript:void" data-bind="click: loadMoreItems" style="color: #6e6e6e;font-size: large;">
-            Desejo carregar mais pedidos
-        </a>
+        <div class="align-items-center d-flex justify-content-center">
+            <!-- ko if: pagination() !== '' -->
+                <div class="pagination" data-bind="html: pagination"></div>
+            <!-- /ko -->
+        </div>
     </div>
 </template>
 @endsection
@@ -387,12 +389,12 @@
         order.OrderAreaViewModel = function(params) {
             var self = this;
 
-            self.page = ko.observable(1);
             self.orders = ko.observableArray();
+            self.pagination = ko.observable();
 
-            self.loadOrders = function() {
+            self.loadOrders = function(page) {
                 let params = {
-                    'page': self.page(),
+                    'page': page ? page : base.getParamUrl('page'),
                     'uuid': '{{ auth()->user()->uuid }}'
                 },
                 callback = function(data) {
@@ -401,6 +403,7 @@
                         return;
                     }
 
+                    self.pagination(data.response.pagination);
                     ko.utils.arrayForEach(data.response.orders, function(item) {
                         self.orders.push(new order.Order(item));
                     });
@@ -408,10 +411,6 @@
                 base.post(order.urlGetOrders, params, callback, 'GET');
             }
             self.loadOrders();
-
-            self.loadMoreItems = function() {
-                self.loadOrders(self.page(self.page()+1));
-            }
         }
 
         ko.components.register('order-area', {
