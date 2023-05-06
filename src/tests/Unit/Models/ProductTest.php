@@ -24,15 +24,23 @@ class ProductTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $category;
+    private $product;
+    private $productMl;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->category = Category::factory()->create();
         $this->product = Product::factory()
-            ->create(['pro_category_id' => $this->category->cat_id_secondary]);
-        $this->product2 = Product::factory()
-            ->create(['cat_id' => $this->category->cat_id]);
+            ->for($this->category)
+            ->create();
+
+        $this->productMl = Product::factory()
+            ->for($this->category)
+            ->state(['pro_category_id' => $this->category->cat_id_secondary,])
+            ->create();
     }
 
     /** @test */
@@ -40,12 +48,11 @@ class ProductTest extends TestCase
     {
         $this->assertTrue(
             Schema::hasColumns('products', [
-                'pro_id', 'cat_id', 'pro_price', 'pro_oldprice', 'pro_title',
-                'pro_description', 'pro_description_long', 'pro_image',
-                'pro_sku', 'pro_seller_id', 'pro_category_id', 'pro_condition',
-                'pro_permalink', 'pro_thumbnail', 'pro_secure_thumbnail',
-                'pro_accepts_merc_pago', 'pro_load_date', 'pro_sold_quantity',
-                'pro_external', 'pro_inventory',
+                'cat_id', 'pro_price', 'pro_oldprice', 'pro_title', 'pro_description',
+                'pro_description_long', 'pro_image', 'pro_sku', 'pro_seller_id',
+                'pro_category_id', 'pro_condition', 'pro_permalink', 'pro_thumbnail',
+                'pro_secure_thumbnail', 'pro_accepts_merc_pago', 'pro_load_date',
+                'pro_sold_quantity', 'pro_external', 'pro_inventory',
             ]),
             1
         );
@@ -54,13 +61,13 @@ class ProductTest extends TestCase
     /** @test */
     public function a_product_belongs_to_a_category_ml()
     {
-        $this->assertInstanceOf(Category::class, $this->product->categoryML);
+        $this->assertInstanceOf(Category::class, $this->productMl->categoryML);
     }
 
     /** @test */
     public function a_product_belongs_to_a_category()
     {
-        $this->assertInstanceOf(Category::class, $this->product2->category);
+        $this->assertInstanceOf(Category::class, $this->product->category);
     }
 
     /** @test */
@@ -79,12 +86,12 @@ class ProductTest extends TestCase
     /** @test */
     public function a_product_has_many_products_related()
     {
-        $productRelated = ProductRelated::factory()
-            ->create(['pro_sku' => $this->product->pro_sku]);
+        ProductRelated::factory()
+            ->count(3)
+            ->for($this->product, 'product')
+            ->create();
 
-        $this->assertTrue($this->product->productsRelated
-            ->contains($productRelated));
-        $this->assertCount(1, $this->product->productsRelated);
+        $this->assertCount(3, $this->product->productsRelated);
         $this->assertInstanceOf(
             Collection::class,
             $this->product->productsRelated
@@ -94,12 +101,12 @@ class ProductTest extends TestCase
     /** @test */
     public function a_product_has_many_specifications()
     {
-        $specification = ProductSpecification::factory()
-            ->create(['pro_sku' => $this->product->pro_sku]);
+        ProductSpecification::factory()
+            ->count(3)
+            ->for($this->product, 'product')
+            ->create();
 
-        $this->assertTrue($this->product->specifications
-            ->contains($specification));
-        $this->assertCount(1, $this->product->specifications);
+        $this->assertCount(3, $this->product->specifications);
         $this->assertInstanceOf(
             Collection::class,
             $this->product->specifications
@@ -109,12 +116,12 @@ class ProductTest extends TestCase
     /** @test */
     public function a_product_has_many_pictures()
     {
-        $picture = Picture::factory()
-            ->create(['pro_sku' => $this->product->pro_sku]);
+        Picture::factory()
+            ->count(3)
+            ->for($this->product, 'product')
+            ->create();
 
-        $this->assertTrue($this->product->pictures
-            ->contains($picture));
-        $this->assertCount(1, $this->product->pictures);
+        $this->assertCount(3, $this->product->pictures);
         $this->assertInstanceOf(
             Collection::class,
             $this->product->pictures
@@ -124,12 +131,12 @@ class ProductTest extends TestCase
     /** @test */
     public function a_product_has_many_comments()
     {
-        $productComent = ProductComment::factory()
-            ->create(['pro_sku' => $this->product->pro_sku]);
+        ProductComment::factory()
+            ->count(3)
+            ->for($this->product, 'product')
+            ->create();
 
-        $this->assertTrue($this->product->comments
-            ->contains($productComent));
-        $this->assertCount(1, $this->product->comments);
+        $this->assertCount(3, $this->product->comments);
         $this->assertInstanceOf(
             Collection::class,
             $this->product->comments

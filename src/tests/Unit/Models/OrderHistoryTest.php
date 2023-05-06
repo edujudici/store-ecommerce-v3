@@ -17,13 +17,13 @@ class OrderHistoryTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $order;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-        $this->order = Order::factory()
-            ->create(['user_id' => $this->user->id]);
+        $this->order = Order::factory()->create();
     }
 
     /** @test */
@@ -42,7 +42,8 @@ class OrderHistoryTest extends TestCase
     public function a_order_history_belongs_to_a_order()
     {
         $orderHistory = OrderHistory::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
+            ->for($this->order)
+            ->create();
 
         $this->assertInstanceOf(Order::class, $orderHistory->order);
     }

@@ -17,13 +17,15 @@ class ProductCommentTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $product;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->category = Category::factory()->create();
         $this->product = Product::factory()
-            ->create(['cat_id' => $this->category->cat_id]);
+            ->for(Category::factory())
+            ->create();
     }
 
     /** @test */
@@ -42,7 +44,8 @@ class ProductCommentTest extends TestCase
     public function a_product_comment_belongs_to_a_product()
     {
         $productComment = ProductComment::factory()
-            ->create(['pro_sku' => $this->product->pro_sku]);
+            ->for($this->product)
+            ->create();
 
         $this->assertInstanceOf(Product::class, $productComment->product);
     }

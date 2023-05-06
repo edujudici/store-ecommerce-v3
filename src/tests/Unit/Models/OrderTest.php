@@ -21,13 +21,15 @@ class OrderTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $order;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
         $this->order = Order::factory()
-            ->create(['user_id' => $this->user->id]);
+            ->for(User::factory())
+            ->create();
     }
 
     /** @test */
@@ -55,22 +57,24 @@ class OrderTest extends TestCase
     /** @test */
     public function a_order_has_many_items()
     {
-        $orderItem = OrderItem::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
+        OrderItem::factory()
+            ->count(3)
+            ->for($this->order)
+            ->create();
 
-        $this->assertTrue($this->order->items->contains($orderItem));
-        $this->assertCount(1, $this->order->items);
+        $this->assertCount(3, $this->order->items);
         $this->assertInstanceOf(Collection::class, $this->order->items);
     }
 
     /** @test */
     public function a_order_has_many_histories()
     {
-        $orderHistory = OrderHistory::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
+        OrderHistory::factory()
+            ->count(3)
+            ->for($this->order)
+            ->create();
 
-        $this->assertTrue($this->order->histories->contains($orderHistory));
-        $this->assertCount(1, $this->order->histories);
+        $this->assertCount(3, $this->order->histories);
         $this->assertInstanceOf(Collection::class, $this->order->histories);
     }
 
@@ -78,10 +82,11 @@ class OrderTest extends TestCase
     public function a_order_has_many_comments()
     {
         $orderComment = OrderComment::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
+            ->count(3)
+            ->for($this->order)
+            ->create();
 
-        $this->assertTrue($this->order->comments->contains($orderComment));
-        $this->assertCount(1, $this->order->comments);
+        $this->assertCount(3, $this->order->comments);
         $this->assertInstanceOf(Collection::class, $this->order->comments);
     }
 
@@ -100,7 +105,10 @@ class OrderTest extends TestCase
     {
         $status = $this->order::getStatus();
         $this->assertIsArray($status);
-        $this->assertCount(4, $status);
+        $this->assertContains("Em produção", $status);
+        $this->assertContains("Em transporte", $status);
+        $this->assertContains("Concluído", $status);
+        $this->assertContains("Cancelar", $status);
     }
 
     /** @test */
@@ -108,6 +116,12 @@ class OrderTest extends TestCase
     {
         $status = $this->order::getAllStatus();
         $this->assertIsArray($status);
-        $this->assertCount(7, $status);
+        $this->assertContains('Novo', $status);
+        $this->assertContains('Processando Pagamento', $status);
+        $this->assertContains('Pago', $status);
+        $this->assertContains('Em produção', $status);
+        $this->assertContains('Em transporte', $status);
+        $this->assertContains('Concluído', $status);
+        $this->assertContains('Cancelado', $status);
     }
 }

@@ -16,13 +16,15 @@ class VoucherTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $voucher;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
         $this->voucher = Voucher::factory()
-            ->create(['user_uuid' => $this->user->uuid]);
+            ->for(User::factory())
+            ->create();
     }
 
     /** @test */
@@ -49,6 +51,7 @@ class VoucherTest extends TestCase
     {
         $status = $this->voucher::getStatus();
         $this->assertIsArray($status);
-        $this->assertCount(2, $status);
+        $this->assertContains('Ativo', $status);
+        $this->assertContains('Inativo', $status);
     }
 }

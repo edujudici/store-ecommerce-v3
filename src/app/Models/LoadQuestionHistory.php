@@ -29,4 +29,16 @@ class LoadQuestionHistory extends BaseModel
         'created_at',
         'update_at',
     ];
+
+    /**
+     * Get the mercadolivre that owns the notification.
+     */
+    public function mercadolivre()
+    {
+        return $this->belongsTo(
+            'App\Models\MercadoLivre',
+            'lqh_account_id',
+            'mel_id'
+        );
+    }
 }

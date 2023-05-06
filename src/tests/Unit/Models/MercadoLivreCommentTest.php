@@ -18,13 +18,15 @@ class MercadoLivreCommentTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $comment;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->mercadoLivre = MercadoLivre::factory()->create();
         $this->comment = MercadoLivreComment::factory()
-            ->create(['mec_seller_id' => $this->mercadoLivre->mel_user_id]);
+            ->for(MercadoLivre::factory())
+            ->create();
     }
 
     /** @test */
@@ -45,10 +47,7 @@ class MercadoLivreCommentTest extends TestCase
     /** @test */
     public function a_mercadolivre_comment_belongs_to_a_mercadolivre()
     {
-        $this->assertInstanceOf(
-            MercadoLivre::class,
-            $this->comment->mercadolivre
-        );
+        $this->assertInstanceOf(MercadoLivre::class, $this->comment->mercadolivre);
     }
 
     /** @test */

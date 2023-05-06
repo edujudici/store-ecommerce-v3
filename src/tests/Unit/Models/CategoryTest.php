@@ -17,13 +17,32 @@ class CategoryTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $category;
+    private $categoryML;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->category = Category::factory()->create();
-        $this->product = Product::factory()
-            ->create(['cat_id' => $this->category->cat_id]);
+        $this->category = Category::factory()
+            ->has(
+                Product::factory()
+                        ->count(3)
+                        ->state(function (array $attributes, Category $category) {
+                            return ['cat_id' => $category->cat_id];
+                        })
+            )
+            ->create();
+
+        $this->categoryML = Category::factory()
+            ->has(
+                Product::factory()
+                        ->count(3)
+                        ->state(function (array $attributes, Category $category) {
+                            return ['pro_category_id' => $category->cat_id_secondary];
+                        })
+            )
+            ->create();
     }
 
     /** @test */
@@ -40,19 +59,14 @@ class CategoryTest extends TestCase
     /** @test */
     public function a_category_has_many_products()
     {
-        $this->assertTrue($this->category->products->contains($this->product));
-        $this->assertCount(1, $this->category->products);
+        $this->assertCount(3, $this->category->products);
         $this->assertInstanceOf(Collection::class, $this->category->products);
     }
 
     /** @test */
     public function a_category_has_many_products_mercado_livre()
     {
-        $this->product = Product::factory()
-            ->create(['pro_category_id' => $this->category->cat_id_secondary]);
-
-        $this->assertTrue($this->category->productsML->contains($this->product));
-        $this->assertCount(1, $this->category->productsML);
-        $this->assertInstanceOf(Collection::class, $this->category->productsML);
+        $this->assertCount(3, $this->categoryML->productsML);
+        $this->assertInstanceOf(Collection::class, $this->categoryML->productsML);
     }
 }

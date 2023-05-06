@@ -19,17 +19,13 @@ class MercadoLivreTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $mercadoLivre;
+
     public function setUp() :void
     {
         parent::setUp();
 
         $this->mercadoLivre = MercadoLivre::factory()->create();
-        $this->comment = MercadoLivreComment::factory()
-            ->create(['mec_seller_id' => $this->mercadoLivre->mel_user_id]);
-        $this->notification = MercadoLivreNotification::factory()
-            ->create(['men_user_id' => $this->mercadoLivre->mel_user_id]);
-        $this->history = LoadQuestionHistory::factory()
-            ->create(['lqh_account_id' => $this->mercadoLivre->mel_id]);
     }
 
     /** @test */
@@ -49,36 +45,36 @@ class MercadoLivreTest extends TestCase
     /** @test */
     public function a_mercadolivre_has_many_mercadolivre_comments()
     {
-        $this->assertTrue($this->mercadoLivre->comments
-            ->contains($this->comment));
-        $this->assertCount(1, $this->mercadoLivre->comments);
-        $this->assertInstanceOf(
-            Collection::class,
-            $this->mercadoLivre->comments
-        );
+        MercadoLivreComment::factory()
+            ->count(3)
+            ->for($this->mercadoLivre)
+            ->create();
+
+        $this->assertCount(3, $this->mercadoLivre->comments);
+        $this->assertInstanceOf(Collection::class, $this->mercadoLivre->comments);
     }
 
     /** @test */
     public function a_mercadolivre_has_many_mercadolivre_notifications()
     {
-        $this->assertTrue($this->mercadoLivre->notifications
-            ->contains($this->notification));
-        $this->assertCount(1, $this->mercadoLivre->notifications);
-        $this->assertInstanceOf(
-            Collection::class,
-            $this->mercadoLivre->notifications
-        );
+        MercadoLivreNotification::factory()
+            ->count(3)
+            ->for($this->mercadoLivre)
+            ->create();
+
+        $this->assertCount(3, $this->mercadoLivre->notifications);
+        $this->assertInstanceOf(Collection::class, $this->mercadoLivre->notifications);
     }
 
     /** @test */
     public function a_mercadolivre_has_many_mercadolivre_histories()
     {
-        $this->assertTrue($this->mercadoLivre->histories
-            ->contains($this->history));
-        $this->assertCount(1, $this->mercadoLivre->histories);
-        $this->assertInstanceOf(
-            Collection::class,
-            $this->mercadoLivre->histories
-        );
+        LoadQuestionHistory::factory()
+            ->count(3)
+            ->for($this->mercadoLivre)
+            ->create();
+
+        $this->assertCount(3, $this->mercadoLivre->histories);
+        $this->assertInstanceOf(Collection::class, $this->mercadoLivre->histories);
     }
 }

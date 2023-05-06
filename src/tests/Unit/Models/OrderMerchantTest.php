@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Order;
 use App\Models\OrderMerchant;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
@@ -16,13 +17,13 @@ class OrderMerchantTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $order;
+
     public function setUp() :void
     {
         parent::setUp();
 
         $this->order = Order::factory()->create();
-        $this->orderMerchant = OrderMerchant::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
     }
 
     /** @test */
@@ -40,6 +41,10 @@ class OrderMerchantTest extends TestCase
     /** @test */
     public function a_order_merchant_belongs_to_a_order()
     {
-        $this->assertInstanceOf(Order::class, $this->orderMerchant->order);
+        $orderMerchant = OrderMerchant::factory()
+            ->for($this->order)
+            ->create();
+
+        $this->assertInstanceOf(Order::class, $orderMerchant->order);
     }
 }

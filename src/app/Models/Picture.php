@@ -33,4 +33,12 @@ class Picture extends BaseModel
         'created_at',
         'update_at',
     ];
+
+    /**
+     * Get the product that owns the related product.
+     */
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'pro_sku', 'pro_sku');
+    }
 }

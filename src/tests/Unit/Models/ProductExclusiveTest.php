@@ -17,15 +17,16 @@ class ProductExclusiveTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $product;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->category = Category::factory()->create();
         $this->product = Product::factory()
-            ->create(['cat_id' => $this->category->cat_id]);
-        $this->productExclusive = ProductExclusive::factory()
-            ->create(['pro_sku' => $this->product->pro_sku]);
+            ->for(Category::factory())
+            ->create();
+
     }
 
     /** @test */
@@ -42,6 +43,10 @@ class ProductExclusiveTest extends TestCase
     /** @test */
     public function a_product_exclusive_belongs_to_a_product()
     {
-        $this->assertInstanceOf(Product::class, $this->productExclusive->product);
+        $productExclusive = ProductExclusive::factory()
+            ->for($this->product)
+            ->create();
+
+        $this->assertInstanceOf(Product::class, $productExclusive->product);
     }
 }

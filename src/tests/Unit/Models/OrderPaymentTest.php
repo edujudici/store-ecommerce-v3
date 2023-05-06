@@ -16,13 +16,13 @@ class OrderPaymentTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $order;
+
     public function setUp() :void
     {
         parent::setUp();
 
         $this->order = Order::factory()->create();
-        $this->orderPayment = OrderPayment::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
     }
 
     /** @test */
@@ -47,6 +47,10 @@ class OrderPaymentTest extends TestCase
     /** @test */
     public function a_order_payment_belongs_to_a_order()
     {
-        $this->assertInstanceOf(Order::class, $this->orderPayment->order);
+        $orderPayment = OrderPayment::factory()
+            ->for($this->order)
+            ->create();
+
+        $this->assertInstanceOf(Order::class, $orderPayment->order);
     }
 }

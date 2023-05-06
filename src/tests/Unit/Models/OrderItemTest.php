@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -18,13 +19,13 @@ class OrderItemTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $order;
+
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-        $this->order = Order::factory()
-            ->create(['user_id' => $this->user->id]);
+        $this->order = Order::factory()->create();
     }
 
     /** @test */
@@ -43,7 +44,8 @@ class OrderItemTest extends TestCase
     public function a_order_item_belongs_to_a_order()
     {
         $orderItem = OrderItem::factory()
-            ->create(['ord_id' => $this->order->ord_id]);
+            ->for($this->order)
+            ->create();
 
         $this->assertInstanceOf(Order::class, $orderItem->order);
     }
@@ -51,12 +53,13 @@ class OrderItemTest extends TestCase
     /** @test */
     public function a_order_item_has_a_product()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
+
         $orderItem = OrderItem::factory()
-            ->create([
-                'ord_id' => $this->order->ord_id,
-                'ori_pro_sku' => $product->pro_sku
-            ]);
+            ->for($this->order)
+            ->create(['ori_pro_sku' => $product->pro_sku]);
 
         $this->assertInstanceOf(Product::class, $orderItem->product);
         $this->assertEquals(1, $orderItem->product->count());
