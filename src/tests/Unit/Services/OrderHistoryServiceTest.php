@@ -16,6 +16,8 @@ class OrderHistoryServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

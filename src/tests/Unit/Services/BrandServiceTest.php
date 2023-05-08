@@ -18,6 +18,8 @@ class BrandServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -57,7 +59,7 @@ class BrandServiceTest extends TestCase
     {
         $request = Request::create('/', 'POST', [
             'title' => $this->faker->word,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);

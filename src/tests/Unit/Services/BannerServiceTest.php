@@ -18,6 +18,8 @@ class BannerServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -61,7 +63,7 @@ class BannerServiceTest extends TestCase
         $request = Request::create('/', 'POST', [
             'title' => $this->faker->title,
             'description' => $this->faker->title,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);

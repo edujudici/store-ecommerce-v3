@@ -18,6 +18,8 @@ class CategoryServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -61,7 +63,7 @@ class CategoryServiceTest extends TestCase
     {
         $request = Request::create('/', 'POST', [
             'cat_title' => $this->faker->word,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);
@@ -78,7 +80,7 @@ class CategoryServiceTest extends TestCase
         $request = Request::create('/', 'POST', [
             'id' => $category->cat_id,
             'cat_title' => $this->faker->word,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);

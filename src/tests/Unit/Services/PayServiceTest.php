@@ -21,6 +21,9 @@ class PayServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $orderServiceMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

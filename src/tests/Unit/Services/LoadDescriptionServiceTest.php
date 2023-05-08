@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Api\MercadoLibre;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\LoadDescriptionService;
 use App\Services\ProductService;
@@ -16,6 +17,10 @@ use Tests\TestCase;
 class LoadDescriptionServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $apiMercadoLibreMock;
+    private $productServiceMock;
+    private $service;
 
     public function setUp(): void
     {
@@ -34,7 +39,9 @@ class LoadDescriptionServiceTest extends TestCase
     /** @test  */
     public function should_save_items()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $description = ['plain_text' => 'test long description'];
         $this->apiMercadoLibreMock->shouldReceive('getDescriptionProduct')
@@ -45,7 +52,7 @@ class LoadDescriptionServiceTest extends TestCase
             ->once()
             ->andReturn($product);
 
-        $this->service->loadDescriptions([$product->pro_sku]);
+        $this->service->loadDescription($product->pro_sku);
 
         $this->assertEquals(
             $description['plain_text'],

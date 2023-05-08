@@ -17,6 +17,9 @@ class LoadCategoryServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $apiMercadoLibreMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -34,15 +37,24 @@ class LoadCategoryServiceTest extends TestCase
     /** @test  */
     public function should_save_items()
     {
-        Product::factory()->create();
+        $category = Category::factory()
+            ->create();
+        Product::factory()
+            ->for($category)
+            ->create();
+
+        $data = [
+            'id' => $category->cat_id_secondary,
+            'name' => $category->cat_title
+        ];
 
         $this->apiMercadoLibreMock->shouldReceive('getDetailCategory')
             ->once()
-            ->andReturn(json_decode('{"id": 1, "name": "test"}'));
+            ->andReturn(json_decode(json_encode($data)));
 
         $this->service->organizeCategories();
 
         $this->assertCount(1, Category::all());
-        $this->assertEquals('test', Category::first()->cat_title);
+        $this->assertEquals($data['name'], Category::first()->cat_title);
     }
 }

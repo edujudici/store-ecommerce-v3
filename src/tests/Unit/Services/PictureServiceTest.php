@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Category;
 use App\Models\Picture;
 use App\Models\Product;
 use App\Services\PictureService;
@@ -17,6 +18,8 @@ class PictureServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -27,7 +30,9 @@ class PictureServiceTest extends TestCase
     /** @test  */
     public function should_list_items()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         Picture::factory()->count(3)->create(['pro_sku' => $product->pro_sku]);
 
         $request = Request::create('/', 'POST', [
@@ -43,7 +48,9 @@ class PictureServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $paths = [
             $this->faker->url,
             $this->faker->url,

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Api\MercadoLibre;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\LoadPictureService;
 use App\Services\ProductService;
@@ -18,17 +18,17 @@ class LoadPictureServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $productServiceMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
-            ->makePartial();
         $this->productServiceMock = $this->mock(ProductService::class)
             ->makePartial();
 
         $this->service = new LoadPictureService(
-            $this->apiMercadoLibreMock,
             $this->productServiceMock
         );
     }
@@ -36,19 +36,16 @@ class LoadPictureServiceTest extends TestCase
     /** @test  */
     public function should_load_pictures()
     {
-        $pictures = $this->mockResponse();
-
-        $product = Product::factory()->create();
-
-        $this->apiMercadoLibreMock->shouldReceive('getProductsPictures')
-            ->once()
-            ->andReturn($pictures);
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
+        $pictures = $this->mockPictures();
 
         $this->productServiceMock->shouldReceive('findBySku')
             ->once()
             ->andReturn($product);
 
-        $this->service->loadPictures([$product->pro_sku]);
+        $this->service->loadPictures($product->pro_sku, $pictures);
 
         $this->assertCount(2, $product->pictures);
         $this->assertInstanceOf(Collection::class, $product->pictures);
@@ -56,7 +53,9 @@ class LoadPictureServiceTest extends TestCase
 
     public function test_save()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $pictures = $this->mockPictures();
 
         $this->service->store($product, $pictures);
@@ -67,38 +66,24 @@ class LoadPictureServiceTest extends TestCase
         $this->assertEquals($product->pro_secure_thumbnail, $pictures[0]->secure_url);
     }
 
-    private function mockResponse()
-    {
-        $data = [
-            [
-                'body' => [
-                    'id' => $this->faker->randomNumber(2),
-                    'pictures' => $this->mockPictures()
-                ],
-            ],
-        ];
-
-        return json_decode(json_encode($data));
-    }
-
     private function mockPictures()
     {
         $data = [
             [
-                'id' => '',
-                'url' => '',
-                'secure_url' => '',
-                'size' => '',
-                'max_size' => '',
-                'quality' => '',
+                'id' => 1,
+                'url' => $this->faker->url,
+                'secure_url' => $this->faker->url,
+                'size' => $this->faker->randomNumber(2),
+                'max_size' => $this->faker->randomNumber(2),
+                'quality' => $this->faker->randomNumber(2),
             ],
             [
-                'id' => '',
-                'url' => '',
-                'secure_url' => '',
-                'size' => '',
-                'max_size' => '',
-                'quality' => '',
+                'id' => 1,
+                'url' => $this->faker->url,
+                'secure_url' => $this->faker->url,
+                'size' => $this->faker->randomNumber(2),
+                'max_size' => $this->faker->randomNumber(2),
+                'quality' => $this->faker->randomNumber(2),
             ]
         ];
 

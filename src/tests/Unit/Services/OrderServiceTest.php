@@ -22,6 +22,12 @@ class OrderServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $orderItemsServiceMock;
+    private $orderHistoryServiceMock;
+    private $orderAddressServiceMock;
+    private $orderCommentServiceMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

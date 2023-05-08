@@ -26,6 +26,13 @@ class CheckoutServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $cartServiceMock;
+    private $addressServiceMock;
+    private $PreferenceServiceMock;
+    private $orderServiceMock;
+    private $voucherServiceMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

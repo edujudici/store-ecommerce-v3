@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Api\MercadoLibre;
 use App\Exceptions\BusinessError;
+use App\Models\Category;
 use App\Models\MercadoLivre;
 use App\Models\MercadoLivreComment;
 use App\Models\Product;
@@ -20,6 +21,9 @@ use Tests\TestCase;
 class MercadoLivreCommentServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $apiMercadoLibreMock;
+    private $service;
 
     public function setUp(): void
     {
@@ -101,7 +105,9 @@ class MercadoLivreCommentServiceTest extends TestCase
     public function should_store_item()
     {
         $mercadolivre = MercadoLivre::factory()->create();
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $mockQuestion = $this->mockQuestion(
             $mercadolivre->mel_user_id,

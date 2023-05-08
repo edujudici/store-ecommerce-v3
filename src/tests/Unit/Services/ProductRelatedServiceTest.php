@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductRelated;
 use App\Services\ProductRelatedService;
@@ -18,6 +19,8 @@ class ProductRelatedServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -28,7 +31,9 @@ class ProductRelatedServiceTest extends TestCase
     /** @test  */
     public function should_list_items_formatted()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $productsRelated = ProductRelated::factory()->count(3)
             ->create([
                 'pro_sku' => $product->pro_sku,
@@ -46,7 +51,9 @@ class ProductRelatedServiceTest extends TestCase
     /** @test  */
     public function should_list_items()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         ProductRelated::factory()->count(3)
             ->create([
                 'pro_sku' => $product->pro_sku,
@@ -66,7 +73,9 @@ class ProductRelatedServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'products' => [

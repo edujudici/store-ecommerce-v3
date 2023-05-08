@@ -17,6 +17,8 @@ class CompanyServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -45,7 +47,12 @@ class CompanyServiceTest extends TestCase
             'phone' => $this->faker->phoneNumber,
             'workHours' => 'aberto das 8h até as 18h',
             'mail' => $this->faker->email,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            'zipcode' => '00000000',
+            'number' => $this->faker->randomNumber(2),
+            'district' => $this->faker->streetName,
+            'city' => $this->faker->city,
+            'uf' => 'SP',
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);
@@ -78,7 +85,12 @@ class CompanyServiceTest extends TestCase
             'phone' => $this->faker->phoneNumber,
             'workHours' => 'aberto das 8h até as 18h',
             'mail' => $this->faker->email,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            'zipcode' => '00000000',
+            'number' => $this->faker->randomNumber(2),
+            'district' => $this->faker->streetName,
+            'city' => $this->faker->city,
+            'uf' => 'SP',
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);

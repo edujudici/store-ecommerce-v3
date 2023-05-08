@@ -15,6 +15,8 @@ class DashboardOrdersOverviewServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Exceptions\BusinessError;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\UserSession;
 use App\Services\FavoriteService;
@@ -20,6 +21,10 @@ use Tests\TestCase;
 class FavoriteServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $productServiceMock;
+    private $userSessionServiceMock;
+    private $service;
 
     public function setUp(): void
     {
@@ -84,7 +89,9 @@ class FavoriteServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'sku' => $product->pro_sku,
@@ -150,7 +157,9 @@ class FavoriteServiceTest extends TestCase
 
     private function mockSession(): array
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $prodAtributes = [
             'sku' => $product->pro_sku,

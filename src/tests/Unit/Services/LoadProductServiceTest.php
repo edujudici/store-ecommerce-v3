@@ -17,6 +17,8 @@ class LoadProductServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -27,8 +29,9 @@ class LoadProductServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
+        $category = Category::factory()->create();
         $request = [
-            'cat_id' => $this->faker->randomNumber(9),
+            'cat_id' => $category->cat_id,
             'pro_price' => $this->faker->randomFloat(2, 1, 100),
             'pro_oldprice' => $this->faker->randomFloat(2, 1, 100),
             'pro_title' => $this->faker->title,
@@ -58,7 +61,7 @@ class LoadProductServiceTest extends TestCase
     {
         $category = Category::factory()->create();
         $request = [
-            'cat_id' => $this->faker->randomNumber(9),
+            'cat_id' => $category->cat_id,
             'pro_price' => $this->faker->randomFloat(2, 1, 100),
             'pro_oldprice' => $this->faker->randomFloat(2, 1, 100),
             'pro_title' => $this->faker->title,
@@ -87,8 +90,13 @@ class LoadProductServiceTest extends TestCase
     public function should_destroy_item()
     {
         $category = Category::factory()->create();
-        Product::factory()->count(3)
-            ->create(['pro_category_id' => $category->cat_id_secondary]);
+        Product::factory()
+            ->count(3)
+            ->for($category)
+            ->state([
+                'pro_category_id' => $category->cat_id_secondary
+            ])
+            ->create();
 
         $this->service->destroy('2020-01-01');
 

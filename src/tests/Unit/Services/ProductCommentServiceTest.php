@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Services\ProductCommentService;
@@ -18,6 +19,8 @@ class ProductCommentServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -31,7 +34,9 @@ class ProductCommentServiceTest extends TestCase
     /** @test  */
     public function should_list_all_items()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         ProductComment::factory()->count(3)
             ->create(['pro_sku' => $product->pro_sku]);
 
@@ -44,7 +49,9 @@ class ProductCommentServiceTest extends TestCase
     /** @test  */
     public function should_list_items()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         ProductComment::factory()->count(3)
             ->create(['pro_sku' => $product->pro_sku]);
 
@@ -81,7 +88,9 @@ class ProductCommentServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'sku' => $product->pro_sku,

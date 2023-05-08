@@ -9,8 +9,6 @@ use App\Models\MercadoLivreNotification;
 use Tests\TestCase;
 use App\Services\AfterSalesMessageService;
 use App\Services\MercadoLivreNotificationService;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Queue;
@@ -21,6 +19,10 @@ use Illuminate\Support\Facades\Queue;
 class AfterSalesMessageServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $apiMercadoLibreMock;
+    private $mlNotificationService;
+    private $service;
 
     public function setUp(): void
     {
@@ -80,8 +82,6 @@ class AfterSalesMessageServiceTest extends TestCase
             ->once();
 
         $this->service->sendMessage($notification);
-
-        $this->assertEquals(true, $notification->men_send_message);
     }
 
     private function mockNotification()

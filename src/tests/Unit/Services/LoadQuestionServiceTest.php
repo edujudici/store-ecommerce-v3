@@ -25,6 +25,14 @@ class LoadQuestionServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $apiMercadoLibreMock;
+    private $mlServiceMock;
+    private $mlCommentServiceMock;
+    private $mlUserServiceMock;
+    private $mlProductServiceMock;
+    private $questHistServiceMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

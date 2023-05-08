@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Category;
-use Mockery;
 use Tests\TestCase;
 use App\Models\Product;
 use App\Services\PictureService;
@@ -14,7 +13,6 @@ use App\Services\ProductSpecificationService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 
 /**
@@ -23,6 +21,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 class ProductServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $productExclusiveServiceMock;
+    private $productRelatedServiceMock;
+    private $productSpecificationServiceMock;
+    private $pictureServiceMock;
+    private $service;
 
     public function setUp(): void
     {
@@ -53,7 +57,10 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_list_items_format()
     {
-        Product::factory()->count(24)->create();
+        Product::factory()
+            ->count(24)
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'amount' => 24,
@@ -68,7 +75,10 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_list_items()
     {
-        Product::factory()->count(3)->create();
+        Product::factory()
+            ->count(3)
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', []);
 
@@ -83,9 +93,9 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_list_items_by_name()
     {
-        $product1 = Product::factory()->create();
-        Product::factory()->create();
-        Product::factory()->create();
+        $product1 = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'term' => $product1->pro_sku,
@@ -101,7 +111,9 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_find_a_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'id' => $product->pro_id,
@@ -134,7 +146,9 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_find_a_item_by_sku()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $response = $this->service->findBySku($product->pro_sku);
 
@@ -163,7 +177,9 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_exists_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $response = $this->service->exists($product->pro_sku);
 
@@ -181,7 +197,7 @@ class ProductServiceTest extends TestCase
             'pro_description' => $this->faker->title,
             'pro_price' => $this->faker->randomFloat(2, 1, 100),
             'pro_oldprice' => $this->faker->randomFloat(2, 1, 100),
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $this->productExclusiveServiceMock->shouldReceive('store')
@@ -206,7 +222,9 @@ class ProductServiceTest extends TestCase
     /** @test  */
     public function should_destroy_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'id' => $product->pro_id,

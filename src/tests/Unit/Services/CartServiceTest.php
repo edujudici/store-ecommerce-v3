@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\CartService;
 use App\Services\ProductService;
@@ -16,6 +17,9 @@ use Tests\TestCase;
 class CartServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $productServiceMock;
+    private $service;
 
     public function setUp(): void
     {
@@ -59,7 +63,9 @@ class CartServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $request = Request::create('/', 'POST', [
             'sku' => $product->pro_sku,
@@ -157,7 +163,9 @@ class CartServiceTest extends TestCase
 
     private function mockSession(): array
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
 
         $prodAtributes = [
             'id' => $product->pro_id,

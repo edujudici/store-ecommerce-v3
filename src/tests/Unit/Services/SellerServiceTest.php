@@ -18,6 +18,9 @@ class SellerServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $apiMercadoLibreMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

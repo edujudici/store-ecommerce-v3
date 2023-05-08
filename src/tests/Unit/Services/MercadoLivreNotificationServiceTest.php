@@ -18,6 +18,8 @@ class MercadoLivreNotificationServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -47,9 +49,10 @@ class MercadoLivreNotificationServiceTest extends TestCase
     public function should_store_item()
     {
         $mercadolivre = MercadoLivre::factory()->create();
-        MercadoLivreNotification::factory()->count(2)->create([
-            'men_user_id' => $mercadolivre->mel_user_id
-        ]);
+        MercadoLivreNotification::factory()
+            ->count(2)
+            ->for($mercadolivre)
+            ->create();
         $request = Request::create('/', 'POST', [
             'resource' => $this->faker->word,
             'user_id' => $mercadolivre->mel_user_id,

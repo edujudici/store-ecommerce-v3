@@ -29,9 +29,6 @@
       <directory suffix=".php">./app/Http/Middleware</directory>
       <file>./app/Providers/AppServiceProvider.php</file>
       <file>./app/Providers/BroadcastServiceProvider.php</file>
-      <file>./app/Services/DashboardRevenueService.php</file>
-      <file>./app/Services/DashboardShoppersService.php</file>
-      <file>./app/Services/DashboardTopProductsService.php</file>
     </exclude>
   </coverage>
   <testsuites>

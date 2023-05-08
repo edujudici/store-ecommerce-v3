@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Exceptions\BusinessError;
 use App\Models\Address;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\PreferenceService;
 use App\Models\User;
@@ -18,6 +19,8 @@ use Tests\TestCase;
 class PreferenceServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $service;
 
     public function setUp(): void
     {
@@ -52,7 +55,9 @@ class PreferenceServiceTest extends TestCase
 
     private function mockCart(): array
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $user = User::factory()->create();
 
         return [
@@ -76,7 +81,9 @@ class PreferenceServiceTest extends TestCase
 
     private function mockCartPriceZero(): array
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $user = User::factory()->create();
 
         return [

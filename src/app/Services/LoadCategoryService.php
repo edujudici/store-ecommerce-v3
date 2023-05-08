@@ -9,6 +9,8 @@ use App\Models\Product;
 class LoadCategoryService extends BaseService
 {
     private $product;
+    private $category;
+    private $apiMercadoLibre;
 
     public function __construct(
         Product $product,

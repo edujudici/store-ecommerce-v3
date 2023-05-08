@@ -18,6 +18,8 @@ class FeatureServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -63,7 +65,7 @@ class FeatureServiceTest extends TestCase
         $request = Request::create('/', 'POST', [
             'title' => $this->faker->title,
             'description' => $this->faker->title,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);
@@ -82,7 +84,7 @@ class FeatureServiceTest extends TestCase
             'id' => $feature->fea_id,
             'title' => $this->faker->title,
             'description' => $this->faker->title,
-            'file' => UploadedFile::fake()->image('fake.png'),
+            // 'file' => UploadedFile::fake()->image('fake.png'),
         ]);
 
         $response = $this->service->store($request);

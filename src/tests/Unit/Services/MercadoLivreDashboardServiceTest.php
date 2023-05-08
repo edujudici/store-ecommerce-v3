@@ -17,6 +17,9 @@ class MercadoLivreDashboardServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $mercadoLivreService;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

@@ -53,12 +53,12 @@ class CompanyService extends BaseService
             'iframe' => 'string',
             'file' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'zipcode' => 'required|string|max:8',
-            'address' => 'string|max:255',
-            'number' => 'required|string|max:255',
-            'district' => 'string|max:255',
-            'city' => 'string|max:255',
+            'address' => 'required|string|max:255',
+            'number' => 'required|max:255',
+            'district' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'complement' => 'string|max:255',
-            'uf' => 'string|max:2',
+            'uf' => 'required|string|max:2',
         ];
         $titles = [
             'title' => 'Título',

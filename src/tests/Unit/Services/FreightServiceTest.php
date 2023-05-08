@@ -16,6 +16,9 @@ class FreightServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $calculaFreteMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

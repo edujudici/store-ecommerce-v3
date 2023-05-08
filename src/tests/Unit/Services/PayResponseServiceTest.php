@@ -20,6 +20,10 @@ class PayResponseServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private $orderServiceMock;
+    private $payServiceMock;
+    private $service;
+
     public function setUp(): void
     {
         parent::setUp();

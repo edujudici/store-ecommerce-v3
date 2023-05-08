@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Api\MercadoLibre;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\LoadCategoryService;
 use App\Services\LoadDescriptionService;
@@ -19,6 +20,13 @@ use Tests\TestCase;
 class LoadSingleServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+
+    private $loadProductServiceMock;
+    private $loadPictureServiceMock;
+    private $loadDescriptionServiceMock;
+    private $loadCategoryServiceMock;
+    private $apiMercadoLibreMock;
+    private $service;
 
     public function setUp(): void
     {
@@ -49,7 +57,9 @@ class LoadSingleServiceTest extends TestCase
     /** @test  */
     public function should_load_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $productLoadMock = $this->mockLoadProduct($product);
 
         $this->apiMercadoLibreMock->shouldReceive('getSingleProduct')
@@ -63,10 +73,10 @@ class LoadSingleServiceTest extends TestCase
         $this->loadPictureServiceMock->shouldReceive('store')
             ->once();
 
-        $this->loadDescriptionServiceMock->shouldReceive('store')
+            $this->loadCategoryServiceMock->shouldReceive('store')
             ->once();
 
-        $this->loadCategoryServiceMock->shouldReceive('store')
+        $this->loadDescriptionServiceMock->shouldReceive('loadDescription')
             ->once();
 
         $this->service->loadProduct($product->sku);
@@ -75,7 +85,9 @@ class LoadSingleServiceTest extends TestCase
     /** @test  */
     public function should_store_item()
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()
+            ->for(Category::factory())
+            ->create();
         $productLoadMock = $this->mockLoadProduct($product);
 
         $this->loadProductServiceMock->shouldReceive('store')
