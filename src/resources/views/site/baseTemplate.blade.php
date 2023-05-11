@@ -18,14 +18,14 @@
     <link rel="stylesheet" href="{{ asset('assets/site/css/magnific-popup.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/site/css/main.css') }}"/>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-38180490-3"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Y3F1W6QVE"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'UA-38180490-3');
+        gtag('config', 'G-6Y3F1W6QVE');
     </script>
 
     <script type="text/javascript">
