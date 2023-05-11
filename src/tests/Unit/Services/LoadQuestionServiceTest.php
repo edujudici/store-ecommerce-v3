@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Api\MercadoLibre;
 use App\Exceptions\BusinessError;
+use App\Jobs\LoadQuestion;
 use App\Models\LoadQuestionHistory;
 use App\Models\MercadoLivre;
 use App\Models\MercadoLivreComment;
@@ -16,6 +17,7 @@ use App\Services\MercadoLivreUserService;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 /**
@@ -83,6 +85,8 @@ class LoadQuestionServiceTest extends TestCase
     /** @test  */
     public function should_dispatch_questions()
     {
+        Queue::fake();
+
         $accounts = MercadoLivre::factory()->count(2)->create();
         $accounts[0]->mel_user_id = null;
 
@@ -100,12 +104,10 @@ class LoadQuestionServiceTest extends TestCase
             ->once()
             ->andReturn($history);
 
-        $this->mock(LoadQuestionService::class)
-            ->makePartial()
-            ->shouldReceive('loadQuestions')
-            ->twice();
-
         $this->service->dispatchQuestions();
+
+        Queue::assertPushedOn('questions', LoadQuestion::class);
+        Queue::assertPushed(LoadQuestion::class, 2);
     }
 
     /** @test  */

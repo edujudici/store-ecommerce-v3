@@ -16,19 +16,28 @@
       <directory suffix=".php">./app</directory>
     </include>
     <exclude>
+
+      <!-- does not contain business rules -->
       <directory suffix=".php">./app/Api</directory>
       <directory suffix=".php">./app/Console</directory>
+      <directory suffix=".php">./app/Events</directory>
       <directory suffix=".php">./app/Exceptions</directory>
       <directory suffix=".php">./app/Helpers</directory>
+      <directory suffix=".php">./app/Http</directory>
+      <directory suffix=".php">./app/Jobs</directory>
+      <directory suffix=".php">./app/Listeners</directory>
       <directory suffix=".php">./app/Mail</directory>
-      <directory suffix=".php">./app/Http/Composers</directory>
-      <directory suffix=".php">./app/Http/Controllers/Auth</directory>
-      <directory suffix=".php">./app/Http/Controllers/Painel</directory>
-      <directory suffix=".php">./app/Http/Controllers/Shopper</directory>
-      <directory suffix=".php">./app/Http/Controllers/Site</directory>
-      <directory suffix=".php">./app/Http/Middleware</directory>
-      <file>./app/Providers/AppServiceProvider.php</file>
-      <file>./app/Providers/BroadcastServiceProvider.php</file>
+      <directory suffix=".php">./app/Notifications</directory>
+      <directory suffix=".php">./app/Providers</directory>
+
+      <!-- does`t contain business rules and same functions to sqlite -->
+      <file>./app/Services/ZipcodeService.php</file>
+      <file>./app/Services/DashboardNewShoppersService.php</file>
+      <file>./app/Services/DashboardOrdersOverviewService.php</file>
+      <file>./app/Services/DashboardRecentOrdersService.php</file>
+      <file>./app/Services/DashboardRevenueService.php</file>
+      <file>./app/Services/DashboardShoppersService.php</file>
+      <file>./app/Services/DashboardTopProductsService.php</file>
     </exclude>
   </coverage>
   <testsuites>

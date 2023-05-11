@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Api\MercadoLibre;
+use App\Jobs\LoadProduct;
 use App\Models\Category;
 use App\Models\MercadoLivre;
 use App\Models\Product;
@@ -15,6 +16,7 @@ use App\Services\LoadProductService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 /**
@@ -50,6 +52,8 @@ class LoadMultipleServiceTest extends TestCase
     /** @test  */
     public function should_dispatch_products()
     {
+        Queue::fake();
+
         $mercadoLivre = MercadoLivre::factory()->create();
 
         $request = Request::create('/', 'POST', [
@@ -65,12 +69,10 @@ class LoadMultipleServiceTest extends TestCase
         $this->loadHistoryServiceMock->shouldReceive('store')
             ->once();
 
-        $this->mock(LoadMultipleService::class)
-            ->makePartial()
-            ->shouldReceive('loadProducts')
-            ->once();
-
         $this->service->dispatchProducts($request);
+
+        Queue::assertPushedOn('products', LoadProduct::class);
+        Queue::assertPushed(LoadProduct::class, 1);
     }
 
     /** @test  */

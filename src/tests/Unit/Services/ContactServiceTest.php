@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Services;
 
+use App\Mail\AnswerContact;
 use App\Models\Contact;
 use App\Services\ContactService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 /**
@@ -88,5 +90,26 @@ class ContactServiceTest extends TestCase
         $response = $this->service->destroy($request);
 
         $this->assertTrue($response);
+    }
+
+    /** @test  */
+    public function should_answer_an_question()
+    {
+        Mail::fake();
+
+        $contact = Contact::factory()->create();
+
+        $request = Request::create('/', 'POST', [
+            'id' => $contact->con_id,
+            'answer' => $this->faker->sentence,
+        ]);
+
+        $this->service->answer($request);
+
+        $contact = Contact::findOrFail($contact->con_id);
+
+        $this->assertEquals($request->input('answer'), $contact->con_answer);
+
+        Mail::assertSent(AnswerContact::class);
     }
 }

@@ -42,6 +42,12 @@ class ContactService extends BaseService
         return $contact;
     }
 
+    public function destroy($request): bool
+    {
+        $contact = $this->findById($request);
+        return $contact->delete();
+    }
+
     public function answer($request): void
     {
         $contact = $this->findById($request);
@@ -53,12 +59,6 @@ class ContactService extends BaseService
             'body' => $request->input('answer'),
             'name' => $contact->con_name,
         ]));
-    }
-
-    public function destroy($request): bool
-    {
-        $contact = $this->findById($request);
-        return $contact->delete();
     }
 
     private function validateFields($request)
