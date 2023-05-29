@@ -21,6 +21,9 @@ class PayController extends Controller
                 : 'Obrigado, seu pedido esta em processo de aprovação';
             $request->session()->flash('status', $message);
             $request->session()->forget('cart.products');
+            $request->session()->forget('cart.voucher');
+            $request->session()->forget('cart.voucherValue');
+
             return view('site.confirmation')->with(compact('data'));
         }
         return redirect('/checkout')->with(
