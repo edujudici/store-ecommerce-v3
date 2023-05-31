@@ -31,14 +31,14 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="price">Preço</label>
-                                    <input type="text" class="form-control" id="price" placeholder="Informe o preço" data-bind="value: price">
+                                    <label for="price">Preço com desconto</label>
+                                    <input type="text" class="form-control" id="price" placeholder="Informe o preço com desconto" data-bind="value: price">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="old-price">Preço Original</label>
-                                    <input type="text" class="form-control" id="old-price" placeholder="Informe o preço original" data-bind="value: oldPrice">
+                                    <label for="old-price">Preço sem desconto</label>
+                                    <input type="text" class="form-control" id="old-price" placeholder="Informe o preço sem desconto" data-bind="value: oldPrice">
                                 </div>
                             </div>
                             <div class="col-lg-9">

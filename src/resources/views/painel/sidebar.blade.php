@@ -131,16 +131,9 @@
                     </a>
                     <ul class="collapse" id="website" data-parent="#sidebar-menu">
                         <div class="sub-menu">
-                            <li class="has-sub">
-                                <a class="sidenav-item-link" href="{{route('painel.companies.index')}}">
-                                    <i class="mdi mdi-home-modern"></i>
-                                    <span class="nav-text">Dados da Empresa</span>
-                                </a>
-                            </li>
-                            <li class="has-sub">
+                            <li>
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#products"
                                     aria-expanded="false" aria-controls="products">
-                                    <i class="mdi mdi-table-edit"></i>
                                     <span class="nav-text">Produtos</span> <b class="caret"></b>
                                 </a>
                                 <ul class="collapse" id="products">
@@ -159,28 +152,29 @@
                                     </div>
                                 </ul>
                             </li>
-                            <li class="has-sub">
+                            <li>
                                 <a class="sidenav-item-link" href="{{route('painel.banners.index')}}">
-                                    <i class="mdi mdi-image-filter"></i>
                                     <span class="nav-text">Banners</span>
                                 </a>
                             </li>
-                            <li class="has-sub">
+                            <li>
                                 <a class="sidenav-item-link" href="{{route('painel.faqs.index')}}">
-                                    <i class="mdi mdi-chat-processing"></i>
                                     <span class="nav-text">Perguntas Frequentes</span>
                                 </a>
                             </li>
-                            <li class="has-sub">
+                            <li>
                                 <a class="sidenav-item-link" href="{{route('painel.features.index')}}">
-                                    <i class="mdi mdi-file-image"></i>
                                     <span class="nav-text">Características</span>
                                 </a>
                             </li>
-                            <li class="has-sub">
+                            <li>
                                 <a class="sidenav-item-link" href="{{route('painel.brands.index')}}">
-                                    <i class="mdi mdi-thumb-up"></i>
                                     <span class="nav-text">Marcas</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidenav-item-link" href="{{route('painel.companies.index')}}">
+                                    <span class="nav-text">Dados da Empresa</span>
                                 </a>
                             </li>
                         </div>
