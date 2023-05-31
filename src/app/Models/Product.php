@@ -18,14 +18,15 @@ class Product extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'cat_id',
-        'pro_price',
-        'pro_oldprice',
-        'pro_title',
-        'pro_description',
-        'pro_description_long',
-        'pro_image',
-        'pro_sku',
+        'cat_id', // default
+        'pro_price', // default
+        'pro_oldprice', // default
+        'pro_title', // default
+        'pro_description', // default
+        'pro_description_long', // default
+        'pro_image', // default
+        'pro_sku', // default
+        'pro_inventory', // default
         'pro_seller_id',
         'pro_category_id',
         'pro_condition',
@@ -36,7 +37,6 @@ class Product extends BaseModel
         'pro_load_date',
         'pro_sold_quantity',
         'pro_external',
-        'pro_inventory',
     ];
 
     /**
