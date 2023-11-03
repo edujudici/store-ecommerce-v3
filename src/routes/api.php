@@ -105,7 +105,6 @@ Route::name('api.')->group(static function () {
     Route::get('relateds', [ProductRelatedController::class, 'index'])->name('productsRelateds.index');
     Route::post('relateds/format', [ProductRelatedController::class, 'indexFormat'])->name('productsRelateds.index.format');
 
-    Route::post('freight/codes', [FreightController::class, 'getCodes'])->name('freight.codes');
     Route::post('freight/calculate', [FreightController::class, 'calculate'])->name('freight.calculate');
 
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');

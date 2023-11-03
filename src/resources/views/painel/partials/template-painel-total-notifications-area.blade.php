@@ -4,37 +4,36 @@
     <div class="card card-default" data-scroll-height="550">
         <div class="card-header justify-content-between border-bottom">
             <h2>Total de Notificações</h2>
-            {{--  <div>
+            {{-- <div>
                 <button class="text-black-50 mr-2 font-size-20">
                     <i class="mdi mdi-cached"></i>
                 </button>
-            </div>  --}}
+            </div> --}}
         </div>
         <div class="card-body slim-scroll">
             <!-- ko if: notifications().length == 0 -->
-                <p>Nenhuma notifação no momento.</p>
+            <p>Nenhuma notifação no momento.</p>
             <!-- /ko -->
 
             <!-- ko foreach: notifications -->
-                <div class="media py-3 align-items-center justify-content-between">
-                    <div data-bind="class: color"
-                        class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 text-white">
-                        <i class="mdi font-size-20" data-bind="class: icon"></i>
-                    </div>
-                    <div class="media-body">
-                        <a class="mt-0 mb-1 font-size-15 text-dark" href="#" data-bind="text: title"></a>
-                        <p><span data-bind="text: total"></span> <span data-bind="text: description"></span></p>
-                    </div>
+            <div class="media py-3 align-items-center justify-content-between">
+                <div data-bind="class: color"
+                    class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 text-white">
+                    <i class="mdi font-size-20" data-bind="class: icon"></i>
                 </div>
+                <div class="media-body">
+                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#" data-bind="text: title"></a>
+                    <p><span data-bind="text: total"></span> <span data-bind="text: description"></span></p>
+                </div>
+            </div>
             <!-- /ko -->
         </div>
         <div class="mt-3"></div>
     </div>
-	<!--================End Total Notifications Area =================-->
+    <!--================End Total Notifications Area =================-->
 </template>
 
 <script type="text/javascript">
-
     function totalNotifications(){[native/code]}
     totalNotifications.list = {!! $notifications !!};
 

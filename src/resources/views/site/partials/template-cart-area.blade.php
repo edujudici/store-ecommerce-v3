@@ -21,42 +21,45 @@
                 <div class="card-header bg-dark text-light">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     Meu carrinho
-                    <a href="{{route('site.shop.index')}}" class="btn btn-outline-info btn-sm pull-right">Continuar comprando</a>
+                    <a href="{{route('site.shop.index')}}" class="btn btn-outline-info btn-sm pull-right">Continuar
+                        comprando</a>
                     <div class="clearfix"></div>
                 </div>
                 <div class="card-body">
 
-                        <!-- ko foreach: products-->
-                        <!-- PRODUCT -->
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-2 text-center">
-                                <img class="img-responsive" data-bind="attr: {src: image}" alt="prewiew" height="80">
+                    <!-- ko foreach: products-->
+                    <!-- PRODUCT -->
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-2 text-center">
+                            <img class="img-responsive" data-bind="attr: {src: image}" alt="prewiew" height="80">
+                        </div>
+                        <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+                            <h4 class="product-name"><strong data-bind="text: title"></strong></h4>
+                        </div>
+                        <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
+                            <div class="col-5 col-sm-5 col-md-6 text-md-right" style="padding-top: 5px">
+                                <h6><strong data-bind="text: base.numeroParaMoeda(total())"> <span
+                                            class="text-muted">x</span></strong></h6>
                             </div>
-                            <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
-                                <h4 class="product-name"><strong data-bind="text: title"></strong></h4>
+                            <div class="col-4 col-sm-4 col-md-4">
+                                <div class="quantity">
+                                    <input type="button" value="+" class="plus" data-bind="click: increaseAmount">
+                                    <input type="number" step="1" max="99" min="1" title="Qty" class="qty" size="4"
+                                        data-bind="value: amount">
+                                    <input type="button" value="-" class="minus" data-bind="click: decreaseAmount">
+                                </div>
                             </div>
-                            <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
-                                <div class="col-5 col-sm-5 col-md-6 text-md-right" style="padding-top: 5px">
-                                    <h6><strong data-bind="text: base.numeroParaMoeda(total())"> <span class="text-muted">x</span></strong></h6>
-                                </div>
-                                <div class="col-4 col-sm-4 col-md-4">
-                                    <div class="quantity">
-                                        <input type="button" value="+" class="plus" data-bind="click: increaseAmount">
-                                        <input type="number" step="1" max="99" min="1" title="Qty" class="qty"
-                                            size="4" data-bind="value: amount">
-                                        <input type="button" value="-" class="minus" data-bind="click: decreaseAmount">
-                                    </div>
-                                </div>
-                                <div class="col-3 col-sm-3 col-md-2 text-right">
-                                    <button type="button" class="btn btn-outline-danger btn-xs" data-bind="click: deleteProductCart">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </div>
+                            <div class="col-3 col-sm-3 col-md-2 text-right">
+                                <button type="button" class="btn btn-outline-danger btn-xs"
+                                    data-bind="click: deleteProductCart">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                        <hr>
-                        <!-- END PRODUCT -->
-                        <!-- /ko -->
+                    </div>
+                    <hr>
+                    <!-- END PRODUCT -->
+                    <!-- /ko -->
                     <div class="row">
                         <div class="col-sm-12 col-md-7 freight-calculate">
                             <div class="row">
@@ -67,11 +70,14 @@
                                         Calcular frete!
                                     </h2>
                                     <div class="cupon_text d-flex justify-content-center">
-                                        <input class="freight-calculate-input" type="text" placeholder="Informe o CEP" name="zipcode" data-bind="value: zipcode">
-                                        <a class="primary-btn freight-calculate-button" href="#" data-bind="click: freightCalculate">Buscar</a>
+                                        <input class="freight-calculate-input" type="text" placeholder="Informe o CEP"
+                                            name="zipcode" data-bind="value: zipcode">
+                                        <a class="primary-btn freight-calculate-button" href="#"
+                                            data-bind="click: freightCalculate">Buscar</a>
                                     </div>
                                     <div class="text-center">
-                                        <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank">
+                                        <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/"
+                                            target="_blank">
                                             Não sei o cep
                                         </a>
                                     </div>
@@ -82,17 +88,20 @@
                                     <!-- ko foreach: freightServices -->
                                     <div class="d-flex">
                                         <div class="primary-radio ml-2 mr-2 mt-1">
-                                            <input type="radio" name="freightGroup" data-bind="attr: {id: code}, value: code, checked: cartAreaViewModel.freightSelected">
-                                            <label style="border: 1px solid #1468a7" data-bind="attr: {for: code}"></label>
+                                            <input type="radio" name="freightGroup"
+                                                data-bind="attr: {id: code}, value: code, checked: cartAreaViewModel.freightSelected">
+                                            <label style="border: 1px solid #1468a7"
+                                                data-bind="attr: {for: code}"></label>
                                         </div>
                                         <p>
-                                            <span data-bind="text: serviceName"></span> - Em até
-                                            <span data-bind="text: deliveryTime"></span>
+                                            <span data-bind="text: serviceName"></span>
+                                            <b data-bind="text: deliveryTimeMin"></b> -
+                                            <b data-bind="text: deliveryTimeMax"></b>
                                             <!-- ko if: price != 0 -->
-                                            dia(s), por R$ <span data-bind="text: price"></span>
+                                            dia(s) úteis, por <b data-bind="text: 'R$ ' + price"></b>
                                             <!-- /ko -->
                                             <!-- ko if: price == 0 -->
-                                            dia(s) úteis - GRÁTIS
+                                            dia(s) úteis - <b>GRÁTIS</b>
                                             <!-- /ko -->
                                         </p>
                                     </div>
@@ -114,16 +123,21 @@
                                         Vale de desconto!
                                     </h2>
                                     <div class="cupon_text d-flex justify-content-center">
-                                        <input class="freight-calculate-input" type="text" placeholder="Informe o código" name="voucher" data-bind="value: voucher">
-                                        <a class="primary-btn freight-calculate-button" href="#" data-bind="click: applyVoucher">Aplicar</a>
+                                        <input class="freight-calculate-input" type="text"
+                                            placeholder="Informe o código" name="voucher" data-bind="value: voucher">
+                                        <a class="primary-btn freight-calculate-button" href="#"
+                                            data-bind="click: applyVoucher">Aplicar</a>
                                     </div>
                                     <p class="mt-3 text-info text-justify" data-bind="visible: voucherValue() > 0">
                                         <span class="ti-alert"></span>
-                                        Descontos serão aplicados somente nos produtos, valores de frete serão cobrados normalmente.
+                                        Descontos serão aplicados somente nos produtos, valores de frete serão cobrados
+                                        normalmente.
                                     </p>
                                     <p class="mt-3 text-info text-justify" data-bind="visible: voucherMessage">
                                         <span class="ti-alert"></span>
-                                        Um novo vale com o valor <span data-bind="text: base.numeroParaMoeda(voucherValue() - subtotal())"></span> será gerado e disponibilizado na área 'Cupons'.
+                                        Um novo vale com o valor <span
+                                            data-bind="text: base.numeroParaMoeda(voucherValue() - subtotal())"></span>
+                                        será gerado e disponibilizado na área 'Cupons'.
                                     </p>
                                 </div>
                             </div>
@@ -155,7 +169,8 @@
                 </div>
                 <div class="card-footer">
                     <div>
-                        <a class="primary-btn freight-calculate-button" href="#" data-bind="click: checkout">Prosseguir para o checkout</a>
+                        <a class="primary-btn freight-calculate-button" href="#" data-bind="click: checkout">Prosseguir
+                            para o checkout</a>
                     </div>
                 </div>
             </div>
@@ -165,10 +180,8 @@
 </template>
 
 <script type="text/javascript">
-
     function cartArea(){[native/code]}
     cartArea.urlGetProductsCart = "{{ route('site.cart.data') }}";
-    cartArea.urlGetPostOfficeCodes = "{{ route('api.freight.codes') }}";
     cartArea.urlDeleteProductCart = "{{ route('site.cart.destroy') }}";
     cartArea.urlFreightCalculate = "{{ route('api.freight.calculate') }}";
     cartArea.urlUpdateCart = "{{ route('site.cart.update') }}";
@@ -242,10 +255,12 @@
     cartArea.Freight = function(obj) {
         var self = this;
 
-        self.code = obj.Codigo;
-        self.price = obj.Valor;
-        self.deliveryTime = obj.PrazoEntrega;
-        self.serviceName = obj.ServicoNome;
+        self.code = obj.id;
+        self.price = obj.price;
+        self.deliveryTime = obj.deliveryTime;
+        self.deliveryTimeMin = obj.deliveryRange.min;
+        self.deliveryTimeMax = obj.deliveryRange.max;
+        self.serviceName = (obj.company.name || '') + ' ' + (obj.name || '');
     }
 
     cartArea.CartAreaViewModel = function() {
@@ -291,14 +306,6 @@
                 self.zipcode(data.response.zipcode);
                 self.freightSelected(data.response.freightData.code);
                 self.freightServices(data.response.freightServices);
-                if (data.response.freightServices.length === 0) {
-                    self.freightServices.push(new cartArea.Freight({
-                        'Codigo': -1,
-                        'Valor': 0,
-                        'PrazoEntrega': 4,
-                        'ServicoNome': 'Retirar no local',
-                    }));
-                }
                 self.voucher(data.response.voucher);
                 self.voucherValue(data.response.voucherValue);
 
@@ -344,39 +351,36 @@
                 return;
             }
 
-            self.freightServices.splice(1, self.freightServices().length-1) ;
+            self.freightServices([]);
             self.isLoadingFreight(true);
 
-            let callback = function(data) {
+            let params = {
+                'zipcode': self.zipcode(),
+                'value': self.total()
+            },
+            callback = function(data) {
                 if(!data.status) {
                     Alert.error(data.message);
                     return;
                 }
-                ko.utils.arrayForEach(Object.keys(data.response), function(codeName) {
-                    let params = {
-                        'zipcode': self.zipcode(),
-                        'serviceCode': data.response[codeName]
-                    },
-                    callback = function(data) {
-                        if(!data.status) {
-                            Alert.error(data.message);
-                            return;
-                        }
-                        self.isLoadingFreight(false);
+                self.isLoadingFreight(false);
 
-                        if (data.response) {
-                            if (data.response.Erro !== '0') {
-                                Alert.error(data.response.MsgErro);
-                                return;
-                            }
-                            self.freightServices.push(new cartArea.Freight(data.response));
-                        }
-                    };
-                    base.post(cartArea.urlFreightCalculate, params, callback);
+                ko.utils.arrayForEach(data.response, function(freight) {
+                    self.freightServices.push(new cartArea.Freight(freight));
                 });
             };
-            base.post(cartArea.urlGetPostOfficeCodes, null, callback);
+            base.post(cartArea.urlFreightCalculate, params, callback);
         }
+
+        self.freightSortedArray = ko.computed(function () {
+            if (self.freightServices().length > 0) {
+                return self.freightServices.sort(function (left, right) {
+                    return right.deliveryTime === left.deliveryTime ? 0
+                         : right.deliveryTime > left.deliveryTime ? -1
+                         : 1;
+                });
+            }
+        });
 
         self.voucher.subscribe(function(value) {
             if (!value) {
@@ -432,6 +436,8 @@
                         'price': item.price,
                         'deliveryTime': item.deliveryTime,
                         'serviceName': item.serviceName,
+                        'deliveryTimeMin': item.deliveryTimeMin,
+                        'deliveryTimeMax': item.deliveryTimeMax,
                     }
                 }),
             },

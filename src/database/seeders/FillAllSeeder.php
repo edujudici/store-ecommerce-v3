@@ -39,13 +39,13 @@ class FillAllSeeder extends Seeder
     {
         Banner::factory()->count(5)->create();
         Brand::factory()->count(5)->create();
-        Company::factory()->count(5)->create();
         Contact::factory()->count(5)->create();
         Feature::factory()->count(5)->create();
         Newsletter::factory()->count(5)->create();
         Faq::factory()->count(5)->create();
-        MercadoLivre::factory()->count(5)->create();
         Voucher::factory()->count(5)->create();
+        Company::factory()->count(1)->create();
+        MercadoLivre::factory()->count(1)->create();
 
         // create categories and products data
         $categories = Category::factory()

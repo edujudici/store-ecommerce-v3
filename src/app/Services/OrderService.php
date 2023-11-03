@@ -43,10 +43,11 @@ class OrderService extends BaseService
     {
         $orders = $this->order->selectRaw('*, orders.created_at as order_date')
             ->with('address')->with('histories')->with('items.product')
-            ->with(['payments' => function ($query) {
-                $query->selectRaw('ord_id, orp_payment_type_id, orp_status,
+            ->with([
+                'payments' => function ($query) {
+                    $query->selectRaw('ord_id, orp_payment_type_id, orp_status,
                     orp_resource_url, orp_date_of_expiration');
-            },
+                },
             ]);
         if ($request->has('uuid')) {
             $orders->join('users', 'users.id', 'orders.user_id')

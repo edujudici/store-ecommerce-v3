@@ -32,15 +32,15 @@ class Curl
             curl_setopt($this->curl, CURLOPT_POST, 1);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params['postFields']);
         }
-        if (isset($params['contentType'])) {
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, [
-                'Content-Type:' . $params['contentType'],
-            ]);
-        }
-        if (isset($params['bearerKey'])) {
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, [
-                'Authorization: Bearer ' . $params['bearerKey'],
-            ]);
+        if (isset($params['contentType']) || isset($params['bearerKey'])) {
+            $header = [];
+            if (isset($params['contentType'])) {
+                $header[] = 'Content-Type:' . $params['contentType'];
+            }
+            if (isset($params['bearerKey'])) {
+                $header[] = 'Authorization: Bearer ' . $params['bearerKey'];
+            }
+            curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header);
         }
         if (isset($params['customRequest'])) {
             curl_setopt(
@@ -72,12 +72,12 @@ class Curl
         $mctime = (microtime(true) - $this->time) * 1000;
 
         if ($errno !== 0) {
-            debug('=====>>>>CURL EXECUTADO COM ERRO: '.round($mctime) . ' ms');
+            debug('=====>>>>CURL EXECUTADO COM ERRO: ' . round($mctime) . ' ms');
             debug(['debug error' => $error]);
             debug(['debug errno' => $errno]);
             throw new \RuntimeException($error, $errno);
         }
-        debug('======>>>>CURL EXECUTADO COM SUCESSO: '.round($mctime) . ' ms');
+        debug('======>>>>CURL EXECUTADO COM SUCESSO: ' . round($mctime) . ' ms');
         return $response;
     }
 }
