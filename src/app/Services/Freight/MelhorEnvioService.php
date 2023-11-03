@@ -38,7 +38,7 @@ class MelhorEnvioService extends BaseService
             'code' => $code,
         ];
 
-        $response = json_decode($this->runCurl($url, [
+        $response = json_decode(self::runCurl($url, [
             'postFields' => $params,
         ]));
         return $response;
@@ -54,7 +54,7 @@ class MelhorEnvioService extends BaseService
             'refresh_token' => $refreshToken,
         ];
 
-        $response = json_decode($this->runCurl($url, [
+        $response = json_decode(self::runCurl($url, [
             'postFields' => $params,
         ]));
         return $response;
@@ -108,7 +108,7 @@ class MelhorEnvioService extends BaseService
             ]
         ]);
 
-        return json_decode($this->runCurl($url, [
+        return json_decode(self::runCurl($url, [
             'postFields' => $postFields,
             'bearerKey' => $token,
             'contentType' => 'application/json'

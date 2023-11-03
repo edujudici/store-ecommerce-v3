@@ -9,18 +9,18 @@ trait OrderTransformable
     /**
      * Transform the order
      *
-     * @param Preference $preference
+     * @param array $preference
      * @param array $cart
      *
      * @return array
      */
-    protected function prepareOrder($preference, $cart, $paid): array
+    protected static function prepareOrder($preference, $cart, $paid): array
     {
         return [
             'user_id' => $cart['user']->id,
             'preferenceId' => $preference['id'],
             'status' => $paid ? 'paid' : 'new',
-            'ord_protocol' => $this->generateProtocol(),
+            'ord_protocol' => self::generateProtocol(),
             'ord_preference_init_point' => $preference['init_point'],
             'ord_external_reference' => $preference['external_reference'],
             'ord_freight_code' => $cart['freightData']['code'],
@@ -35,7 +35,7 @@ trait OrderTransformable
             'ord_subtotal' => $cart['subtotal'],
             'ord_voucher_code' => $cart['voucher'],
             'ord_voucher_value' => $cart['voucherValue'],
-            'ord_promised_date' => $this->generatePromisedDate(
+            'ord_promised_date' => self::generatePromisedDate(
                 $cart['freightData']['deliveryTime']
             ),
         ];
@@ -46,7 +46,7 @@ trait OrderTransformable
      *
      * @return string
      */
-    protected function generateProtocol()
+    private static function generateProtocol()
     {
         $identify = 'V' . randomText(2);
         $randomText = randomText(8);
@@ -60,7 +60,7 @@ trait OrderTransformable
      *
      * @return string
      */
-    protected function generatePromisedDate($days): string
+    private static function generatePromisedDate($days): string
     {
         return date('Y-m-d', strtotime("+{$days} days"));
     }

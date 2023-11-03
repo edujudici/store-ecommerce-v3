@@ -17,7 +17,7 @@ trait MakeRequest
         self::$time = microtime(true);
     }
 
-    public static function _callService($class, $method, $params)
+    public function _callService($class, $method, $params)
     {
         try {
             DB::transaction(static function () use (

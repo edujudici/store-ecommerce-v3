@@ -70,7 +70,7 @@ class OrderService extends BaseService
     {
         $order = $this->store(
             null,
-            $this->prepareOrder($preference, $cart, $paid)
+            self::prepareOrder($preference, $cart, $paid)
         );
         $this->orderItemsService->store($order, $cart);
         $this->orderAddressService->store($order, $address);
