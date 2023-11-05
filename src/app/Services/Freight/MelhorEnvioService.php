@@ -2,116 +2,62 @@
 
 namespace App\Services\Freight;
 
+use App\Api\ApiMelhorEnvio;
+use App\Models\MelhorEnvio;
 use App\Services\BaseService;
-use App\Traits\MakeCurl;
 
 class MelhorEnvioService extends BaseService
 {
-    use MakeCurl;
+    private $melhorEnvio;
+    private $apiMelhorEnvio;
 
-    private $baseUrl;
-    private $clientId;
-    private $secret;
-    private $redirectUri;
-
-    private const URI_SHIPMENT_CALCULATE = "/api/v2/me/shipment/calculate";
-    private const URI_OAUTH_TOKEN = "/oauth/token";
-    private const AUTHORIZATION_CODE = "authorization_code";
-    private const REFRESH_TOKEN = "refresh_token";
-
-    public function __construct()
-    {
-        $this->baseUrl = env('MELHOR_ENVIO_URL');
-        $this->clientId = env('MELHOR_ENVIO_CLIENT_ID');
-        $this->secret = env('MELHOR_ENVIO_SECRET');
-        $this->redirectUri = env('MELHOR_ENVIO_REDIRECT_URI');
+    public function __construct(
+        MelhorEnvio $melhorEnvio,
+        ApiMelhorEnvio $apiMelhorEnvio,
+    ) {
+        $this->melhorEnvio = $melhorEnvio;
+        $this->apiMelhorEnvio = $apiMelhorEnvio;
     }
 
-    public function accessToken($code)
+    public function index(): MelhorEnvio
     {
-        $url = $this->baseUrl . self::URI_OAUTH_TOKEN;
+        return $this->melhorEnvio->first();
+    }
+
+    public function auth($request): MelhorEnvio
+    {
+        $code = $request->input('code');
+
+        $response = $this->apiMelhorEnvio->accessToken($code);
+
         $params = [
-            'grant_type' => self::AUTHORIZATION_CODE,
-            'client_id' => $this->clientId,
-            'client_secret' => $this->secret,
-            'redirect_uri' => $this->redirectUri,
-            'code' => $code,
+            'mee_token_type' => $response->token_type,
+            'mee_expires_in' => $response->expires_in,
+            'mee_access_token' => $response->access_token,
+            'mee_refresh_token' => $response->refresh_token,
         ];
 
-        $response = json_decode(self::runCurl($url, [
-            'postFields' => $params,
-        ]));
-        return $response;
+        return $this->melhorEnvio->updateOrCreate([
+            'mee_authorize_code' => $code,
+        ], $params);
     }
 
-    public function refreshToken($refreshToken)
+    public function calculate($from, $to, $value): array
     {
-        $url = $this->baseUrl . self::URI_OAUTH_TOKEN;
-        $params = [
-            'grant_type' => self::REFRESH_TOKEN,
-            'client_id' => $this->clientId,
-            'client_secret' => $this->secret,
-            'refresh_token' => $refreshToken,
+        $melhorEnvio = $this->index();
+        $token = $melhorEnvio->mee_access_token;
+
+        $data = [
+            'from' => $from,
+            'to' => $to,
+            'value' => $value,
+            'services' => '1,2,3,4',
+            'height' => 15,
+            'width' => 20,
+            'length' => 30,
+            'weight' => 1,
         ];
 
-        $response = json_decode(self::runCurl($url, [
-            'postFields' => $params,
-        ]));
-        return $response;
-    }
-
-    /**
-     * Calculate freight on melhor envio service
-     *
-     * Payload example:
-     * {
-     *      "from": {"postal_code": "13503538"},
-     *      "to": {"postal_code": "17013150"},
-     *      "services": "1,2,3,4,7,11"
-     *      "package": {
-     *          "height": 15,
-     *          "width": 20,
-     *          "length": 30,
-     *          "weight": 1
-     *      },
-     *      "options": {
-     *          "insurance_value": 150,
-     *          "receipt": false,
-     *          "own_hand": false
-     *      },
-     * }
-     * @param array $params
-     * @param string $token
-     * @return null|array
-     */
-    public function calculate($params, $token): ?array
-    {
-        $url = $this->baseUrl . self::URI_SHIPMENT_CALCULATE;
-        $postFields = json_encode([
-            'from' => [
-                'postal_code' => $params['from'],
-            ],
-            'to' => [
-                'postal_code' => $params['to'],
-            ],
-            'services' => $params['services'],
-            'packages' => [
-                'height' => $params['height'],
-                'width' => $params['width'],
-                'length' => $params['length'],
-                'weight' => $params['weight'],
-            ],
-            'options' => [
-                'insurance_value' => $params['value'],
-                'receipt' => false,
-                'own_hand' => false
-            ]
-        ]);
-
-        return json_decode(self::runCurl($url, [
-            'postFields' => $postFields,
-            'bearerKey' => $token,
-            'contentType' => 'application/json'
-        ]), true);
+        return $this->apiMelhorEnvio->calculate($data, $token);
     }
 }

@@ -8,8 +8,8 @@
         <!-- Aplication Brand -->
         <div class="app-brand">
             <a href="{{route('painel.dashboard.index')}}">
-                <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"
-                    width="30" height="33" viewBox="0 0 30 33">
+                <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" width="30"
+                    height="33" viewBox="0 0 30 33">
                     <g fill="none" fill-rule="evenodd">
                         <path class="logo-fill-blue" fill="#7DBCFF" d="M0 4v25l8 4V0zM22 4v25l8 4V0z" />
                         <path class="logo-fill-white" fill="#FFF" d="M11 4v25l8 4V0z" />
@@ -35,30 +35,30 @@
                     </a>
                 </li>
                 <li class="has-sub">
-                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#communication"
-                        aria-expanded="false" aria-controls="communication">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                        data-target="#communication" aria-expanded="false" aria-controls="communication">
                         <i class="mdi mdi-comment"></i>
                         <span class="nav-text">Comunicação</span> <b class="caret"></b>
                     </a>
                     <ul class="collapse" id="communication" data-parent="#sidebar-menu">
                         <div class="sub-menu">
-                            <li class="has-sub" >
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#comments"
-                                    aria-expanded="false" aria-controls="comments">
+                            <li class="has-sub">
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                                    data-target="#comments" aria-expanded="false" aria-controls="comments">
                                     <span class="nav-text">Comentários</span> <b class="caret"></b>
                                 </a>
                                 <ul class="collapse" id="comments">
                                     <div class="sub-menu">
-                                        <li >
+                                        <li>
                                             <a href="{{route('painel.orders.comments.index')}}">
                                                 Pedidos
                                             </a>
                                         </li>
 
-                                        <li >
+                                        <li>
                                             <a href="{{route('painel.products.comments.index')}}">
                                                 Produtos
-                                                {{--  <span class="badge badge-success">new</span>  --}}
+                                                {{-- <span class="badge badge-success">new</span> --}}
                                             </a>
                                         </li>
                                     </div>
@@ -78,8 +78,8 @@
                     </ul>
                 </li>
                 <li class="has-sub">
-                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#mercadolivre"
-                        aria-expanded="false" aria-controls="mercadolivre">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                        data-target="#mercadolivre" aria-expanded="false" aria-controls="mercadolivre">
                         <i class="mdi mdi-account-multiple-plus-outline"></i>
                         <span class="nav-text">Mercado Livre</span> <b class="caret"></b>
                     </a>
@@ -124,6 +124,22 @@
                     </ul>
                 </li>
                 <li class="has-sub">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                        data-target="#melhorenvio" aria-expanded="false" aria-controls="melhorenvio">
+                        <i class="mdi mdi-truck"></i>
+                        <span class="nav-text">Melhor Envio</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="melhorenvio" data-parent="#sidebar-menu">
+                        <div class="sub-menu">
+                            <li>
+                                <a class="sidenav-item-link" href="{{route('painel.melhorenvio.index')}}">
+                                    <span class="nav-text">Configurar Frete</span>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
+                <li class="has-sub">
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#website"
                         aria-expanded="false" aria-controls="website">
                         <i class="mdi mdi-image-filter-none"></i>
@@ -132,19 +148,19 @@
                     <ul class="collapse" id="website" data-parent="#sidebar-menu">
                         <div class="sub-menu">
                             <li>
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#products"
-                                    aria-expanded="false" aria-controls="products">
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                                    data-target="#products" aria-expanded="false" aria-controls="products">
                                     <span class="nav-text">Produtos</span> <b class="caret"></b>
                                 </a>
                                 <ul class="collapse" id="products">
                                     <div class="sub-menu">
-                                        <li >
+                                        <li>
                                             <a href="{{route('painel.categories.index')}}">
                                                 Categorias
                                             </a>
                                         </li>
 
-                                        <li >
+                                        <li>
                                             <a href="{{route('painel.products.index')}}">
                                                 Produtos
                                             </a>

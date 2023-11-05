@@ -10,6 +10,7 @@ use App\Http\Controllers\Painel\ContactController;
 use App\Http\Controllers\Painel\DashboardController;
 use App\Http\Controllers\Painel\FaqController;
 use App\Http\Controllers\Painel\FeatureController;
+use App\Http\Controllers\Painel\MelhorEnvioController;
 use App\Http\Controllers\Painel\MercadoLivreController;
 use App\Http\Controllers\Painel\NewsletterController;
 use App\Http\Controllers\Painel\OrderCommentController;
@@ -56,4 +57,8 @@ Route::middleware('admin')->prefix('painel')->controller(MercadoLivreController:
     Route::get('/ml/comments/history', 'commentsHistory')->name('painel.mercadolivre.comments.history');
     Route::get('/ml/answers', 'answers')->name('painel.mercadolivre.answers.index');
     Route::get('/ml/sellers', 'sellers')->name('painel.mercadolivre.sellers.index');
+});
+
+Route::middleware('admin')->prefix('painel')->controller(MelhorEnvioController::class)->group(function () {
+    Route::get('/me/accounts', 'index')->name('painel.melhorenvio.index');
 });

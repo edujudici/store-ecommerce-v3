@@ -11,6 +11,7 @@ use App\Http\Controllers\API\FeatureController;
 use App\Http\Controllers\API\FreightController;
 use App\Http\Controllers\API\LoadController;
 use App\Http\Controllers\API\LoadHistoryController;
+use App\Http\Controllers\API\MelhorEnvioController;
 use App\Http\Controllers\API\MercadoLivreAnswerController;
 use App\Http\Controllers\API\MercadoLivreCommentController;
 use App\Http\Controllers\API\MercadoLivreController;
@@ -148,4 +149,7 @@ Route::name('api.')->group(static function () {
 
     // routes mercadopago
     Route::any('mp/notifications', [PayController::class, 'notification'])->name('notifications.ipn');
+
+    // routes melhor envio
+    Route::get('me/auth', [MelhorEnvioController::class, 'auth'])->name('melhorenvio.auth');
 });

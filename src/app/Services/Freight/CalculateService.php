@@ -2,7 +2,6 @@
 
 namespace App\Services\Freight;
 
-use App\Models\MelhorEnvio;
 use App\Services\BaseService;
 use App\Services\CompanyService;
 use App\Traits\FreightTransformable;
@@ -15,18 +14,15 @@ class CalculateService extends BaseService
     private const MANUFACTURING_TIME_MIN = 3;
     private const MANUFACTURING_TIME_MAX = 4;
 
-    private $melhorEnvioService;
     private $companyService;
-    private $melhorEnvio;
+    private $melhorEnvioService;
 
     public function __construct(
-        MelhorEnvioService $melhorEnvioService,
         CompanyService $companyService,
-        MelhorEnvio $melhorEnvio
+        MelhorEnvioService $melhorEnvioService
     ) {
-        $this->melhorEnvioService = $melhorEnvioService;
         $this->companyService = $companyService;
-        $this->melhorEnvio = $melhorEnvio;
+        $this->melhorEnvioService = $melhorEnvioService;
     }
 
     public function calculate($request): ?array
@@ -34,23 +30,13 @@ class CalculateService extends BaseService
         $response = [];
         try {
             $this->validateFields($request->all());
-
-            $melhorEnvio = $this->melhorEnvio->first();
             $company = $this->companyService->index();
-            $token = $melhorEnvio->mee_access_token;
 
-            $data = [
-                'from' => $company->com_zipcode,
-                'to' => $request->input('zipcode'),
-                'services' => '1,2,3,4',
-                'height' => 15,
-                'width' => 20,
-                'length' => 30,
-                'weight' => 1,
-                'value' => $request->input('value'),
-            ];
-
-            $freightList = $this->melhorEnvioService->calculate($data, $token);
+            $freightList = $this->melhorEnvioService->calculate(
+                $company->com_zipcode,
+                $request->input('zipcode'),
+                $request->input('value')
+            );
             foreach ($freightList as $freight) {
                 $transformabledData = self::prepareFreight($freight);
                 if ($transformabledData['price'] !== null && $transformabledData['deliveryTime'] !== null) {
