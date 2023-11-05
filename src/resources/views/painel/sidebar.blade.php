@@ -124,16 +124,16 @@
                     </ul>
                 </li>
                 <li class="has-sub">
-                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                        data-target="#melhorenvio" aria-expanded="false" aria-controls="melhorenvio">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#freight"
+                        aria-expanded="false" aria-controls="freight">
                         <i class="mdi mdi-truck"></i>
-                        <span class="nav-text">Melhor Envio</span> <b class="caret"></b>
+                        <span class="nav-text">Configurar Frete</span> <b class="caret"></b>
                     </a>
-                    <ul class="collapse" id="melhorenvio" data-parent="#sidebar-menu">
+                    <ul class="collapse" id="freight" data-parent="#sidebar-menu">
                         <div class="sub-menu">
                             <li>
                                 <a class="sidenav-item-link" href="{{route('painel.melhorenvio.index')}}">
-                                    <span class="nav-text">Configurar Frete</span>
+                                    <span class="nav-text">Melhor Envio</span>
                                 </a>
                             </li>
                         </div>
