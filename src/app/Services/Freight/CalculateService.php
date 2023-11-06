@@ -70,9 +70,9 @@ class CalculateService extends BaseService
         $data = [
             'id' => -1,
             'name' => 'Retirar no Local',
-            'price' => 0,
-            'delivery_time' => self::MANUFACTURING_TIME_MAX,
-            'delivery_range' => [
+            'custom_price' => 0,
+            'custom_delivery_time' => self::MANUFACTURING_TIME_MAX,
+            'custom_delivery_range' => [
                 'min' => self::MANUFACTURING_TIME_MIN,
                 'max' => self::MANUFACTURING_TIME_MAX,
             ],
