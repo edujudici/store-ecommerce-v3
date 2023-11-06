@@ -37,6 +37,7 @@ class Product extends BaseModel
         'pro_load_date',
         'pro_sold_quantity',
         'pro_external',
+        'pro_enabled',
     ];
 
     /**
@@ -139,12 +140,14 @@ class Product extends BaseModel
      */
     public function scopeSearch($query, $request)
     {
+        $this->filterEnabled($query, $request);
         $this->filterCategory($query, $request);
         $this->filterOrder($query, $request);
         $this->filterPrice($query, $request);
 
-        if ($request->has('search')
-            && ! is_null($request->input('search'))
+        if (
+            $request->has('search')
+            && !is_null($request->input('search'))
         ) {
             $search = $request->input('search');
             $query->where('pro_title', 'like', '%' . $search . '%')
@@ -152,6 +155,14 @@ class Product extends BaseModel
                 ->orWhere('pro_description_long', 'like', '%' . $search . '%');
         }
         return $query;
+    }
+
+    private function filterEnabled(&$query, $request)
+    {
+        $query->whereIn('products.pro_enabled', [
+            true,
+            filter_var($request->input('enabled'), FILTER_VALIDATE_BOOLEAN)
+        ]);
     }
 
     private function filterCategory(&$query, $request)

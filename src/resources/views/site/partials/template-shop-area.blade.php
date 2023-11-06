@@ -11,13 +11,11 @@
                     <h3>Filtros</h3>
                 </div>
                 <div class="sidebar-categories mt-50">
-					<div class="head">Pesquisar</div>
+                    <div class="head">Pesquisar</div>
                     <div class="form-group main-categories mt-3">
-                        <input type="text" class="form-control"
-                            id="seach" name="seach" placeholder="Digite sua pesquisa"
-                            onfocus="this.placeholder = ''"
-                            onblur="this.placeholder = 'Digite sua pesquisa'"
-                            data-bind="value: searchFiltered">
+                        <input type="text" class="form-control" id="seach" name="seach"
+                            placeholder="Digite sua pesquisa" onfocus="this.placeholder = ''"
+                            onblur="this.placeholder = 'Digite sua pesquisa'" data-bind="value: searchFiltered">
                     </div>
                 </div>
                 <div class="sidebar-categories">
@@ -35,7 +33,8 @@
                 <div class="sidebar-categories">
                     <div class="head">Preços</div>
                     <ul class="main-categories" data-bind="foreach: filterPrices">
-                        <li class="main-nav-list" data-bind="style: {'background-color': vm.filterPriceSelected() == id ? '#cccccc4a' : ''}">
+                        <li class="main-nav-list"
+                            data-bind="style: {'background-color': vm.filterPriceSelected() == id ? '#cccccc4a' : ''}">
                             <a data-bind="click: filterPrice">
                                 <span data-bind="text: description"></span>
                             </a>
@@ -45,7 +44,8 @@
                 <div class="sidebar-categories">
                     <div class="head">Categorias</div>
                     <ul class="main-categories" data-bind="foreach: categories">
-                        <li class="main-nav-list" data-bind="style: {'background-color': vm.filterCategorySelected() == idSelected ? '#cccccc4a' : ''}">
+                        <li class="main-nav-list"
+                            data-bind="style: {'background-color': vm.filterCategorySelected() == idSelected ? '#cccccc4a' : ''}">
                             <a data-bind="click: filterCategory">
                                 <span data-bind="text: title"></span>
                             </a>
@@ -67,7 +67,7 @@
                         </select>
                     </div>
                     <!-- ko if: pagination() !== '' -->
-                        <div class="pagination" data-bind="html: pagination"></div>
+                    <div class="pagination" data-bind="html: pagination"></div>
                     <!-- /ko -->
                 </div>
                 <!-- End Filter Bar -->
@@ -93,15 +93,18 @@
                                         <h6 data-bind="text: description, attr: {title: description}"></h6>
                                     </a>
                                     <div class="price">
-                                        <h6 class="l-through" data-bind="text: oldPrice, visible: price != oldPrice"></h6>
+                                        <h6 class="l-through" data-bind="text: oldPrice, visible: price != oldPrice">
+                                        </h6>
                                         <h6 data-bind="text: price"></h6>
                                     </div>
                                     <div class="prd-bottom">
-                                        <a class="social-info" data-bind="click: head.viewModel.addProductCart.bind($data, sku, 1)">
+                                        <a class="social-info"
+                                            data-bind="click: head.viewModel.addProductCart.bind($data, sku, 1)">
                                             <span class="ti-bag"></span>
                                             <p class="hover-text">Carrinho</p>
                                         </a>
-                                         <a href="" class="social-info" data-bind="click: head.viewModel.addProductFavorite.bind($data, sku)">
+                                        <a href="" class="social-info"
+                                            data-bind="click: head.viewModel.addProductFavorite.bind($data, sku)">
                                             <span class="lnr lnr-heart"></span>
                                             <p class="hover-text">Favoritar</p>
                                         </a>
@@ -150,7 +153,6 @@
 </script>
 
 <script type="text/javascript">
-
     function shopArea(){[native/code]}
     shopArea.urlGetCategories = "{{ route('api.categories.index') }}";
     shopArea.urlGetProducts = "{{ route('api.products.index') }}";

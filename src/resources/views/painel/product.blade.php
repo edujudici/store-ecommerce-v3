@@ -13,7 +13,25 @@
                     <form>
                         <div class="row">
                             <div class="col-lg-12">
-                                <upload-file params="file: file, image: image, size: [220, 240], multiple: true"></upload-file>
+                                <div class="form-group">
+                                    <div class="card-header card-header-border-bottom" style="padding: 15px">
+                                        <label class="switch switch-icon switch-primary switch-pill form-control-label">
+                                            <input type="checkbox" class="switch-input form-check-input" value="off"
+                                                data-bind="checked: productEnabled">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                        <h2 class="ml-2"
+                                            data-bind="text: productEnabled() ? 'Produto Habilitado' : 'Produto Desabilitado'">
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <upload-file params="file: file, image: image, size: [220, 240], multiple: true">
+                                </upload-file>
                             </div>
                         </div>
                         <div class="row">
@@ -32,44 +50,53 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="price">Preço com desconto</label>
-                                    <input type="text" class="form-control" id="price" placeholder="Informe o preço com desconto" data-bind="value: price">
+                                    <input type="text" class="form-control" id="price"
+                                        placeholder="Informe o preço com desconto" data-bind="value: price">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="old-price">Preço sem desconto</label>
-                                    <input type="text" class="form-control" id="old-price" placeholder="Informe o preço sem desconto" data-bind="value: oldPrice">
+                                    <input type="text" class="form-control" id="old-price"
+                                        placeholder="Informe o preço sem desconto" data-bind="value: oldPrice">
                                 </div>
                             </div>
                             <div class="col-lg-9">
                                 <div class="form-group">
                                     <label for="title">Título</label>
-                                    <input type="text" class="form-control" id="title" placeholder="Informe o título" data-bind="value: title">
+                                    <input type="text" class="form-control" id="title" placeholder="Informe o título"
+                                        data-bind="value: title">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="inventory">Qtde Estoque</label>
-                                    <input type="number" class="form-control" id="inventory" placeholder="Informe o total no estoque" data-bind="value: inventory">
+                                    <input type="number" class="form-control" id="inventory"
+                                        placeholder="Informe o total no estoque" data-bind="value: inventory">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="description">Descrição Breve</label>
-                                    <textarea class="form-control" id="description" rows="3" placeholder="Informe uma descrição simplificada do produto" data-bind="value: description"></textarea>
+                                    <textarea class="form-control" id="description" rows="3"
+                                        placeholder="Informe uma descrição simplificada do produto"
+                                        data-bind="value: description"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="longDesc">Descrição Completa</label>
-                                    <textarea class="form-control" id="longDesc" rows="6" placeholder="Informe uma descrição mais detalhada do produto" data-bind="value: longDesc"></textarea>
+                                    <textarea class="form-control" id="longDesc" rows="6"
+                                        placeholder="Informe uma descrição mais detalhada do produto"
+                                        data-bind="value: longDesc"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="price"></label>
                                     <label class="control control-checkbox">É um item promocional?
-                                        <input type="checkbox" name="exclusive" data-bind="checked: isProductExclusive" />
+                                        <input type="checkbox" name="exclusive"
+                                            data-bind="checked: isProductExclusive" />
                                         <div class="control-indicator"></div>
                                     </label>
                                 </div>
@@ -84,12 +111,10 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <input class="form-control"
-                                                type="text"
-                                                data-bind="
+                                            <input class="form-control" type="text" data-bind="
                                                     autocomplete: productRelated,
                                                     source: homeProduct.urlGetProductsByName,
-                                                    render: productRelatedTransform"/>
+                                                    render: productRelatedTransform" />
                                         </div>
 
                                         <table class="table table-hover">
@@ -105,7 +130,8 @@
                                                     <td><span data-bind="text: sku"></span></td>
                                                     <td><span data-bind="text: title"></span></td>
                                                     <td class="center">
-                                                        <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
+                                                        <i class="mdi mdi-delete" aria-hidden="true"
+                                                            data-bind="click: remove"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -127,17 +153,20 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="key">Chave</label>
-                                                    <input type="text" class="form-control" id="key" placeholder="Informe a chave" data-bind="value: key">
+                                                    <input type="text" class="form-control" id="key"
+                                                        placeholder="Informe a chave" data-bind="value: key">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="value">Valor</label>
-                                                    <input type="text" class="form-control" id="value" placeholder="Informe o valor" data-bind="value: value">
+                                                    <input type="text" class="form-control" id="value"
+                                                        placeholder="Informe o valor" data-bind="value: value">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
-                                                <button type="submit" class="btn btn-primary mb-2 mt-30" data-bind="click: $parent.addSpecification">Adicionar</button>
+                                                <button type="submit" class="btn btn-primary mb-2 mt-30"
+                                                    data-bind="click: $parent.addSpecification">Adicionar</button>
                                             </div>
                                         </div>
                                         <!-- /ko -->
@@ -155,7 +184,8 @@
                                                     <td><span data-bind="text: key"></span></td>
                                                     <td><span data-bind="text: value"></span></td>
                                                     <td class="center">
-                                                        <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
+                                                        <i class="mdi mdi-delete" aria-hidden="true"
+                                                            data-bind="click: remove"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -165,8 +195,10 @@
                             </div>
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -176,7 +208,8 @@
     <!-- /ko -->
     <div class="row" data-bind="visible: !product()" style="display: none">
         <div class="col-lg-4 mb-2">
-            <button type="button" class="btn btn-primary btn-default" data-bind="click: addProduct">Novo Produto</button>
+            <button type="button" class="btn btn-primary btn-default" data-bind="click: addProduct">Novo
+                Produto</button>
         </div>
         <div class="col-lg-12">
             <div class="card card-default">
@@ -193,6 +226,7 @@
                                 <th scope="col">Preço Original</th>
                                 <th scope="col">Promocional</th>
                                 <th scope="col">Estoque</th>
+                                <th scope="col">Ativo</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -204,6 +238,7 @@
                                 <td><span data-bind="text: oldPrice"></span></td>
                                 <td><span data-bind="text: isProductExclusive() ? 'Sim' : 'Não'"></span></td>
                                 <td><span data-bind="text: inventory"></span></td>
+                                <td><span data-bind="text: productEnabled() ? 'Sim' : 'Não'"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -221,7 +256,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function homeProduct(){[native/code]}
     homeProduct.urlData = "{{ route('api.products.index') }}";
     homeProduct.urlSave = "{{ route('api.products.store') }}";
@@ -340,6 +374,7 @@
         self.productsRelated = ko.observableArray();
         self.specification = ko.observable(new homeProduct.Specification({}));
         self.specifications = ko.observableArray(obj.specifications);
+        self.productEnabled = ko.observable(obj.pro_enabled);
         self.errors = ko.validation.group(self);
 
         self.edit = function()
@@ -430,6 +465,7 @@
             formData.append('pro_inventory', self.inventory());
             formData.append('pro_price', self.price());
             formData.append('pro_oldprice', self.oldPrice());
+            formData.append('pro_enabled', self.productEnabled());
 
             let callback = function(data)
             {
@@ -578,6 +614,7 @@
         {
             let params = {
                 'page': base.getParamUrl('page'),
+                'enabled': false,
             },
             callback = function(data) {
                 if (data.status) {

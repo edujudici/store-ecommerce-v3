@@ -57,7 +57,7 @@ class ProductService extends BaseService
     public function findByName($request): Collection
     {
         return $this->product
-            ->where('pro_title', 'like', '%'. $request->input('term') .'%')
+            ->where('pro_title', 'like', '%' . $request->input('term') . '%')
             ->orWhere('pro_sku', $request->input('term'))
             ->limit(5)
             ->get();
@@ -86,7 +86,7 @@ class ProductService extends BaseService
 
     public function store($request): Product
     {
-        $params = $this->getParameters($request);
+        $params = $this->transformParameters($request);
         $this->validateFields($params);
 
         $product = $this->product->updateOrCreate([
@@ -126,11 +126,14 @@ class ProductService extends BaseService
         $this->_validate($request, $rules, $titles);
     }
 
-    private function getParameters($request)
+    private function transformParameters($request)
     {
         $params = $request->all();
-        if (! $request->has('id')) {
+        if (!$request->has('id')) {
             $params['pro_sku'] = 'LOC' . randomText(10);
+        }
+        if ($request->has('pro_enabled')) {
+            $params['pro_enabled'] = filter_var($request->input('pro_enabled'), FILTER_VALIDATE_BOOLEAN);
         }
         return $params;
     }

@@ -36,8 +36,9 @@ class ProductFactory extends Factory
             'pro_accepts_merc_pago' => '1',
             'pro_load_date' => $this->faker->date(),
             'pro_sold_quantity' => $this->faker->randomNumber(9),
-            'pro_external' => true,
             'pro_inventory' => $this->faker->randomNumber(9),
+            'pro_external' => true,
+            'pro_enabled' => true,
         ];
     }
 }
