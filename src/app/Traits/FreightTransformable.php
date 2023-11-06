@@ -17,13 +17,13 @@ trait FreightTransformable
         return [
             'id' => isset($data['id']) ? $data['id'] : null,
             'name' => isset($data['name']) ? $data['name'] : null,
-            'price' => isset($data['price']) ? $data['price'] : null,
-            'deliveryTime' => isset($data['delivery_time']) ? $data['delivery_time'] : null,
+            'price' => isset($data['custom_price']) ? $data['custom_price'] : null,
+            'deliveryTime' => isset($data['custom_delivery_time']) ? $data['custom_delivery_time'] : null,
             'deliveryRange' => [
-                'min' => isset($data['delivery_range']['min'])
-                    ? $data['delivery_range']['min'] : null,
-                'max' => isset($data['delivery_range']['max'])
-                    ? $data['delivery_range']['max'] : null
+                'min' => isset($data['custom_delivery_range']['min'])
+                    ? $data['custom_delivery_range']['min'] : null,
+                'max' => isset($data['custom_delivery_range']['max'])
+                    ? $data['custom_delivery_range']['max'] : null
             ],
             'package' => [
                 'price' => isset($data['packages'][0]['price'])
