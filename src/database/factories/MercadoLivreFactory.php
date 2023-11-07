@@ -29,6 +29,7 @@ class MercadoLivreFactory extends Factory
             'mel_refresh_token' => $this->faker->word,
             'mel_after_sales_message' => $this->faker->word,
             'mel_after_sales_enabled' => $this->faker->boolean,
+            'mel_enabled' => true,
         ];
     }
 }

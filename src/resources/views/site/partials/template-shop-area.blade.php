@@ -90,7 +90,7 @@
                                         <div class="container-product">
                                             <img alt="" data-bind="attr: {src: image}">
                                         </div>
-                                        <h6 data-bind="text: description, attr: {title: description}"></h6>
+                                        <h6 data-bind="text: title, attr: {title: title}"></h6>
                                     </a>
                                     <div class="price">
                                         <h6 class="l-through" data-bind="text: oldPrice, visible: price != oldPrice">
@@ -195,7 +195,7 @@
         self.price = base.numeroParaMoeda(obj.pro_price);
         self.oldPrice = base.numeroParaMoeda(obj.pro_oldprice);
         self.image = obj.pro_secure_thumbnail ? obj.pro_secure_thumbnail : base.displayImage(obj.pro_image);
-        self.description = obj.pro_description;
+        self.title = obj.pro_title;
         self.detailUrl = shopArea.urlProductDetail+obj.pro_sku;
     }
 

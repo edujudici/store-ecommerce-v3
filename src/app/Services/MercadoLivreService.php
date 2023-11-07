@@ -43,9 +43,13 @@ class MercadoLivreService extends BaseService
         return $mercadoLivre;
     }
 
-    public function index(): Collection
+    public function index($request): Collection
     {
-        return $this->mercadoLivre->all();
+        $query = $this->mercadoLivre;
+        if ($request->has('mel_enabled')) {
+            $query = $query->where('mel_enabled', filter_var($request->input('mel_enabled'), FILTER_VALIDATE_BOOLEAN));
+        }
+        return $query->get();
     }
 
     public function findById($request): MercadoLivre

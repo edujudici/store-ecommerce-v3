@@ -14,8 +14,26 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <div class="card-header card-header-border-bottom" style="padding: 15px">
+                                        <label class="switch switch-icon switch-primary switch-pill form-control-label">
+                                            <input type="checkbox" class="switch-input form-check-input" value="off"
+                                                data-bind="checked: accountEnabled">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                        <h2 class="ml-2"
+                                            data-bind="text: accountEnabled() ? 'Conta Habilitada' : 'Conta Desabilitada'">
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
                                     <label for="title">Título</label>
-                                    <input type="text" class="form-control" id="title" placeholder="Informe o título" data-bind="value: title">
+                                    <input type="text" class="form-control" id="title" placeholder="Informe o título"
+                                        data-bind="value: title">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -23,14 +41,17 @@
                                     <div class="card-header card-header-border-bottom" style="padding: 15px">
                                         <h2 class="mr-3">Gostaria de habilitar mensagem de pós venda?</h2>
                                         <label class="switch switch-icon switch-primary switch-pill form-control-label">
-                                            <input type="checkbox" class="switch-input form-check-input" value="off" data-bind="checked: afterSalesEnabled">
+                                            <input type="checkbox" class="switch-input form-check-input" value="off"
+                                                data-bind="checked: afterSalesEnabled">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
                                         </label>
                                     </div>
                                     <div class="card-body" style="padding: 15px" data-bind="visible: afterSalesEnabled">
                                         <div class="form-group">
-                                            <textarea class="form-control" id="description" rows="13" placeholder="Informe a mensagem de pós venda" data-bind="value: afterSalesMessage"></textarea>
+                                            <textarea class="form-control" id="description" rows="13"
+                                                placeholder="Informe a mensagem de pós venda"
+                                                data-bind="value: afterSalesMessage"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -38,8 +59,10 @@
 
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -63,6 +86,7 @@
                                 <th width="10%" scope="col">#</th>
                                 <th width="20%" scope="col">Título</th>
                                 <th width="20%" scope="col">Tem mensagem pós venda?</th>
+                                <th width="20%" scope="col">Conta Ativa</th>
                                 <th width="10%" scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -71,6 +95,7 @@
                                 <td scope="row" data-bind="text: id"></td>
                                 <td><span data-bind="text: title"></span></td>
                                 <td><span data-bind="text: afterSalesEnabled() ? 'Sim' : 'Não'"></span></td>
+                                <td><span data-bind="text: accountEnabled() ? 'Sim' : 'Não'"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -87,7 +112,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function homeAccount(){[native/code]}
     homeAccount.urlData = "{{ route('api.mercadolivre.accounts.index') }}";
     homeAccount.urlSave = "{{ route('api.mercadolivre.accounts.store') }}";
@@ -111,6 +135,7 @@
         });
         self.afterSalesEnabled = ko.observable(obj.mel_after_sales_enabled || false);
         self.afterSalesMessage = ko.observable(obj.mel_after_sales_message);
+        self.accountEnabled = ko.observable(obj.mel_enabled);
         self.errors = ko.validation.group(self);
 
         self.edit = function()
@@ -156,7 +181,8 @@
                 'id': self.id(),
                 'mel_title': self.title(),
                 'mel_after_sales_enabled': self.afterSalesEnabled() ? 1 : 0,
-                'mel_after_sales_message': self.afterSalesEnabled() ? self.afterSalesMessage() : ''
+                'mel_after_sales_message': self.afterSalesEnabled() ? self.afterSalesMessage() : '',
+                'mel_enabled': self.accountEnabled() ? 1 : 0,
             },
             callback = function(data)
             {

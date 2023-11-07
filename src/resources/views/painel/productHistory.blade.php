@@ -22,8 +22,10 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-3">Clique aqui para sincronizar todos os produtos da conta selecionada do mercado livre.</p>
-                    <button type="button" class="btn btn-primary btn-default" data-bind="click: loadProducts">Realizar nova carga</button>
+                    <p class="mb-3">Clique aqui para sincronizar todos os produtos da conta selecionada do mercado
+                        livre.</p>
+                    <button type="button" class="btn btn-primary btn-default" data-bind="click: loadProducts">Realizar
+                        nova carga</button>
                 </div>
             </div>
         </div>
@@ -38,7 +40,8 @@
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Informe o sku" data-bind="value: sku">
                         </div>
-                        <button type="button" class="btn btn-primary btn-default" data-bind="click: loadProduct">Sincronizar</button>
+                        <button type="button" class="btn btn-primary btn-default"
+                            data-bind="click: loadProduct">Sincronizar</button>
                     </form>
                 </div>
             </div>
@@ -78,7 +81,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function loadHistory(){[native/code]}
     loadHistory.urlData = "{{ route('api.load.product.history') }}";
     loadHistory.urlGetMlAccounts = "{{ route('api.mercadolivre.accounts.index') }}";
@@ -96,6 +98,9 @@
 
         self.loadMlAccounts = function()
         {
+            let params = {
+                'mel_enabled': true,
+            },
             callback = function(data)
             {
                 if(!data.status) {
@@ -104,7 +109,7 @@
                 }
                 self.mlAccounts(data.response);
             };
-            base.post(loadHistory.urlGetMlAccounts, null, callback, 'GET');
+            base.post(loadHistory.urlGetMlAccounts, params, callback, 'GET');
         }
 
         self.init = function()

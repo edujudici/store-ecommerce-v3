@@ -23,6 +23,7 @@ class MercadoLivre extends BaseModel
         'mel_refresh_token',
         'mel_after_sales_message',
         'mel_after_sales_enabled',
+        'mel_enabled',
     ];
 
     /**

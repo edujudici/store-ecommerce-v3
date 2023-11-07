@@ -141,6 +141,7 @@ class Product extends BaseModel
     public function scopeSearch($query, $request)
     {
         $this->filterEnabled($query, $request);
+        $this->filterSellerEnabled($query, $request);
         $this->filterCategory($query, $request);
         $this->filterOrder($query, $request);
         $this->filterPrice($query, $request);
@@ -163,6 +164,20 @@ class Product extends BaseModel
             true,
             filter_var($request->input('enabled'), FILTER_VALIDATE_BOOLEAN)
         ]);
+    }
+
+    private function filterSellerEnabled(&$query, $request)
+    {
+        $query
+            ->leftJoin('mercadolivre', function ($query) {
+                $query
+                    ->on('mercadolivre.mel_user_id', 'products.pro_seller_id');
+            })
+            ->where(function ($query) {
+                $query
+                    ->where('mercadolivre.mel_enabled', true)
+                    ->orWhereNull('products.pro_seller_id');
+            });
     }
 
     private function filterCategory(&$query, $request)
