@@ -11,7 +11,6 @@ class OrderItemsService extends BaseService
         $products = array_map(static function ($item) use ($order) {
             return [
                 'ord_id' => $order->ord_id,
-                'ori_pro_id' => $item['id'],
                 'ori_pro_sku' => $item['sku'],
                 'ori_amount' => $item['amount'],
                 'ori_price' => $item['price'],

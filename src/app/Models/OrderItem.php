@@ -14,7 +14,6 @@ class OrderItem extends BaseModel
      */
     protected $fillable = [
         'ord_id',
-        'ori_pro_id',
         'ori_pro_sku',
         'ori_amount',
         'ori_price',
