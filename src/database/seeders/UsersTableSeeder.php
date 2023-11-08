@@ -15,12 +15,24 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'uuid'      => Str::uuid(),
-            'role'      => 'admin',
-            'name'      => 'admin',
-            'email'     => 'admin@admin.com',
-            'password'  => bcrypt('admin123'),
-        ]);
+        User::factory()
+            ->hasAddresses(1)
+            ->create([
+                'uuid' => Str::uuid(),
+                'role' => 'admin',
+                'name' => 'admin',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('admin123')
+            ]);
+
+        User::factory()
+            ->hasAddresses(1)
+            ->create([
+                'uuid' => Str::uuid(),
+                'role' => 'shopper',
+                'name' => 'shopper',
+                'email' => 'shopper@shopper.com',
+                'password'  => bcrypt('shopper123')
+            ]);
     }
 }
