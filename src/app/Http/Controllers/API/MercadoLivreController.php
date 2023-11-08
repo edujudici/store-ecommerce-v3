@@ -39,7 +39,7 @@ class MercadoLivreController extends Controller
     {
         $this->_callService(
             MercadoLivreService::class,
-            'dispatchAccount',
+            'auth',
             $request
         );
 

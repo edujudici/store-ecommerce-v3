@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Api\MercadoLibre;
-use App\Jobs\LoadAccountML;
 use App\Models\MercadoLivre;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -21,26 +20,17 @@ class MercadoLivreService extends BaseService
         $this->mercadoLibre = $mercadoLibre;
     }
 
-    public function dispatchAccount($request): void
+    public function auth($request): void
     {
-        $params = $request->all();
-        debug(['debug mercado livre code' => $params]);
-        LoadAccountML::dispatch($params)->onQueue('account');
-    }
-
-    public function newAccount($params): MercadoLivre
-    {
-        $request = Request::create('/', 'POST', [
-            'mel_code_tg' => $params['code'],
+        $newRequest = Request::create('/', 'POST', [
+            'mel_code_tg' => $request->input('code'),
         ]);
 
-        $mercadoLivre = $this->store($request);
+        $mercadoLivre = $this->store($newRequest);
 
         $this->mercadoLibre->accessToken($mercadoLivre);
 
         $this->saveTitle($mercadoLivre);
-
-        return $mercadoLivre;
     }
 
     public function index($request): Collection
