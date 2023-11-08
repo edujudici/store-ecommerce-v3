@@ -151,9 +151,9 @@ class Product extends BaseModel
             && !is_null($request->input('search'))
         ) {
             $search = $request->input('search');
-            $query->where('pro_title', 'like', '%' . $search . '%')
-                ->orWhere('pro_description', 'like', '%' . $search . '%')
-                ->orWhere('pro_description_long', 'like', '%' . $search . '%');
+            $query->where('products.pro_title', 'like', '%' . $search . '%')
+                ->orWhere('products.pro_description', 'like', '%' . $search . '%')
+                ->orWhere('products.pro_description_long', 'like', '%' . $search . '%');
         }
         return $query;
     }
@@ -205,17 +205,17 @@ class Product extends BaseModel
             $order = $request->input('order');
             switch ($order) {
                 case self::SOLD:
-                    $query->orderBy('pro_sold_quantity', self::DESC);
+                    $query->orderBy('products.pro_sold_quantity', self::DESC);
                     break;
                 case self::ASC:
                 case self::DESC:
-                    $query->orderBy('pro_price', $order);
+                    $query->orderBy('products.pro_price', $order);
                     break;
                 case self::RECENT:
-                    $query->orderBy('created_at', self::DESC);
+                    $query->orderBy('products.created_at', self::DESC);
                     break;
                 default:
-                    $query->orderBy('created_at', self::DESC);
+                    $query->orderBy('products.created_at', self::DESC);
                     break;
             }
         }
@@ -225,9 +225,9 @@ class Product extends BaseModel
     {
         if ($request->has('price')) {
             if ($request->input('price') === '-1') {
-                $query->where('pro_price', '>=', 1);
+                $query->where('products.pro_price', '>=', 1);
             } else {
-                $query->where('pro_price', '<=', $request->input('price'));
+                $query->where('products.pro_price', '<=', $request->input('price'));
             }
         }
     }
