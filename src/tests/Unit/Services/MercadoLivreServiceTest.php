@@ -42,39 +42,25 @@ class MercadoLivreServiceTest extends TestCase
             'code' => $this->faker->word,
         ]);
 
-        $this->mock(MercadoLivreService::class)
-            ->makePartial()
-            ->shouldReceive('newAccount')
-            ->once();
-
-        $this->service->dispatchAccount($request);
-    }
-
-    /** @test  */
-    public function should_new_account()
-    {
-        $request = [
-            'code' => $this->faker->word,
-        ];
-
         $this->apiMercadoLibreMock->shouldReceive('accessToken')
             ->once();
         $this->apiMercadoLibreMock->shouldReceive('getUserDetails')
             ->once()
             ->andReturn($this->mockUserData('ACCOUNTTEST'));
 
-        $mercadoLivre = $this->service->newAccount($request);
-
-        $this->assertEquals($mercadoLivre->mel_title, 'ACCOUNTTEST');
-        $this->assertEquals($mercadoLivre->mel_code_tg, $request['code']);
+        $this->service->auth($request);
     }
 
     /** @test  */
     public function should_list_items()
     {
+        $request = Request::create('/', 'POST', [
+            'mel_enabled' => true,
+        ]);
+
         MercadoLivre::factory()->count(3)->create();
 
-        $response = $this->service->index();
+        $response = $this->service->index($request);
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(3, $response);
