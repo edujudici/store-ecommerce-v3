@@ -3,9 +3,9 @@
 namespace Tests\Unit\Services\Freight;
 
 use App\Models\Company;
-use App\Services\CompanyService;
 use App\Services\Freight\CalculateService;
 use App\Services\Freight\MelhorEnvioService;
+use App\Services\Painel\CompanyService;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

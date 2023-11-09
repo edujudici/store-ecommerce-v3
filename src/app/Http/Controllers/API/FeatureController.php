@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\FeatureService;
+use App\Services\Painel\FeatureService;
 use Illuminate\Http\Request;
 
 class FeatureController extends Controller

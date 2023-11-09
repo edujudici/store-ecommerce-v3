@@ -5,10 +5,10 @@ namespace Tests\Unit\Services;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductRelated;
-use App\Services\ProductRelatedService;
+use App\Services\Product\ProductRelatedService;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 

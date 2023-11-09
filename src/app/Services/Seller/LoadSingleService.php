@@ -4,8 +4,8 @@ namespace App\Services\Seller;
 
 use App\Api\MercadoLibre;
 use App\Models\Product;
-use App\Traits\ProductTransformable;
 use App\Services\BaseService;
+use App\Traits\ProductTransformable;
 
 class LoadSingleService extends BaseService
 {

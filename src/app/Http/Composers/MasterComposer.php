@@ -2,8 +2,8 @@
 
 namespace App\Http\Composers;
 
-use App\Services\CompanyService;
-use App\Services\FavoriteService;
+use App\Services\Painel\CompanyService;
+use App\Services\Product\FavoriteService;
 use App\Traits\MakeRequest;
 use Illuminate\View\View;
 

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\DashboardNewShoppersService;
-use App\Services\DashboardOrdersOverviewService;
-use App\Services\DashboardRecentOrdersService;
-use App\Services\DashboardRevenueService;
-use App\Services\DashboardShoppersService;
-use App\Services\DashboardTopProductsService;
+use App\Services\Painel\DashboardNewShoppersService;
+use App\Services\Painel\DashboardOrdersOverviewService;
+use App\Services\Painel\DashboardRecentOrdersService;
+use App\Services\Painel\DashboardRevenueService;
+use App\Services\Painel\DashboardShoppersService;
+use App\Services\Painel\DashboardTopProductsService;
 
 class DashboardController extends Controller
 {

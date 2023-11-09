@@ -5,8 +5,8 @@ namespace App\Services\Seller;
 use App\Api\MercadoLibre;
 use App\Exceptions\BusinessError;
 use App\Jobs\LoadQuestion;
-use Exception;
 use App\Services\BaseService;
+use Exception;
 
 class LoadQuestionService extends BaseService
 {

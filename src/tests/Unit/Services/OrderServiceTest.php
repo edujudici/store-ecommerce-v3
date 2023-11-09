@@ -4,12 +4,12 @@ namespace Tests\Unit\Services;
 
 use App\Models\Address;
 use App\Models\Order;
-use App\Services\OrderAddressService;
-use App\Services\OrderCommentService;
-use App\Services\OrderHistoryService;
-use App\Services\OrderItemsService;
-use App\Services\OrderService;
 use App\Models\User;
+use App\Services\Order\OrderAddressService;
+use App\Services\Order\OrderCommentService;
+use App\Services\Order\OrderHistoryService;
+use App\Services\Order\OrderItemsService;
+use App\Services\Order\OrderService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;

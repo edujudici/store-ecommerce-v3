@@ -4,8 +4,8 @@ namespace Tests\Unit\Services;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Services\CartService;
-use App\Services\ProductService;
+use App\Services\Order\CartService;
+use App\Services\Product\ProductService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;

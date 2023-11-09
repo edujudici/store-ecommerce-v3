@@ -3,12 +3,11 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Feature;
-use App\Services\FeatureService;
+use App\Services\Painel\FeatureService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 /**

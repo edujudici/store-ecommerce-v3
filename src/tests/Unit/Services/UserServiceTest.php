@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\UserService;
 use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

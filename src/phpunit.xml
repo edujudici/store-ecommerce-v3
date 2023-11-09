@@ -31,13 +31,13 @@
       <directory suffix=".php">./app/Providers</directory>
 
       <!-- does`t contain business rules and same functions to sqlite -->
-      <file>./app/Services/ZipcodeService.php</file>
-      <file>./app/Services/DashboardNewShoppersService.php</file>
-      <file>./app/Services/DashboardOrdersOverviewService.php</file>
-      <file>./app/Services/DashboardRecentOrdersService.php</file>
-      <file>./app/Services/DashboardRevenueService.php</file>
-      <file>./app/Services/DashboardShoppersService.php</file>
-      <file>./app/Services/DashboardTopProductsService.php</file>
+      <file>./app/Services/Freight/ZipcodeService.php</file>
+      <file>./app/Services/Painel/DashboardNewShoppersService.php</file>
+      <file>./app/Services/Painel/DashboardOrdersOverviewService.php</file>
+      <file>./app/Services/Painel/DashboardRecentOrdersService.php</file>
+      <file>./app/Services/Painel/DashboardRevenueService.php</file>
+      <file>./app/Services/Painel/DashboardShoppersService.php</file>
+      <file>./app/Services/Painel/DashboardTopProductsService.php</file>
     </exclude>
   </coverage>
   <testsuites>

@@ -3,10 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Order;
-use App\Services\OrderHistoryService;
+use App\Services\Order\OrderHistoryService;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**

@@ -3,12 +3,11 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Brand;
-use App\Services\BrandService;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use App\Services\Painel\BrandService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 /**

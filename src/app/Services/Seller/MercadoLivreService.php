@@ -4,9 +4,9 @@ namespace App\Services\Seller;
 
 use App\Api\MercadoLibre;
 use App\Models\MercadoLivre;
+use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use App\Services\BaseService;
 
 class MercadoLivreService extends BaseService
 {

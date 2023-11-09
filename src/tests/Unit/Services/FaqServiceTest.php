@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use App\Models\Faq;
-use App\Services\FaqService;
+use App\Services\Communication\FaqService;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;

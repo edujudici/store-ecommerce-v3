@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Shopper;
 
 use App\Http\Controllers\Controller;
-use App\Services\FavoriteService;
+use App\Services\Product\FavoriteService;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller

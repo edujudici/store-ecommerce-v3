@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Services\ProductService;
+use App\Services\Product\ProductService;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller

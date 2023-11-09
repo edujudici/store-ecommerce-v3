@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\ProductRelatedService;
+use App\Services\Product\ProductRelatedService;
 use Illuminate\Http\Request;
 
 class ProductRelatedController extends Controller

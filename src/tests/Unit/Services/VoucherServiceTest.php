@@ -3,9 +3,9 @@
 namespace Tests\Unit\Services;
 
 use App\Exceptions\BusinessError;
-use App\Models\Voucher;
-use App\Services\VoucherService;
 use App\Models\User;
+use App\Models\Voucher;
+use App\Services\User\VoucherService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

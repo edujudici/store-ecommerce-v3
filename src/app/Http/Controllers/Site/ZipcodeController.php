@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Services\ZipcodeService;
+use App\Services\Freight\ZipcodeService;
 
 class ZipcodeController extends Controller
 {

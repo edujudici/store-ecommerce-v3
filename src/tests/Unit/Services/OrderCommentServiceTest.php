@@ -4,8 +4,8 @@ namespace Tests\Unit\Services;
 
 use App\Models\Order;
 use App\Models\OrderComment;
-use App\Services\OrderCommentService;
 use App\Models\User;
+use App\Services\Order\OrderCommentService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

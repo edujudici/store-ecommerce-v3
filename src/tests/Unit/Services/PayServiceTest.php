@@ -5,13 +5,13 @@ namespace Tests\Unit\Services;
 use App\Exceptions\BusinessError;
 use App\Models\Order;
 use App\Models\OrderPayment;
-use App\Services\OrderService;
-use App\Services\PayService;
+use App\Services\Order\OrderService;
+use App\Services\Payment\PayService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use MercadoPago\MerchantOrder;
-use MercadoPago\SDK;
 use MercadoPago\Payment;
+use MercadoPago\SDK;
 use Tests\TestCase;
 
 /**

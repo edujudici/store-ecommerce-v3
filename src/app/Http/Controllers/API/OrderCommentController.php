@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\OrderCommentService;
+use App\Services\Order\OrderCommentService;
 use Illuminate\Http\Request;
 
 class OrderCommentController extends Controller

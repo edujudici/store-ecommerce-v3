@@ -3,7 +3,7 @@
 namespace App\Services\Seller;
 
 use App\Services\BaseService;
-use App\Services\ProductService;
+use App\Services\Product\ProductService;
 
 class LoadPictureService extends BaseService
 {

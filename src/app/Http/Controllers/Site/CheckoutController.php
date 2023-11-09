@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Services\CartService;
-use App\Services\CheckoutService;
+use App\Services\Order\CartService;
+use App\Services\Order\CheckoutService;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller

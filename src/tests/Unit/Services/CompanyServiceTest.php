@@ -3,11 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Company;
-use App\Services\CompanyService;
+use App\Services\Painel\CompanyService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 /**

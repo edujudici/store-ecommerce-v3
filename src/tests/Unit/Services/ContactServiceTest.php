@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Mail\AnswerContact;
 use App\Models\Contact;
-use App\Services\ContactService;
+use App\Services\Communication\ContactService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

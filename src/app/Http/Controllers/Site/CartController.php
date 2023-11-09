@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Services\CartService;
+use App\Services\Order\CartService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller

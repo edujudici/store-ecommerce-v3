@@ -3,7 +3,7 @@
 namespace App\Services\Freight;
 
 use App\Services\BaseService;
-use App\Services\CompanyService;
+use App\Services\Painel\CompanyService;
 use App\Traits\FreightTransformable;
 use Exception;
 

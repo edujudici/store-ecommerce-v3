@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use App\Api\MercadoLibre;
 use Tests\TestCase;
 use App\Models\Seller;
-use App\Services\SellerService;
+use App\Services\Seller\SellerService;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;

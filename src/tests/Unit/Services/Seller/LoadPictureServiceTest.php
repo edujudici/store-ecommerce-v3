@@ -4,8 +4,8 @@ namespace Tests\Unit\Services\Seller;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\Product\ProductService;
 use App\Services\Seller\LoadPictureService;
-use App\Services\ProductService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

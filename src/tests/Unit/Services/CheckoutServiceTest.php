@@ -3,20 +3,17 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Address;
-use App\Models\Order;
-use App\Services\AddressService;
-use App\Services\CartService;
-use App\Services\CheckoutService;
-use App\Services\OrderService;
-use App\Services\PreferenceService;
-use App\Services\VoucherService;
 use App\Models\User;
+use App\Services\Order\CartService;
+use App\Services\Order\CheckoutService;
+use App\Services\Order\OrderService;
+use App\Services\Order\PreferenceService;
+use App\Services\User\AddressService;
+use App\Services\User\VoucherService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use MercadoPago\Item;
-use MercadoPago\Preference;
-use MercadoPago\SDK;
 use Tests\TestCase;
 
 /**

@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductComment;
-use App\Services\ProductCommentService;
+use App\Services\Product\ProductCommentService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

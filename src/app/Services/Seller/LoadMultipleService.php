@@ -7,8 +7,8 @@ use App\Jobs\LoadCategory;
 use App\Jobs\LoadProduct;
 use App\Jobs\LoadProductDescription;
 use App\Jobs\LoadProductPicture;
-use App\Traits\ProductTransformable;
 use App\Services\BaseService;
+use App\Traits\ProductTransformable;
 
 class LoadMultipleService extends BaseService
 {

@@ -3,8 +3,8 @@
 namespace App\Services\Seller;
 
 use App\Models\MercadoLivreNotification;
-use Illuminate\Database\Eloquent\Collection;
 use App\Services\BaseService;
+use Illuminate\Database\Eloquent\Collection;
 
 class MercadoLivreNotificationService extends BaseService
 {

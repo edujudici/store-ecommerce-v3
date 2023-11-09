@@ -3,14 +3,14 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Category;
-use Tests\TestCase;
-use App\Models\ProductExclusive;
 use App\Models\Product;
-use App\Services\ProductExclusiveService;
-use Illuminate\Http\Request;
+use App\Models\ProductExclusive;
+use App\Services\Product\ProductExclusiveService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

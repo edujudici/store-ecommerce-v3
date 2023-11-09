@@ -3,7 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Category;
-use App\Services\CategoryService;
+use App\Services\Product\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Collection;

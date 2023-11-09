@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\PictureService;
+use App\Services\Product\PictureService;
 use Illuminate\Http\Request;
 
 class PictureController extends Controller

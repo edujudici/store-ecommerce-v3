@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Services\PayResponseService;
+use App\Services\Payment\PayResponseService;
 use Illuminate\Http\Request;
 
 class PayController extends Controller

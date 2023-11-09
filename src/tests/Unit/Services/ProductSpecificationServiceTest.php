@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductSpecification;
-use App\Services\ProductSpecificationService;
+use App\Services\Product\ProductSpecificationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;

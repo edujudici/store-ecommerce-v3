@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\ContactService;
+use App\Services\Communication\ContactService;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller

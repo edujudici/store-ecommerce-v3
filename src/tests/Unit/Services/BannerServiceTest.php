@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Models\Banner;
-use App\Services\BannerService;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use App\Services\Painel\BannerService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

@@ -3,8 +3,8 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Address;
-use App\Services\AddressService;
 use App\Models\User;
+use App\Services\User\AddressService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

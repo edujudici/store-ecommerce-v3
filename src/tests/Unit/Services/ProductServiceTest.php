@@ -3,17 +3,17 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Category;
-use Tests\TestCase;
 use App\Models\Product;
-use App\Services\PictureService;
-use App\Services\ProductService;
-use App\Services\ProductExclusiveService;
-use App\Services\ProductRelatedService;
-use App\Services\ProductSpecificationService;
+use App\Services\Product\PictureService;
+use App\Services\Product\ProductExclusiveService;
+use App\Services\Product\ProductRelatedService;
+use App\Services\Product\ProductService;
+use App\Services\Product\ProductSpecificationService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

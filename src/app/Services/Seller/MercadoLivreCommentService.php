@@ -6,8 +6,8 @@ use App\Api\MercadoLibre;
 use App\Exceptions\BusinessError;
 use App\Models\MercadoLivre;
 use App\Models\MercadoLivreComment;
-use Illuminate\Database\Eloquent\Collection;
 use App\Services\BaseService;
+use Illuminate\Database\Eloquent\Collection;
 
 class MercadoLivreCommentService extends BaseService
 {
