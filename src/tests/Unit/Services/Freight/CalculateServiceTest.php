@@ -77,9 +77,9 @@ class CalculateServiceTest extends TestCase
         $calculateData = [[
             'id' => 1,
             'name' => 'Sedex',
-            'price' => 11.50,
-            'delivery_time' => 2,
-            'delivery_range' => [
+            'custom_price' => 11.50,
+            'custom_delivery_time' => 2,
+            'custom_delivery_range' => [
                 'min' => 1,
                 'max' => 2,
             ],

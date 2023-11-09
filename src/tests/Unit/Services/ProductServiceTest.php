@@ -60,7 +60,9 @@ class ProductServiceTest extends TestCase
         Product::factory()
             ->count(24)
             ->for(Category::factory())
-            ->create();
+            ->create([
+                'pro_seller_id' => null
+            ]);
 
         $request = Request::create('/', 'POST', [
             'amount' => 24,
@@ -78,7 +80,9 @@ class ProductServiceTest extends TestCase
         Product::factory()
             ->count(3)
             ->for(Category::factory())
-            ->create();
+            ->create([
+                'pro_seller_id' => null
+            ]);
 
         $request = Request::create('/', 'POST', []);
 

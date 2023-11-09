@@ -34,10 +34,10 @@ class MercadoLivreService extends BaseService
         $this->saveTitle($mercadoLivre);
     }
 
-    public function index($request): Collection
+    public function index($request = null): Collection
     {
         $query = $this->mercadoLivre;
-        if ($request->has('mel_enabled')) {
+        if ($request !== null && $request->has('mel_enabled')) {
             $query = $query->where('mel_enabled', filter_var($request->input('mel_enabled'), FILTER_VALIDATE_BOOLEAN));
         }
         return $query->get();
