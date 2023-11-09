@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\LoadHistoryService;
-use App\Services\LoadQuestionHistoryService;
+use App\Services\Seller\LoadHistoryService;
+use App\Services\Seller\LoadQuestionHistoryService;
 
 class LoadHistoryController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Freight;
 
 use App\Models\Company;
 use App\Services\CompanyService;

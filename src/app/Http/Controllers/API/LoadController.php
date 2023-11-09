@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\LoadMultipleService;
-use App\Services\LoadQuestionService;
-use App\Services\LoadSingleService;
+use App\Services\Seller\LoadMultipleService;
+use App\Services\Seller\LoadQuestionService;
+use App\Services\Seller\LoadSingleService;
 use Illuminate\Http\Request;
 
 class LoadController extends Controller

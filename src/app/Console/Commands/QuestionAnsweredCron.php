@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\LoadQuestionService;
+use App\Services\Seller\LoadQuestionService;
 use Illuminate\Console\Command;
 
 class QuestionAnsweredCron extends Command

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Services\AfterSalesMessageService;
+use App\Services\Seller\AfterSalesMessageService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\MercadoLivreCommentService;
+use App\Services\Seller\MercadoLivreCommentService;
 use Illuminate\Http\Request;
 
 class MercadoLivreCommentController extends Controller

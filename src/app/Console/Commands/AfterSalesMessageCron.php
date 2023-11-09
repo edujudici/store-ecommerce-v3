@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\AfterSalesMessageService;
+use App\Services\Seller\AfterSalesMessageService;
 use Illuminate\Console\Command;
 
 class AfterSalesMessageCron extends Command
