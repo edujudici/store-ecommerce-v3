@@ -38,6 +38,7 @@ class AfterSalesMessageCron extends Command
      */
     public function handle(AfterSalesMessageService $afterSalesMessageService)
     {
+        debug('Execute command aftersalesmessage:send');
         $afterSalesMessageService->send();
     }
 }

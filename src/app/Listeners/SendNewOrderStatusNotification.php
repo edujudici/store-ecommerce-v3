@@ -22,6 +22,8 @@ class SendNewOrderStatusNotification implements ShouldQueue
      */
     public function handle(OrderStatusRegistered $event)
     {
+        debug('Listeners for event OrderStatusRegistered');
+
         $order = $event->order();
         $status = $event->status();
         Notification::send($order->user, new OrderNotification([

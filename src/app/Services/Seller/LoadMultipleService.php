@@ -50,7 +50,7 @@ class LoadMultipleService extends BaseService
 
     public function loadProducts($loadDate, $mlAccountId, $skus, $offset = 0): void
     {
-        debug('load products on date ' . $loadDate . ' to mercado livre account ' . $mlAccountId
+        debug('Job LoadProduct on date ' . $loadDate . ' to mercado livre account ' . $mlAccountId
             . ' for skus list: ' . json_encode($skus));
 
         $data = $this->apiMercadoLibre->getMultipleProductsDetails(

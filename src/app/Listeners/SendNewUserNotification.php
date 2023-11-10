@@ -22,6 +22,8 @@ class SendNewUserNotification implements ShouldQueue
      */
     public function handle($event)
     {
+        debug('Listeners for event Registered');
+
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new UserNotification([
             'user' => $event->user,

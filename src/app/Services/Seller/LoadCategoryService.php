@@ -25,7 +25,7 @@ class LoadCategoryService extends BaseService
 
     public function organizeCategories()
     {
-        debug('load categories to products');
+        debug('Executing of the job LoadCategory');
         $allCategories = $this->product
             ->whereNotNull('pro_category_id')
             ->groupBy('pro_category_id')

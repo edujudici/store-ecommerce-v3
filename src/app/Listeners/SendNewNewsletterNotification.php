@@ -23,6 +23,8 @@ class SendNewNewsletterNotification implements ShouldQueue
      */
     public function handle(NewsletterRegistered $event)
     {
+        debug('Listeners for event NewsletterRegistered');
+
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new NewsletterNotification([
             'email' => $event->email(),

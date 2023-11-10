@@ -17,7 +17,7 @@ class LoadPictureService extends BaseService
 
     public function loadPictures($sku, $pictures): void
     {
-        debug('load pictures to the product sku: ' . $sku);
+        debug('Executing of the job LoadProductPicture for sku: ' . $sku);
         $product = $this->productService->findBySku($sku);
         $this->store($product, $pictures);
     }

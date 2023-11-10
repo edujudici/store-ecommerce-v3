@@ -23,6 +23,8 @@ class SendNewProductCommentNotification implements ShouldQueue
      */
     public function handle(ProductCommentRegistered $event)
     {
+        debug('Listeners for event ProductCommentRegistered');
+
         $admins = User::where('role', 'admin')->get();
         $product = $event->product();
         Notification::send($admins, new ProductCommentNotification([

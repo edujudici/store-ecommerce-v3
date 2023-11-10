@@ -21,8 +21,7 @@ class LoadDescriptionService extends BaseService
 
     public function loadDescription($sku): void
     {
-        debug('load description to the product sku: ' . $sku);
-
+        debug('Executing of the job LoadProductDescription for sku: ' . $sku);
         $data = $this->apiMercadoLibre->getDescriptionProduct($sku);
         $product = $this->productService->findBySku($sku);
         if (isset($data->plain_text)) {

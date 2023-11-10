@@ -37,13 +37,13 @@ class LoadQuestionService extends BaseService
 
     public function dispatchQuestions(): void
     {
-        $loadDate = date('Y-m-d H:i:s');
-        debug('dispatch questions on date: ' . $loadDate);
+        debug('Requested via command uestions:load');
 
+        $loadDate = date('Y-m-d H:i:s');
         $offset = 0;
         $accounts = $this->mercadoLivreService->index();
         foreach ($accounts as $value) {
-            if (! $value->mel_user_id) {
+            if (!$value->mel_user_id) {
                 continue;
             }
             $mlAccountId = $value->mel_id;
@@ -74,8 +74,8 @@ class LoadQuestionService extends BaseService
 
     public function loadQuestions($offset, $loadDate, $mlId, $histId): void
     {
-        debug('load questions on date ' . $loadDate . ' and offset ' . $offset
-        . ' to mercado livre account ' . $mlId);
+        debug('Job LoadQuestion on date ' . $loadDate . ' and offset ' . $offset
+            . ' to mercado livre account ' . $mlId);
         $data = $this->apiMercadoLibre->getQuestions($offset, $mlId);
         if (isset($data->questions)) {
             $totalSync = 0;
@@ -83,7 +83,7 @@ class LoadQuestionService extends BaseService
                 $exists = $this->mercadoLivreCommentService->existsComment(
                     $value->id
                 );
-                if (! $exists) {
+                if (!$exists) {
                     $comment = $this->mercadoLivreCommentService
                         ->store($value, $loadDate);
                     $this->loadOtherQuestions($mlId, $loadDate, $value);
@@ -100,7 +100,7 @@ class LoadQuestionService extends BaseService
 
     public function loadQuestionsAnswered()
     {
-        debug('load questions answered by third part service');
+        debug('Requested via command questions:answered');
         $comments = $this->mercadoLivreCommentService->questionsNotAnswered();
         foreach ($comments as $comment) {
             $question = $this->apiMercadoLibre->getQuestion(
@@ -134,7 +134,7 @@ class LoadQuestionService extends BaseService
                 $exists = $this->mercadoLivreCommentService->existsComment(
                     $value->id
                 );
-                if (! $exists) {
+                if (!$exists) {
                     $this->mercadoLivreCommentService->store($value, $date);
                 }
             }
@@ -147,7 +147,7 @@ class LoadQuestionService extends BaseService
     {
         debug('load user data: ' . $params->from->id);
         $exists = $this->mercadoLivreUserService->exists($params->from->id);
-        if (! $exists) {
+        if (!$exists) {
             $data = $this->apiMercadoLibre->getUserDetails($params->from->id);
             $this->mercadoLivreUserService->store($comment, $data);
         }
@@ -159,7 +159,7 @@ class LoadQuestionService extends BaseService
         $exists = $this->mercadoLivreProductService->exists(
             $params->item_id
         );
-        if (! $exists) {
+        if (!$exists) {
             $data = $this->apiMercadoLibre->getSingleProduct($params->item_id);
             $this->mercadoLivreProductService->store($comment, $data);
         }

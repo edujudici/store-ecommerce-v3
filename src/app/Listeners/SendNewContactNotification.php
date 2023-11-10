@@ -23,6 +23,8 @@ class SendNewContactNotification implements ShouldQueue
      */
     public function handle(ContactRegistered $event)
     {
+        debug('Listeners for event ContactRegistered');
+
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new ContactNotification([
             'subject' => $event->subject(),

@@ -23,6 +23,8 @@ class SendNewOrderNotification implements ShouldQueue
      */
     public function handle(OrderRegistered $event)
     {
+        debug('Listeners for event OrderRegistered');
+
         $admins = User::where('role', 'admin')->get();
         $order = $event->order();
         Notification::send($admins, new OrderNotification([

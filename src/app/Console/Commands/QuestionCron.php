@@ -38,6 +38,7 @@ class QuestionCron extends Command
      */
     public function handle(LoadQuestionService $service)
     {
+        debug('Execute command questions:load');
         $service->dispatchQuestions();
     }
 }

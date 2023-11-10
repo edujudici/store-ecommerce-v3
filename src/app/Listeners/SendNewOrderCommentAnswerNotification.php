@@ -22,6 +22,8 @@ class SendNewOrderCommentAnswerNotification implements ShouldQueue
      */
     public function handle(OrderCommentAnswerRegistered $event)
     {
+        debug('Listeners for event OrderCommentAnswerRegistered');
+
         $order = $event->order();
         Notification::send($order->user, new OrderCommentNotification([
             'order' => $order->ord_protocol,

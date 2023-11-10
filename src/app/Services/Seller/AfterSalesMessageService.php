@@ -24,6 +24,7 @@ class AfterSalesMessageService extends BaseService
 
     public function send(): void
     {
+        debug('Requested via command aftersalesmessage:send');
         $notifications = $this->mlNotificationService->findByUser();
         $notifications->each(function ($item) {
             $this->dispatch($item);
@@ -42,6 +43,7 @@ class AfterSalesMessageService extends BaseService
 
     public function sendMessage($notification)
     {
+        debug('Executing of the job AfterSalesMessage');
         $mlAccount = $notification->mercadolivre;
         $payment = $this->apiMercadoLibre
             ->searchByUrl($mlAccount, $notification->men_resource);

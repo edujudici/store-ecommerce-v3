@@ -42,7 +42,7 @@ class PayService extends BaseService
      */
     public function processNotification($params): void
     {
-        debug(['process notifications with params' => $params]);
+        debug(['Executing of the job PayNotification with params' => $params]);
 
         SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
 
@@ -126,13 +126,13 @@ class PayService extends BaseService
             'orp_total_paid_amount' => $payment
                 ->transaction_details->total_paid_amount,
             'orp_shipping_amount' => $payment->shipping_amount,
-            'orp_date_approved' => ! empty($payment->date_approved)
+            'orp_date_approved' => !empty($payment->date_approved)
                 ? date('Y-m-d H:i:s', strtotime($payment->date_approved))
                 : null,
-            'orp_date_created' => ! empty($payment->date_created)
+            'orp_date_created' => !empty($payment->date_created)
                 ? date('Y-m-d H:i:s', strtotime($payment->date_created))
                 : null,
-            'orp_date_of_expiration' => ! empty($payment->date_of_expiration)
+            'orp_date_of_expiration' => !empty($payment->date_of_expiration)
                 ? date('Y-m-d H:i:s', strtotime($payment->date_of_expiration))
                 : null,
             'orp_live_mode' => $payment->live_mode,
