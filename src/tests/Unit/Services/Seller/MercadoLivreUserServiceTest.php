@@ -3,11 +3,11 @@
 namespace Tests\Unit\Services\Seller;
 
 use App\Models\MercadoLivreComment;
-use Tests\TestCase;
 use App\Models\MercadoLivreUser;
 use App\Services\Seller\MercadoLivreUserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

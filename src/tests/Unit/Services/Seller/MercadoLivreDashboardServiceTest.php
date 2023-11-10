@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Services\Seller;
 
-use Tests\TestCase;
 use App\Models\MercadoLivre;
 use App\Services\Seller\MercadoLivreDashboardService;
 use App\Services\Seller\MercadoLivreService;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

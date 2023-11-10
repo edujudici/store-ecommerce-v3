@@ -6,12 +6,12 @@ use App\Api\MercadoLibre;
 use App\Jobs\AfterSalesMessage;
 use App\Models\MercadoLivre;
 use App\Models\MercadoLivreNotification;
-use Tests\TestCase;
 use App\Services\Seller\AfterSalesMessageService;
 use App\Services\Seller\MercadoLivreNotificationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

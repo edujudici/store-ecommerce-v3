@@ -6,8 +6,8 @@ use App\Models\LoadHistory;
 use App\Services\Seller\LoadHistoryService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest

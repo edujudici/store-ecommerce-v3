@@ -4,10 +4,10 @@ namespace Tests\Unit\Services\Seller;
 
 use App\Models\MercadoLivreComment;
 use App\Models\MercadoLivreProduct;
-use Tests\TestCase;
 use App\Services\Seller\MercadoLivreProductService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * @group ServiceTest
