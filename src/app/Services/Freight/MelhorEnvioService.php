@@ -19,7 +19,7 @@ class MelhorEnvioService extends BaseService
         $this->apiMelhorEnvio = $apiMelhorEnvio;
     }
 
-    public function index(): MelhorEnvio
+    public function index(): MelhorEnvio|null
     {
         return $this->melhorEnvio->first();
     }
