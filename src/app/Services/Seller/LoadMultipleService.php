@@ -61,7 +61,7 @@ class LoadMultipleService extends BaseService
         $this->loadProductService->storeProducts(
             $this->prepareProducts($data, $loadDate)
         );
-        $this->completeProductFields($data);
+        $this->completeProductFields($data, $mlAccountId);
 
         if (count($skus) === self::LIMIT) {
             $offset += self::LIMIT;
@@ -84,12 +84,12 @@ class LoadMultipleService extends BaseService
         }, $products);
     }
 
-    private function completeProductFields($products): void
+    private function completeProductFields($products, $mlAccountId): void
     {
         foreach ($products as $product) {
             LoadProductDescription::dispatch($product->body->id)->onQueue('description');
             LoadProductPicture::dispatch($product->body->id, $product->body->pictures)->onQueue('pictures');
         }
-        LoadCategory::dispatch()->onQueue('products');
+        LoadCategory::dispatch($mlAccountId)->onQueue('products');
     }
 }

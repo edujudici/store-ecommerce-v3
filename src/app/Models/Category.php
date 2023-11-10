@@ -16,6 +16,7 @@ class Category extends BaseModel
         'cat_title',
         'cat_image',
         'cat_id_secondary',
+        'cat_seller_id',
     ];
 
     /**

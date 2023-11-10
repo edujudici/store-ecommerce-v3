@@ -22,6 +22,7 @@ class CategoryFactory extends Factory
             'cat_title' => $this->faker->sentence(),
             'cat_image' => 'https://via.placeholder.com/350x190',
             'cat_id_secondary' => $this->faker->randomNumber(9),
+            'cat_seller_id' => $this->faker->randomNumber(9),
         ];
     }
 }

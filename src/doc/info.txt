@@ -1,47 +1,63 @@
 ## Commands
     # insights
-        docker-compose exec app php artisan insights
+        docker compose exec app php artisan insights
 
     # unit test artisan command
-        docker-compose exec app php artisan test ou docker-compose exec app vendor/bin/phpunit
-        docker-compose exec app php artisan test --filter MercadoLivreNotificationServiceTest
-        docker-compose exec app php artisan test --group ModelTest
-        docker-compose exec app php artisan test --coverage --group ModelTest
+        docker compose exec app php artisan test ou docker compose exec app vendor/bin/phpunit
+        docker compose exec app php artisan test --filter MercadoLivreNotificationServiceTest
+        docker compose exec app php artisan test --group ModelTest
+        docker compose exec app php artisan test --coverage --group ModelTest
 
     # migrate / migration
-    docker-compose exec app php artisan migrate
-    docker-compose exec app php artisan make:migration create_users_table
-    docker-compose exec app php artisan make:migration change_column_password_to_users_table --table=users
+    docker compose exec app php artisan migrate
+    docker compose exec app php artisan make:migration create_users_table
+    docker compose exec app php artisan make:migration change_column_password_to_users_table --table=users
 
-## Documentation
-    fluxograma de compras
-        https://www.sebrae.com.br/sites/PortalSebrae/artigos/o-passo-a-passo-das-vendas-virtuais,1156a674acbc5410VgnVCM2000003c74010aRCRD
+    # seed
+    docker compose exec app php artisan db:seed
+    docker compose exec app php artisan migrate:fresh --seed
 
-## Services base
-    ecommerce
-        https://www.shalonartmdf.com.br/
-        https://www.lojaimperiodasartes.com/
-        https://www.palaciodaarte.com.br/madeira-mdf
-        https://github.com/dacolera/ecommerce
+## Messages Templates
 
-    frete
-        https://github.com/diegoliv/Etiquetas-WooCommerce-Correios
-        https://github.com/osians/Calcula-o-Frete-dos-Correios/blob/master/calculadoraFrete.php
-        http://phpsigep.stavarengo.com/
-        http://stavarengo.github.io/php-sigep/
-        https://github.com/flyingluscas/correios-php#calcular-pre%C3%A7os-e-prazos
+    # Resposta Compra
+        Olá NOME, agradecemos sua compra.
+        ============================================================================================
+        ATENÇÃO:
+        ============================================================================================
+        Veja se o anúncio atende às suas necessidades. Após a produção não devolveremos o dinheiro por se tratar de produto personalizado.
 
-    rastreio de pacote
-        https://www.mercadomail.com.br/rastreio/index.html
+        CORES: Poderá haver uma variação na cor da arte visualizada na tela do computador em decorrência das diferentes resoluções de cada monitor.
 
-    nota fiscal
-        https://sped-docs.readthedocs.io/pt/latest/iniciando/
-        https://github.com/nfephp-org/sped-nfe
-        https://imasters.com.br/back-end/emitindo-nfe-com-php
-        deprecated - https://github.com/docode-web/laravel-nfe
+        Caso o produto atenda às suas necessidades daremos continuidade, por gentileza nos informe:
 
-    Crop Image
-        https://fengyuanchen.github.io/cropper/
+        1) A data de seu evento (apenas para nosso controle de prazo);
+        2) O(s) tema(s) de sua preferência e;
+        3) Os dados para personalização de sua arte (nome, idade do aniversariante, data, etc);
+
+        ============================================================================================
+        IMPORTANTE:
+        ============================================================================================
+        1) Lembrando que seu pedido só será produzido após aprovação da arte
+        2) Conforme consta do anúncio, o produto adquirido é personalizado, portanto, temos prazo para produção (4 dias)
+
+        ============================================================================================
+        em caso de dúvidas, por favor, estamos à disposição por esse canal para quaisquer esclarecimentos.
+        ============================================================================================
+
+        Abraços Equipe Império do Mdf
+
+    # Mensagem resposta automatizado
+        Pagamento aprovado
+        Prezado(a) [NomeComprador],
+        Obrigado por comprar conosco através do Mercado Livre. Por favor se o seu produto for personalizado informe o NOME a ser GRAVADO e o MODELO.
+        Importante:
+        Caso você não responda essa mesnagem em 6 horas ou até o início da produção estaremos confeccionando conforme a imagem do anúncio!
+        Em caso de dúvidas ou problemas, por favor, entre em contato via chat de mensagens.
+
+        Acompanhamento do seu pedido:
+        Você receberá um novo e-mail a cada evolução no andamento de seu pedido. Caso prefira, você pode acompanhar também pelo site.
+
+        Atenciosamente,
 
 ## Mercado livre
     # Contas
@@ -116,57 +132,7 @@
         ClientId: 3743
         https://imperiodomdf.com.br/api/me/auth?code=def50200de2d6729e3c2f3591e1535d153ec35198d0d48236f8e4b3a3c7e402b7cb8ca2258b9a1fdc546b3f4bb937b5a89e93785ecf3bdc63ba5bb0eb64c75e11e3f45b04dde24ae9705eee80ca2dbd3d582d01436d21867f9b1e45abaaafd12cc13783c8b3b3a8cde48f48c64aed6a025dbfed88497ec246eb3779316812e25b9ce424c9a947df48b8d6c6d60cb74ee1e075576643ed716e82f74fa2eb0a419205eb89fe217303566f08c75ea18ad80f02e15b0b6b761c524215e32469b4b4876bafd05b8383e9b06c63b6fea16c4ceb324f080bba47d3880927a6e927905fb73147b5c417613b566e4ba871d57c06cd64020cbb5d68a170c62eb8ef5d273f23730cd6a6b866ac24dddbb20d05fc82d932aefb8e5da28a37aefc03566f2f781f260ff612c55de66c37c594d3208fd2384295b6df8d8a0fb808f0f05f319ebc3cb6c022793e67e344e9dfd44d096f54c4f58ea6a306aa5cb35241b0da75139f4f66cc0196c28697c468956ef4c22ce4095f8db57b15c2f0acab50d3f9625ff611c9764552f9f3f81f860f61fe39064bc6737e14546454bea529cd231d31a405d522d6ab2c8e45f3ff58382399e2c332dbe4cfeeaa02859b3a0f526e675113a6c57271ded68cca384889e0ffd9910b7f117f592a5420744f477d593343ca4e85f8eb1511396bdb1d5a464861db53ddca667a04e4b25d344f1bf44458178909a78ece805ef31d122c23ec5423ba7adef624fe8635ad85c6997252bbd0fc43b671f4cb63f9f0f393089f9a052ead00b827ea66330903809b1530aaff6de96949c13c47656af4bc771917b6d5eec2c3016b3954f1f68f08797d465a66f6f306d0c8ab3919215e9a7b24c395e107915b349e9e474d09239e0c45c634c58484c252974fa000d12c9546f295b57c818bdea47c5b2e3b34f31ac5fcdb62e4020cc7139f78a6ddc14d0ddac22e94ecfba0561862b9795bd9d6a33ccb654fb5766e4683ef647a45f41d122ec226d03f2aaa9f4db2b0c6bea4c8c2ade5ae96ddd7709457c773da3046820311d30f7e9a4342714f00fc4ff5be57d57f62defb382b035c02223c8e18a99ff4256f73a3d8749563c9113237ef7a404654e187ffbc7ae1019a219017917f9b6309a933611df943a71c4a495
 
-        first access_token
-        {
-            "token_type": "Bearer",
-            "expires_in": 2592000,
-            "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzNzQzIiwianRpIjoiODA1ZjExMGQ1YzgyMzFjZDI2YzJhMDFmNTYzZjg3NmI4NGVkMjFkYTIzYWI0NzVkZmM4YWRhY2M2ODUwZjMxZDVmMjhmYTA5NzFhZjEzZjUiLCJpYXQiOjE2OTg0MzY2MTMuNTk4MDAzLCJuYmYiOjE2OTg0MzY2MTMuNTk4MzExLCJleHAiOjE3MDEwMjg2MTMuNTAyNzY3LCJzdWIiOiI5YTc1NjZmMy03MjA3LTQ0MzUtOThlMC00OTFkMTI4NTcxNmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLXdyaXRlIiwicHVyY2hhc2VzLXJlYWQiLCJzaGlwcGluZy1jYWxjdWxhdGUiLCJzaGlwcGluZy1jYW5jZWwiLCJzaGlwcGluZy1jaGVja291dCIsInNoaXBwaW5nLWNvbXBhbmllcyIsInNoaXBwaW5nLWdlbmVyYXRlIiwic2hpcHBpbmctcHJldmlldyIsInNoaXBwaW5nLXByaW50Iiwic2hpcHBpbmctc2hhcmUiLCJzaGlwcGluZy10cmFja2luZyIsImVjb21tZXJjZS1zaGlwcGluZyIsInRyYW5zYWN0aW9ucy1yZWFkIiwidXNlcnMtcmVhZCIsInVzZXJzLXdyaXRlIl19.EQLG46wauKopaTQr1T9HLaBF1JaJGFg49bYvyZnDc7voFZKLyxS1pBHoiOSz7OS7aSxFuF8QGUCnkRGG2_Fw9LqZVEfsadiiK1cztmfxrs56gx94VN1vPzdMxlQeb_UPAamhlmGsN_23pj02vAHuU_6gKwTVQSEw2R9CIXcraxxR8otqddYOejI1OZUhL1A4k9MIDSFF0I6Id42SZNfD0D3SX6e9wzVKqPdD9DGj8GkHDHyC7TsVaVfR-QKhvflylr353fgDFMiNm4Vz9qbX9R-ElGlTG4FR5FbGvolLraP2hgdJxD8adwELwcOaKfhodiI-NxEEcKJf4FzgUewmTGv_UAJNqUkYhOSB1LqnawFwKq-X3z3z3gqxGRUHq8r5g0ZG0i8DraqBkI5cNKKhhF_FLsgWlLkH2MT7ZE0t1N4izq64E3Irmjr9qumcMaeWjzdl3iiL2ImB91YW5UGHrZdkqlON3VFPnWCM-4je6Zv2B_opJWgynaaXaFhvTTkEe1l69Njt0YFJbnC37ahdRCVf-jI5rmJlPK9G7wm_xwIebNfgR-nPEm5V5icQthwuZO9fsgMyjwcTNF4fwAYWW_gxXcZHa_6G1RmMM7ElMXQsbCyuCg34qK3KDKoOi4TMf3rgzFw5lx5oESdT6rasDK7VhC3zHfdsEkEFv5Yr1vA",
-            "refresh_token": "def50200778268081937abd7383edd3bbd79847a9639aaed9f6028badd27e971f62a93e2f642f96ed0123afe9a9914ad46c94a4aa58d2497f88db39928d727a775ecaaa923f1fad0ff94056565bd8790fcfdf85c01247969a49f320e4d55da83087416fbc39579710635e22dcb1b65b8da641165d38262ea462103aca84400cb7278087b1593e24fe4b535377a01ff468b8005344041c4ea110cf288c9dddfbb33d405430a0c3ca05af3564fe7459be63ca4a782abfd224d048a4ab0838b9bbcdcb86e50af8fb42728fc693d12a6ccbef2e79f501263dfd2fbabbf1838cc37620102041d8c4c1970b9fcf9e5ef2c9fba4adfab3c4098edec9ff9121737d1efdf1343b52d602ae9ca351e69314e9ad457f12b7e810bff34da5f8ac6c36a9b38bbe32a8b5484b9632554dd0afffdb07db58761c230d5c19a35242275a94f52e93c880de2a755a9e704eb574094c60d990aa381d7c86a3134fd1b1e44d1efb6cfacb250efe525e8f7f9716fd1f9f6bbfea42de1b7a3a059b01126c39ed2a4fbad44f216f2cb0503551f9815477332d595948a97df009a8afb27bde3fc6cd3ea70c1ac7458a2c6a5135802f00a652819100c02624368fe0826db79e5bde82c335c7b3f9af5626dd8ed31a0c70347f2d03e6ed3300567cb27ef1f47a320f4abdca21a99efc0a498547184cf4f41b1add42414d6686b999b310209a6dc28b9da5a1d073993d3cf55f304b0e6ee68a214271bc5567c9afe171b92a556667448db87c2f8e2b1946fb476ecfa9373aba3e53b99893d3128b4b1b9474ff1e097a6a201fa4ef8714d279e173cd2952b51802cf1251c8696945366d8a3afbafc701f67a0899cfe866b17c2a0750d87306e4f9286c3e697fe7d9ef916c103778cd7426f08c4f6a7840a5f7292483223856f55bf6143426324e2346b5c34d07c4c2b2cecf4f5d39525fc02783b3a82b355a9249db0de1cc1d179e97cbf12a6c1453d8abbafced0e96221f56be16ab75b231e6191bb31d1ae4882fe709e80efa0bd840d0e29a413d8579c0e7215c1bd1b0b67d09227de9740575321139c6471c0be449c4a013ef549e159c302e97904329fe11144ef1b9d49548d64d48bfbe75298301f174f495e0751bed47cacb726f7"
-        }
-
-## Messages
-
-    # Resposta Compra
-        Olá NOME, agradecemos sua compra.
-        ============================================================================================
-        ATENÇÃO:
-        ============================================================================================
-        Veja se o anúncio atende às suas necessidades. Após a produção não devolveremos o dinheiro por se tratar de produto personalizado.
-
-        CORES: Poderá haver uma variação na cor da arte visualizada na tela do computador em decorrência das diferentes resoluções de cada monitor.
-
-        Caso o produto atenda às suas necessidades daremos continuidade, por gentileza nos informe:
-
-        1) A data de seu evento (apenas para nosso controle de prazo);
-        2) O(s) tema(s) de sua preferência e;
-        3) Os dados para personalização de sua arte (nome, idade do aniversariante, data, etc);
-
-        ============================================================================================
-        IMPORTANTE:
-        ============================================================================================
-        1) Lembrando que seu pedido só será produzido após aprovação da arte
-        2) Conforme consta do anúncio, o produto adquirido é personalizado, portanto, temos prazo para produção (4 dias)
-
-        ============================================================================================
-        em caso de dúvidas, por favor, estamos à disposição por esse canal para quaisquer esclarecimentos.
-        ============================================================================================
-
-        Abraços Equipe Império do Mdf
-
-    # Mensagem resposta automatizado
-        Pagamento aprovado
-        Prezado(a) [NomeComprador],
-        Obrigado por comprar conosco através do Mercado Livre. Por favor se o seu produto for personalizado informe o NOME a ser GRAVADO e o MODELO.
-        Importante:
-        Caso você não responda essa mesnagem em 6 horas ou até o início da produção estaremos confeccionando conforme a imagem do anúncio!
-        Em caso de dúvidas ou problemas, por favor, entre em contato via chat de mensagens.
-
-        Acompanhamento do seu pedido:
-        Você receberá um novo e-mail a cada evolução no andamento de seu pedido. Caso prefira, você pode acompanhar também pelo site.
-
-        Atenciosamente,
-
-## Uteis
+## Querys
     # Backup database
         # Backup
         docker exec CONTAINER /usr/bin/mysqldump -u imperio --password=PASSWORD ecommerce > backup.mysql
@@ -204,90 +170,119 @@
         codigo gerado + url de redirecionamento
         https://imperiodomdf.com.br/?code=TG-5eda4527d23e6f0006b373d3-331666203
 
-    # Fluxo de compra completo
-        Passo 1: Adicionar token referente ao vendedor MERCADO_PAGO_TOKEN
-            TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
+## Fluxo de compra local
+    Passo 1: Adicionar token referente ao vendedor MERCADO_PAGO_TOKEN
+        TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
 
-        Passo 2: Efetuar compra com o e-mail de comprador
-            {
-                "email": "test_user_55737184@testuser.com",
-                "password": "qatest5260"
+    Passo 2: Efetuar compra com o e-mail de comprador
+        {
+            "email": "test_user_55737184@testuser.com",
+            "password": "qatest5260"
+        }
+
+    Passo 3: Executar uma chamada a API de IPN via Postman (simulando o processo automatizado quando estiver em Live)
+        POST http://localhost:8000/api/mp/notifications
+        body
+        {
+            "type": "payment",
+            "data": {
+                "id": "1247878067"
             }
+        }
 
-        Passo 3: Executar uma chamada a API de IPN via Postman (simulando o processo automatizado quando estiver em Live)
-            POST http://localhost:8000/api/mp/notifications
-            body
-            {
-                "type": "payment",
-                "data": {
-                    "id": "1247878067"
-                }
-            }
+    Passo 4: Executar queue work do laravel para processar a requisição
+        docker compose exec app php artisan queue:work --queue=payment --tries=3 --timeout=240
+        ou
+        docker exec -it app php artisan queue:work --queue=payment --tries=3 --timeout=240
 
-        Passo 4: Executar queue work do laravel para processar a requisição
-            docker-compose exec app php artisan queue:work --queue=payment --tries=3 --timeout=240
-            ou
-            docker exec -it app php artisan queue:work --queue=payment --tries=3 --timeout=240
+    Passo 5: Pronto, a simulação do mercado pago esta executada com sucesso
+        O cliente deve ter seu status em "Pagamento Aprovado"
+        O administrador deve ter recebido uma notificação "Pagamento recebido" no e-mai
+        O administrador deve ter recebido uma nova notificação no site o o pedido é exibido como "Pago" no painel
 
-        Passo 5: Pronto, a simulação do mercado pago esta executada com sucesso
-            O cliente deve ter seu status em "Pagamento Aprovado"
-            O administrador deve ter recebido uma notificação "Pagamento recebido" no e-mai
-            O administrador deve ter recebido uma nova notificação no site o o pedido é exibido como "Pago" no painel
+## Teste carregar perguntas local
+    Passo 1: Executar uma chamada a API via Postman com protocolo POST
+        http://localhost:8082/api/ml/loads/questions
 
-    # Teste carregar perguntas local
-        Passo 1: Executar uma chamada a API via Postman com protocolo POST
-            http://localhost:8082/api/ml/loads/questions
+    Passo 2: Executar queue work do laravel para processar a requisição
+        docker compose exec app php artisan queue:work --queue=questions --tries=3 --timeout=240
 
-        Passo 2: Executar queue work do laravel para processar a requisição
-            docker-compose exec app php artisan queue:work --queue=questions --tries=3 --timeout=240
+## Fluxo de notification
+    Base: https://blog.especializati.com.br/aprenda-como-trabalhar-com-eventos-no-laravel/
 
-    # Fluxo de notification
-        Base: https://blog.especializati.com.br/aprenda-como-trabalhar-com-eventos-no-laravel/
+    Passo 1: Gerar um novo event
+    php artisan make:event ContactRegistered
 
-        Passo 1: Gerar um novo event
-        php artisan make:event ContactRegistered
+    Passo 2: Gerar um novo listener
+    php artisan make:listener SendNewContactNotification --event=ContactRegistered
 
-        Passo 2: Gerar um novo listener
-        php artisan make:listener SendNewContactNotification --event=ContactRegistered
+    Passo 3: Registrar o evento no listen da classe EventServiceProvider
 
-        Passo 3: Registrar o evento no listen da classe EventServiceProvider
+    Passo 4: Gerar uma nova notification
+    docker exec -it app php artisan make:notification ContactNotification
 
-        Passo 4: Gerar uma nova notification
-        docker exec -it app php artisan make:notification ContactNotification
+    Passo 5: Acionar o evento
+    event(new ContactRegistered($request->input('subject')));
 
-        Passo 5: Acionar o evento
-        event(new ContactRegistered($request->input('subject')));
+## Fluxo de job
+    Base: https://www.itsolutionstuff.com/post/example-of-cron-job-in-laravel-5example.html
 
-    # Fluxo de job
-        Base: https://www.itsolutionstuff.com/post/example-of-cron-job-in-laravel-5example.html
+    Criar novo job
+    docker compose exec app php artisan make:console DemoCron --command=demo:cron
 
-        Criar novo job
-        docker-compose exec app php artisan make:console DemoCron --command=demo:cron
+    Injetar o command no Kernel
+    app/Console/Kernel.php
 
-        Injetar o command no Kernel
-        app/Console/Kernel.php
+## Fluxo de Queue
+    Base: https://blog.especializati.com.br/queues-no-laravel-filas/
 
-    # Fluxo de Queue
-        Base: https://blog.especializati.com.br/queues-no-laravel-filas/
+    Criar Novo Job
+    docker compose exec app php artisan make:job AfterSalesMessage
 
-        Criar Novo Job
-        docker-compose exec app php artisan make:job AfterSalesMessage
+    Definir um nome para queue. Ex: queue-test
 
-        Definir um nome para queue. Ex: queue-test
+    Acessar o servidor e entrar na pasta:
+    cd /etc/supervisor/conf.d/
 
-        Acessar o servidor e entrar na pasta:
-        cd /etc/supervisor/conf.d/
+    Criar um novo arquivo com extensão .conf apontando para o mesmo nome da queue. Ex: queue-test
 
-        Criar um novo arquivo com extensão .conf apontando para o mesmo nome da queue. Ex: queue-test
+    Executar os comandos para carregar as novas configurações
+    supervisorctl reread
+    supervisorctl update
 
-        Executar os comandos para carregar as novas configurações
-        supervisorctl reread
-        supervisorctl update
+    Executar comando para atualizar algum ajuste no fluxo
+    supervisorctl restart all
 
-        Executar comando para atualizar algum ajuste no fluxo
-        supervisorctl restart all
+# Pós venda - exemplo de mensagem
+    https://api.mercadolibre.com/messages/packs/4225883428/sellers/132437915
+    https://api.mercadolibre.com/messages/packs/4600985462/sellers/132437915
+    /orders/4600985462
 
-    # Pós venda - exemplo de mensagem
-        https://api.mercadolibre.com/messages/packs/4225883428/sellers/132437915
-        https://api.mercadolibre.com/messages/packs/4600985462/sellers/132437915
-        /orders/4600985462
+## Services base
+    ecommerce
+        https://www.shalonartmdf.com.br/
+        https://www.lojaimperiodasartes.com/
+        https://www.palaciodaarte.com.br/madeira-mdf
+        https://github.com/dacolera/ecommerce
+
+    frete
+        https://github.com/diegoliv/Etiquetas-WooCommerce-Correios
+        https://github.com/osians/Calcula-o-Frete-dos-Correios/blob/master/calculadoraFrete.php
+        http://phpsigep.stavarengo.com/
+        http://stavarengo.github.io/php-sigep/
+        https://github.com/flyingluscas/correios-php#calcular-pre%C3%A7os-e-prazos
+
+    rastreio de pacote
+        https://www.mercadomail.com.br/rastreio/index.html
+        https://www.melhorenvio.com.br
+
+    nota fiscal
+        https://sped-docs.readthedocs.io/pt/latest/iniciando/
+        https://github.com/nfephp-org/sped-nfe
+        https://imasters.com.br/back-end/emitindo-nfe-com-php
+
+    Crop Image
+        https://fengyuanchen.github.io/cropper/
+
+    fluxograma de compras
+        https://www.sebrae.com.br/sites/PortalSebrae/artigos/o-passo-a-passo-das-vendas-virtuais,1156a674acbc5410VgnVCM2000003c74010aRCRD

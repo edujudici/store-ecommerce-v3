@@ -23,23 +23,24 @@ class LoadCategoryService extends BaseService
         $this->apiMercadoLibre = $apiMercadoLibre;
     }
 
-    public function organizeCategories()
+    public function organizeCategories($mlAccountId)
     {
         debug('Executing of the job LoadCategory');
         $allCategories = $this->product
             ->whereNotNull('pro_category_id')
             ->groupBy('pro_category_id')
             ->pluck('pro_category_id');
-        $allCategories->each(function ($item) {
-            $this->store($item);
+        $allCategories->each(function ($item) use ($mlAccountId) {
+            $this->store($item, $mlAccountId);
         });
     }
 
-    public function store($categoryId)
+    public function store($categoryId, $mlAccountId)
     {
         $response = $this->apiMercadoLibre->getDetailCategory($categoryId);
         $this->category->firstOrCreate([
             'cat_id_secondary' => $response->id,
+            'cat_seller_id' => $mlAccountId,
         ], [
             'cat_title' => $response->name,
         ]);

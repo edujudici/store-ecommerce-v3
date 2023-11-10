@@ -39,7 +39,7 @@ class LoadCategoryServiceTest extends TestCase
     {
         $category = Category::factory()
             ->create();
-        Product::factory()
+        $product = Product::factory()
             ->for($category)
             ->create();
 
@@ -52,9 +52,10 @@ class LoadCategoryServiceTest extends TestCase
             ->once()
             ->andReturn(json_decode(json_encode($data)));
 
-        $this->service->organizeCategories();
+        $this->service->organizeCategories($product->pro_seller_id);
 
         $this->assertCount(1, Category::all());
-        $this->assertEquals($data['name'], Category::first()->cat_title);
+        $this->assertEquals($category->cat_title, Category::first()->cat_title);
+        $this->assertEquals($product->pro_seller_id, Category::first()->cat_seller_id);
     }
 }

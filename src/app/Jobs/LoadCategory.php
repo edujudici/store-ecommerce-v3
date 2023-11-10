@@ -13,14 +13,16 @@ class LoadCategory implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $mlAccountId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($mlAccountId)
     {
-        // code here
+        $this->mlAccountId = $mlAccountId;
     }
 
     /**
@@ -30,6 +32,6 @@ class LoadCategory implements ShouldQueue
      */
     public function handle(LoadCategoryService $loadCategoryService)
     {
-        $loadCategoryService->organizeCategories();
+        $loadCategoryService->organizeCategories($this->mlAccountId);
     }
 }

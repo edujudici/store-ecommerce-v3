@@ -185,17 +185,19 @@ class Product extends BaseModel
         if ($request->has('category')) {
             $query
                 ->join('categories', function ($query) {
-                    $query->on('categories.cat_id', 'products.cat_id')
+                    $query
+                        ->on('categories.cat_id', 'products.cat_id')
                         ->orOn(
                             'categories.cat_id_secondary',
                             'products.pro_category_id'
                         );
                 })
-                ->where('categories.cat_id', $request->input('category'))
-                ->orWhere(
-                    'categories.cat_id_secondary',
-                    $request->input('category')
-                );
+                ->where(function ($query) use ($request) {
+                    $category = $request->input('category');
+                    $query
+                        ->where('categories.cat_id', $category)
+                        ->orWhere('categories.cat_id_secondary', $category);
+                });
         }
     }
 

@@ -17,7 +17,17 @@ class CategoryService extends BaseService
 
     public function index(): Collection
     {
-        return $this->category->all();
+        return $this->category
+            ->leftJoin('mercadolivre', function ($query) {
+                $query
+                    ->on('mercadolivre.mel_user_id', 'categories.cat_seller_id');
+            })
+            ->where(function ($query) {
+                $query
+                    ->where('mercadolivre.mel_enabled', true)
+                    ->orWhereNull('categories.cat_seller_id');
+            })
+            ->get();
     }
 
     public function findById($request): Category
