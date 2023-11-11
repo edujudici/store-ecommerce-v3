@@ -151,9 +151,12 @@ class Product extends BaseModel
             && !is_null($request->input('search'))
         ) {
             $search = $request->input('search');
-            $query->where('products.pro_title', 'like', '%' . $search . '%')
-                ->orWhere('products.pro_description', 'like', '%' . $search . '%')
-                ->orWhere('products.pro_description_long', 'like', '%' . $search . '%');
+            $query->where(function ($query) use ($search) {
+                $query
+                    ->where('products.pro_title', 'like', '%' . $search . '%')
+                    ->orWhere('products.pro_description', 'like', '%' . $search . '%')
+                    ->orWhere('products.pro_description_long', 'like', '%' . $search . '%');
+            });
         }
         return $query;
     }
