@@ -44,14 +44,6 @@ class MercadoLibre
         return json_decode(self::runCurl($url));
     }
 
-    public function getProductsPictures($skus)
-    {
-        $url = self::ML . self::ML_ITEMS
-            . '?ids=' . implode(',', $skus)
-            . '&attributes=id,pictures';
-        return json_decode(self::runCurl($url));
-    }
-
     public function getMultipleProducts($accountId, $offset = 0, $limit = 50)
     {
         $model = $this->findById($accountId);
