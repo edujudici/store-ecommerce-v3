@@ -27,6 +27,7 @@ class LoadCategoryService extends BaseService
     {
         debug('Executing of the job LoadCategory');
         $allCategories = $this->product
+            ->where('pro_seller_id', $mlAccountId)
             ->whereNotNull('pro_category_id')
             ->groupBy('pro_category_id')
             ->pluck('pro_category_id');
