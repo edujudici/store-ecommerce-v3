@@ -51,24 +51,24 @@ variables:
 ##     - ./vendor/bin/psalm --show-info=true
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
 
-4_release-image:
-  stage: release
-  dependencies:
-    - 1_build_project
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - main
+# 4_release-image:
+#   stage: release
+#   dependencies:
+#     - 1_build_project
+#   script:
+#     - docker pull $CONTAINER_TEST_IMAGE
+#     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+#     - docker push $CONTAINER_RELEASE_IMAGE
+#   only:
+#     - main
 
-5_deploy_project:
-  stage: deploy
-  only:
-    - main
-  script:
-    - echo "Running deploying project..."
-    - ./deploylalalalal.sh
+# 5_deploy_project:
+#   stage: deploy
+#   only:
+#     - main
+#   script:
+#     - echo "Running deploying project..."
+#     - ./deploylalalalal.sh
 
 6_success_notification:
   stage: notification
