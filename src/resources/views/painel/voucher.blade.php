@@ -15,13 +15,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="value">Valor</label>
-                                    <input type="text" class="form-control" id="value" placeholder="Informe o valor" data-bind="value: value">
+                                    <input type="text" class="form-control" id="value" placeholder="Informe o valor"
+                                        data-bind="value: value">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="expiration-date">Data expiração</label>
-                                    <input type="text" class="form-control" id="expiration-date" placeholder="Informe a data de expiração" data-bind="value: expirationDate">
+                                    <input type="text" class="form-control" id="expiration-date"
+                                        placeholder="Informe a data de expiração" data-bind="value: expirationDate">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -38,13 +40,16 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="description">Descrição</label>
-                                    <textarea class="form-control" id="description" rows="6" placeholder="Informe a descrição" data-bind="value: description"></textarea>
+                                    <textarea class="form-control" id="description" rows="6"
+                                        placeholder="Informe a descrição" data-bind="value: description"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -68,20 +73,22 @@
                                 <th scope="col">#Código</th>
                                 <th scope="col">Valor</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Data de expiração</th>
-                                <th scope="col">Data de aplicação</th>
-                                <th scope="col">Descrição</th>
+                                <th class="d-none d-md-table-cell" scope="col">Data de expiração</th>
+                                <th class="d-none d-md-table-cell" scope="col">Data de aplicação</th>
+                                <th class="d-none d-md-table-cell" scope="col">Descrição</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: vouchers">
                             <tr>
                                 <td scope="row" data-bind="text: code"></td>
-                                <td scope="row" data-bind="text: value"></td>
+                                <td data-bind="text: value"></td>
                                 <td><span data-bind="text: status"></span></td>
-                                <td><span data-bind="text: base.monthStringEn(expirationDate())"></span></td>
-                                <td><span data-bind="text: base.monthStringEn(appliedDate())"></span></td>
-                                <td><span data-bind="text: description"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: base.monthStringEn(expirationDate())"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: base.monthStringEn(appliedDate())"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: description"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -98,7 +105,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function voucher(){[native/code]}
     voucher.urlData = "{{ route('api.vouchers.index') }}";
     voucher.urlSave = "{{ route('api.vouchers.store') }}";

@@ -8,8 +8,10 @@
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
                     <h2 class="col-lg-12 pl-0">Resposta de comentário para o produto</h2>
-                    <span class="col-lg-12 p-3" data-bind="text: product.pro_sku + ' - ' + product.pro_description"></span>
-                    <img data-bind="attr: {src: product.pro_secure_thumbnail ? product.pro_secure_thumbnail : base.displayImage(product.pro_image)}" class="img-thumbnail rounded float-left pl-0" style="width: 200px; height: 200px">
+                    <span class="col-lg-12 p-3"
+                        data-bind="text: product.pro_sku + ' - ' + product.pro_description"></span>
+                    <img data-bind="attr: {src: product.pro_secure_thumbnail ? product.pro_secure_thumbnail : base.displayImage(product.pro_image)}"
+                        class="img-thumbnail rounded float-left pl-0" style="width: 200px; height: 200px">
                 </div>
                 <div class="card-body">
                     <form>
@@ -17,7 +19,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="answer">Pergunta</label>
-                                    <textarea class="form-control" id="answer" rows="6" data-bind="value: question" disabled></textarea>
+                                    <textarea class="form-control" id="answer" rows="6" data-bind="value: question"
+                                        disabled></textarea>
                                 </div>
                             </div>
                         </div>
@@ -25,13 +28,16 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="answer">Resposta</label>
-                                    <textarea class="form-control" id="answer" rows="6" placeholder="Informe a resposta" data-bind="value: answer"></textarea>
+                                    <textarea class="form-control" id="answer" rows="6" placeholder="Informe a resposta"
+                                        data-bind="value: answer"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -49,21 +55,23 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Pergunta</th>
-                                <th scope="col">Data</th>
-                                <th scope="col">Respondido</th>
+                                <th class="d-none d-md-table-cell" scope="col">Data</th>
+                                <th class="d-none d-md-table-cell" scope="col">Respondido</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: comments">
                             <tr>
-                                <td scope="row" data-bind="text: sku"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: sku"></td>
                                 <td><span data-bind="text: name"></span></td>
                                 <td><span data-bind="text: question"></span></td>
-                                <td><span data-bind="text: base.dateTimeStringEn(questionDate)"></span></td>
-                                <td><span data-bind="text: answer() ? 'Sim' : 'Não'"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: base.dateTimeStringEn(questionDate)"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: answer() ? 'Sim' : 'Não'"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -80,7 +88,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function commentArea(){[native/code]}
     commentArea.urlData = "{{ route('api.products.comments.indexAll') }}";
     commentArea.urlSave = "{{ route('api.products.comments.store') }}";

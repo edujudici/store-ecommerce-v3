@@ -12,14 +12,14 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">E-mail</th>
                                 <th scope="col">Data de Cadastro</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: newsletters">
                             <tr>
-                                <td scope="row" data-bind="text: new_id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: new_id"></td>
                                 <td><span data-bind="text: new_email"></span></td>
                                 <td><span data-bind="text: base.dateTimeStringEn(created_at)"></span></td>
                             </tr>
@@ -34,7 +34,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function homeNewsletter(){[native/code]}
     homeNewsletter.urlData = "{{ route('api.newsletters.index') }}";
 

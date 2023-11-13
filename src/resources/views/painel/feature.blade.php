@@ -22,19 +22,23 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="title">Título</label>
-                                    <input type="text" class="form-control" id="title" placeholder="Informe o título" data-bind="value: title">
+                                    <input type="text" class="form-control" id="title" placeholder="Informe o título"
+                                        data-bind="value: title">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="description">Descrição</label>
-                                    <input type="text" class="form-control" id="description" placeholder="Informe a descrição" data-bind="value: description">
+                                    <input type="text" class="form-control" id="description"
+                                        placeholder="Informe a descrição" data-bind="value: description">
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -44,7 +48,8 @@
     <!-- /ko -->
     <div class="row" data-bind="visible: !feature()" style="display: none">
         <div class="col-lg-4 mb-2">
-            <button type="button" class="btn btn-primary btn-default" data-bind="click: addFeature">Nova Característica</button>
+            <button type="button" class="btn btn-primary btn-default" data-bind="click: addFeature">Nova
+                Característica</button>
         </div>
         <div class="col-lg-12">
             <div class="card card-default">
@@ -55,7 +60,7 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Título</th>
                                 <th scope="col">Descrição</th>
                                 <th scope="col">Ações</th>
@@ -63,7 +68,7 @@
                         </thead>
                         <tbody data-bind="foreach: features">
                             <tr>
-                                <td scope="row" data-bind="text: id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: id"></td>
                                 <td><span data-bind="text: title"></span></td>
                                 <td><span data-bind="text: description"></span></td>
                                 <td class="center">
@@ -82,7 +87,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function homeFeature(){[native/code]}
     homeFeature.urlData = "{{ route('api.features.index') }}";
     homeFeature.urlSave = "{{ route('api.features.store') }}";

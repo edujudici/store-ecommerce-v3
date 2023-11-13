@@ -7,35 +7,57 @@
         <div class="col-lg-12">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    <h2 class="col-lg-12 pl-0">Resposta de comentário para a ordem</h2>
-                    <span class="col-lg-12 p-3" data-bind="text: order.ord_protocol"></span>
+                    <h2 class="col-lg-12 pl-0">Resposta de comentário para pedido<span class="col-lg-12 p-3"
+                            data-bind="text: order.ord_protocol"></span></h2>
+
                 </div>
                 <div class="card-body">
                     <form>
                         <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="name">Nome</label>
+                                    <input type="text" class="form-control" id="name" data-bind="value: name" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="date">Data</label>
+                                    <input type="text" class="form-control" id="date"
+                                        data-bind="value: base.dateTimeStringEn(questionDate)" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-lg-12">
+                                <label for="date">Imagem da arte do pedido para aprovação do cliente</label>
                                 <upload-file params="file: file, image: image, size: [500, 500]"></upload-file>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="answer">Pergunta</label>
-                                    <textarea class="form-control" id="answer" rows="6" data-bind="value: question" disabled></textarea>
+                                    <textarea class="form-control" id="answer" rows="6" data-bind="value: question"
+                                        disabled></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="answer">Resposta</label>
-                                    <textarea class="form-control" id="answer" rows="6" placeholder="Informe a resposta" data-bind="value: answer"></textarea>
+                                    <textarea class="form-control" id="answer" rows="6" placeholder="Informe a resposta"
+                                        data-bind="value: answer"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -47,27 +69,29 @@
         <div class="col-lg-12">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    <h2>Listagem de Comentários de Produtos</h2>
+                    <h2>Listagem de Comentários de Pedidos</h2>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Pergunta</th>
-                                <th scope="col">Data</th>
-                                <th scope="col">Respondido</th>
+                                <th class="d-none d-md-table-cell" scope="col">Data</th>
+                                <th class="d-none d-md-table-cell" scope="col">Respondido</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: comments">
                             <tr>
-                                <td scope="row" data-bind="text: id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: id"></td>
                                 <td><span data-bind="text: name"></span></td>
                                 <td><span data-bind="text: question"></span></td>
-                                <td><span data-bind="text: base.dateTimeStringEn(questionDate)"></span></td>
-                                <td><span data-bind="text: answer() ? 'Sim' : 'Não'" ></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: base.dateTimeStringEn(questionDate)"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: answer() ? 'Sim' : 'Não'"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -84,7 +108,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function commentArea(){[native/code]}
     commentArea.urlData = "{{ route('api.orders.comments.indexAll') }}";
     commentArea.urlSave = "{{ route('api.orders.comments.store') }}";

@@ -17,25 +17,26 @@
                     <p data-bind="text: role"></p>
 
                     <!-- ko if: addresses.length > 0 -->
-                        <hr>
-                        <br>
+                    <hr>
+                    <br>
 
-                        <p><b>Dados de Endereço</b></p><br>
-                        <!-- ko foreach: addresses -->
-                            <p><b>Nome:</b> <span data-bind="text: adr_name + ' ' + adr_surname"></span></p>
-                            <p><b>Telefone:</b> <span data-bind="text: base.mascaraTelefone(adr_phone)"></span></p>
-                            <p><b>Endereço:</b> <span data-bind="text: adr_address + ', ' + adr_number"></span></p>
-                            <p><b>Bairro:</b> <span data-bind="text: adr_district"></span></p>
-                            <p><b>Complemento:</b> <span data-bind="text: adr_complement"></span></p>
-                            <p><b>Cidade:</b> <span data-bind="text: adr_city + ' - ' + adr_uf"></span></p>
-                            <p><b>CEP:</b> <span data-bind="text: base.mascaraCep(adr_zipcode)"></span></p>
-                            <br>
-                            <br>
-                        <!-- /ko -->
+                    <p><b>Dados de Endereço</b></p><br>
+                    <!-- ko foreach: addresses -->
+                    <p><b>Nome:</b> <span data-bind="text: adr_name + ' ' + adr_surname"></span></p>
+                    <p><b>Telefone:</b> <span data-bind="text: base.mascaraTelefone(adr_phone)"></span></p>
+                    <p><b>Endereço:</b> <span data-bind="text: adr_address + ', ' + adr_number"></span></p>
+                    <p><b>Bairro:</b> <span data-bind="text: adr_district"></span></p>
+                    <p><b>Complemento:</b> <span data-bind="text: adr_complement"></span></p>
+                    <p><b>Cidade:</b> <span data-bind="text: adr_city + ' - ' + adr_uf"></span></p>
+                    <p><b>CEP:</b> <span data-bind="text: base.mascaraCep(adr_zipcode)"></span></p>
+                    <br>
+                    <br>
+                    <!-- /ko -->
                     <!-- /ko -->
 
                     <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                        <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
+                        <button type="submit" class="btn btn-secondary btn-default"
+                            data-bind="click: cancel">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -52,18 +53,18 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">E-mail</th>
+                                <th class="d-none d-md-table-cell" scope="col">E-mail</th>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: users">
                             <tr>
-                                <td scope="row" data-bind="text: uuid"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: uuid"></td>
                                 <td><span data-bind="text: name"></span></td>
-                                <td><span data-bind="text: email"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: email"></span></td>
                                 <td><span data-bind="text: role"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-eye" aria-hidden="true" data-bind="click: show"></i>
@@ -80,7 +81,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function homeUser(){[native/code]}
     homeUser.urlData = "{{ route('api.users.index') }}";
 

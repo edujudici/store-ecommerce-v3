@@ -223,10 +223,10 @@
                                 <th scope="col">#sku</th>
                                 <th scope="col">Título</th>
                                 <th scope="col">Preço</th>
-                                <th scope="col">Preço Original</th>
-                                <th scope="col">Promocional</th>
-                                <th scope="col">Estoque</th>
-                                <th scope="col">Ativo</th>
+                                <th class="d-none d-md-table-cell" scope="col">Preço Original</th>
+                                <th class="d-none d-md-table-cell" scope="col">Promocional</th>
+                                <th class="d-none d-md-table-cell" scope="col">Estoque</th>
+                                <th class="d-none d-md-table-cell" scope="col">Ativo</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -235,10 +235,12 @@
                                 <td scope="row" data-bind="text: sku"></td>
                                 <td><span data-bind="text: title"></span></td>
                                 <td><span data-bind="text: price"></span></td>
-                                <td><span data-bind="text: oldPrice"></span></td>
-                                <td><span data-bind="text: isProductExclusive() ? 'Sim' : 'Não'"></span></td>
-                                <td><span data-bind="text: inventory"></span></td>
-                                <td><span data-bind="text: productEnabled() ? 'Sim' : 'Não'"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: oldPrice"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: isProductExclusive() ? 'Sim' : 'Não'"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: inventory"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: productEnabled() ? 'Sim' : 'Não'"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>

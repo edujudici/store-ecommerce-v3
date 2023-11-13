@@ -57,7 +57,7 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Conta Mercado Livre</th>
                                 <th scope="col">Total de items</th>
                                 <th scope="col">Data da Carga</th>
@@ -65,7 +65,7 @@
                         </thead>
                         <tbody data-bind="foreach: loads">
                             <tr>
-                                <td scope="row" data-bind="text: loh_id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: loh_id"></td>
                                 <td><span data-bind="text: loh_account_title"></span></td>
                                 <td><span data-bind="text: loh_total"></span></td>
                                 <td><span data-bind="text: base.dateTimeStringEn(created_at)"></span></td>

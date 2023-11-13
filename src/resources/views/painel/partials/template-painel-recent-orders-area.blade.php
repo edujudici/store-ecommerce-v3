@@ -6,14 +6,13 @@
             <h2>Pedidos recentes</h2>
         </div>
         <div class="card-body pt-0 pb-5">
-            <table class="table card-table table-responsive table-responsive-large"
-                style="width:100%">
+            <table class="table card-table table-responsive table-responsive-large" style="width:100%">
                 <thead>
                     <tr>
                         <th>Protocolo</th>
                         <th class="d-none d-md-table-cell">Data</th>
                         <th class="d-none d-md-table-cell">Frete</th>
-                        <th class="d-none d-md-table-cell">Prazo</th>
+                        <th>Prazo</th>
                         <th class="d-none d-md-table-cell">Total</th>
                         <th>Status</th>
                     </tr>
@@ -23,7 +22,7 @@
                         <td data-bind="text: protocol"></td>
                         <td class="d-none d-md-table-cell" data-bind="text: base.dateTimeStringEn(createdAt)"></td>
                         <td class="d-none d-md-table-cell" data-bind="text: freightservice"></td>
-                        <td class="d-none d-md-table-cell" data-bind="text: freightTime"></td>
+                        <td data-bind="text: freightTime"></td>
                         <td class="d-none d-md-table-cell" data-bind="text: total"></td>
                         <td>
                             <span class="badge" data-bind="text: status, class: orderStatus"></span>
@@ -33,11 +32,10 @@
             </table>
         </div>
     </div>
-	<!--================End Recent Orders Area =================-->
+    <!--================End Recent Orders Area =================-->
 </template>
 
 <script type="text/javascript">
-
     function recentOrders(){[native/code]}
     recentOrders.urlData = "{{ route('api.dashboard.recentOrders') }}";
 

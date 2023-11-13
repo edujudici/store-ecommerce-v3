@@ -12,18 +12,18 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Conta Mercado Livre</th>
-                                <th scope="col">Total de items</th>
+                                <th class="d-none d-md-table-cell" scope="col">Total de items</th>
                                 <th scope="col">Total Sincronizado</th>
                                 <th scope="col">Data da Carga</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: loads">
                             <tr>
-                                <td scope="row" data-bind="text: lqh_id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: lqh_id"></td>
                                 <td><span data-bind="text: lqh_account_title"></span></td>
-                                <td><span data-bind="text: lqh_total"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: lqh_total"></span></td>
                                 <td><span data-bind="text: lqh_total_sync"></span></td>
                                 <td><span data-bind="text: base.dateTimeStringEn(created_at)"></span></td>
                             </tr>
@@ -38,7 +38,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function loadQuestionHistory(){[native/code]}
     loadQuestionHistory.urlData = "{{ route('api.load.question.history') }}";
 

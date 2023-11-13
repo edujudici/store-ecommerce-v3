@@ -16,13 +16,17 @@
             <div class="col-xl-4 col-lg-4">
                 <p class="text-dark mb-2">Informações do pedido</p>
                 <address>
-                    <span class="text-dark">Comprador:</span> <span data-bind="text: ora_name + ' ' + ora_surname"></span>
+                    <span class="text-dark">Comprador:</span> <span
+                        data-bind="text: ora_name + ' ' + ora_surname"></span>
                     <br> <span class="text-dark">Telefone:</span> <span data-bind="text: ora_phone"></span>
                 </address>
                 <address>
-                    <span class="text-dark">Data do Pedido:</span> <span data-bind="text: base.dateTimeStringEn($parent.createdAt)"></span>
-                    <br> <span class="text-dark">Forma de pagamento:</span> <span data-bind="text: $parent.recentPayment.paidBy"></span>
-                    <br> <strong class="text-dark">Previsão de entrega:</strong> <span data-bind="text: base.monthStringEn($parent.promisedDate)"></span>
+                    <span class="text-dark">Data do Pedido:</span> <span
+                        data-bind="text: base.dateTimeStringEn($parent.createdAt)"></span>
+                    <br> <span class="text-dark">Forma de pagamento:</span> <span
+                        data-bind="text: $parent.recentPayment.paidBy"></span>
+                    <br> <strong class="text-dark">Previsão de entrega:</strong> <span
+                        data-bind="text: base.monthStringEn($parent.promisedDate)"></span>
                 </address>
             </div>
             <div class="col-xl-5 col-lg-6">
@@ -31,7 +35,8 @@
                     <span class="text-dark">Endereço:</span> <span data-bind="text: ora_address
                         + ', ' + ora_number"></span>
                     <br> <span class="text-dark">Bairro:</span> <span data-bind="text: ora_district"></span>
-                    <br> <span class="text-dark">Cidade:</span> <span data-bind="text: ora_city + ' / ' + ora_uf"></span>
+                    <br> <span class="text-dark">Cidade:</span> <span
+                        data-bind="text: ora_city + ' / ' + ora_uf"></span>
                     <br> <span class="text-dark">CEP:</span> <span data-bind="text: ora_zipcode"></span>
                     <br> <span class="text-dark">Complemento:</span> <span data-bind="text: ora_complement"></span>
                 </address>
@@ -78,7 +83,8 @@
                         <span class="d-inline-block text-default" data-bind="text: freightPrice"></span>
                     </li>
                     <li class="mid pb-3 text-dark" data-bind="visible: voucherValue > 0">Desconto:
-                        <span class="d-inline-block text-default" data-bind="text: '- ' + base.numeroParaMoeda(voucherValue)"></span>
+                        <span class="d-inline-block text-default"
+                            data-bind="text: '- ' + base.numeroParaMoeda(voucherValue)"></span>
                     </li>
                     <li class="pb-3 text-dark">Total:
                         <span class="d-inline-block" data-bind="text: total"></span>
@@ -107,7 +113,8 @@
 
         <div class="row justify-content-end mt-2">
             <div class="col-md-6">
-                <a href="#" class="btn  mt-2 btn-lg btn-pill btn-secondary btn-default" data-bind="click: cancel">Voltar</a>
+                <a href="#" class="btn  mt-2 btn-lg btn-pill btn-secondary btn-default"
+                    data-bind="click: cancel">Voltar</a>
             </div>
             <div class="col-md-6">
                 <div class="col-md-7 float-left">
@@ -120,7 +127,8 @@
                     </select>
                 </div>
                 <div class="col-md-5 float-left text-right">
-                    <a href="#" class="btn  mt-2 btn-lg btn-primary btn-pill" data-bind="click: statusSave, visible: !isComplete() && !isCancel()">Salvar Status</a>
+                    <a href="#" class="btn  mt-2 btn-lg btn-primary btn-pill"
+                        data-bind="click: statusSave, visible: !isComplete() && !isCancel()">Salvar Status</a>
                 </div>
             </div>
         </div>
@@ -137,20 +145,22 @@
                         <thead>
                             <tr>
                                 <th scope="col">#protocolo</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Data Pedido</th>
+                                <th class="d-none d-md-table-cell" scope="col">Status</th>
+                                <th class="d-none d-md-table-cell" scope="col">Data Pedido</th>
                                 <th scope="col">Data Prometida</th>
-                                <th scope="col">Total</th>
+                                <th class="d-none d-md-table-cell" scope="col">Total</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: orders">
                             <tr data-bind="style: { 'background-color': actionColor }">
                                 <td scope="row" data-bind="text: protocol"></td>
-                                <td><span data-bind="text: $root.statusDescription(status())"></span></td>
-                                <td><span data-bind="text: base.dateTimeStringEn(createdAt)"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: $root.statusDescription(status())"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: base.dateTimeStringEn(createdAt)"></span></td>
                                 <td><span data-bind="text: base.monthStringEn(promisedDate)"></span></td>
-                                <td><span data-bind="text: total"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: total"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-eye" aria-hidden="true" data-bind="click: show"></i>
                                 </td>
@@ -167,7 +177,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function order(){[native/code]}
     order.urlData = "{{ route('api.orders.index') }}";
     order.urlOrderStatusSave = "{{ route('api.orders.store') }}";

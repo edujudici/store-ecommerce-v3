@@ -83,7 +83,7 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th width="10%" scope="col">#</th>
+                                <th class="d-none d-md-table-cell" width="10%" scope="col">#</th>
                                 <th width="20%" scope="col">Título</th>
                                 <th width="20%" scope="col">Tem mensagem pós venda?</th>
                                 <th width="20%" scope="col">Conta Ativa</th>
@@ -92,7 +92,7 @@
                         </thead>
                         <tbody data-bind="foreach: accountsML">
                             <tr>
-                                <td scope="row" data-bind="text: id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: id"></td>
                                 <td><span data-bind="text: title"></span></td>
                                 <td><span data-bind="text: afterSalesEnabled() ? 'Sim' : 'Não'"></span></td>
                                 <td><span data-bind="text: accountEnabled() ? 'Sim' : 'Não'"></span></td>

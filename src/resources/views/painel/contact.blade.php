@@ -15,13 +15,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="email">E-mail</label>
-                                    <input type="text" class="form-control" id="email" placeholder="Informe o email" data-bind="value: email" disabled>
+                                    <input type="text" class="form-control" id="email" placeholder="Informe o email"
+                                        data-bind="value: email" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="subject">Assunto</label>
-                                    <input type="text" class="form-control" id="subject" placeholder="Informe o assunto" data-bind="value: subject" disabled>
+                                    <input type="text" class="form-control" id="subject" placeholder="Informe o assunto"
+                                        data-bind="value: subject" disabled>
                                 </div>
                             </div>
                         </div>
@@ -29,7 +31,8 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="message">Mensagem</label>
-                                    <textarea class="form-control" id="message" rows="3" data-bind="value: message" disabled></textarea>
+                                    <textarea class="form-control" id="message" rows="3" data-bind="value: message"
+                                        disabled></textarea>
                                 </div>
                             </div>
                         </div>
@@ -37,13 +40,16 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="answer">Responder</label>
-                                    <textarea class="form-control" id="answer" rows="3" placeholder="Informe a resposta" data-bind="value: answer"></textarea>
+                                    <textarea class="form-control" id="answer" rows="3" placeholder="Informe a resposta"
+                                        data-bind="value: answer"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
-                            <button type="submit" class="btn btn-secondary btn-default" data-bind="click: cancel">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btn-default" data-bind="click: save">Enviar</button>
+                            <button type="submit" class="btn btn-secondary btn-default"
+                                data-bind="click: cancel">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-default"
+                                data-bind="click: save">Enviar</button>
                         </div>
                     </form>
                 </div>
@@ -61,23 +67,24 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">E-mail</th>
-                                <th scope="col">Assunto</th>
+                                <th class="d-none d-md-table-cell" scope="col">E-mail</th>
+                                <th class="d-none d-md-table-cell" scope="col">Assunto</th>
                                 <th scope="col">Mensagem</th>
-                                <th scope="col">Data</th>
+                                <th class="d-none d-md-table-cell" scope="col">Data</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: contacts">
                             <tr data-bind="style: { 'background-color': answer() ? '#b2ffb2' : '' }">
-                                <td scope="row" data-bind="text: id"></td>
+                                <td class="d-none d-md-table-cell" scope="row" data-bind="text: id"></td>
                                 <td><span data-bind="text: name"></span></td>
-                                <td><span data-bind="text: email"></span></td>
-                                <td><span data-bind="text: subject"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: email"></span></td>
+                                <td class="d-none d-md-table-cell"><span data-bind="text: subject"></span></td>
                                 <td><span data-bind="text: message"></span></td>
-                                <td><span data-bind="text: base.monthStringEn(date)"></span></td>
+                                <td class="d-none d-md-table-cell"><span
+                                        data-bind="text: base.monthStringEn(date)"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-eye" aria-hidden="true" data-bind="click: show"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -94,7 +101,6 @@
 
 @section('custom_script')
 <script type="text/javascript">
-
     function contact(){[native/code]}
     contact.urlData = "{{ route('api.contacts.index') }}";
     contact.urlAnswer = "{{ route('api.contacts.answer') }}";
