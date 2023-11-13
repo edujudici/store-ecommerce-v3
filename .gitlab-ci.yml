@@ -9,8 +9,8 @@ stages:
   - build
   # - test
   # - analysis
-  - release
-  - deploy
+  # - release
+  # - deploy
   - notification
 
 variables:
@@ -28,8 +28,10 @@ variables:
   stage: build
   script:
     - echo "Running build project..."
-    - docker build --pull -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
+    - docker --version
+    - docker compose version
+    # - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    # - docker push $CONTAINER_TEST_IMAGE
 
 # 2_unit_tests:
 #   stage: test
