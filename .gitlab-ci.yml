@@ -1,78 +1,72 @@
-image: registry.gitlab.com/edujudici/store-ecommerce-v3
+default:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - build
+  # - test
+  # - analysis
+  - release
+  - deploy
+  - notification
 
 variables:
+  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  # Slack config
   IDENTIFICACAO_PROJETO: "*$CI_PROJECT_NAME $CI_COMMIT_REF_NAME*"
   SLACK_USERNAME: "DevOps - $CI_PROJECT_NAME $CI_COMMIT_REF_NAME"
   SLACK_CHANNEL: "#monitoramento"
 
-stages:
-  - prepare
-  # - test
-  # - analysis
-  - deploy
-  - notification
-
-cache:
-  untracked: true
-  paths:
-    - node_modules/
-    - vendor/
-
-1_prepare_project:
-  stage: prepare
+1_build_project:
+  stage: build
   script:
-    - cd src/
-    - echo "Running composer install..."
-    - composer install --no-progress
-    - cp .env.testing .env
-    - php artisan key:generate
+    - echo "Running build project..."
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
 
 # 2_unit_tests:
 #   stage: test
 #   dependencies:
-#     - 1_prepare_project
+#     - 1_build_project
 #   script:
-#     - echo "Running PHP Unit Tests..."
-#     - ./vendor/bin/phpunit -c phpunit.xml --coverage-text --colors=never
+#     - echo "Running test project..."
+#     - docker pull $CONTAINER_TEST_IMAGE
+#     - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
 
 # 3_static_analysis:
 #   stage: analysis
 #   dependencies:
-#     - 1_prepare_project
+#     - 1_build_project
 #   script:
 #     - echo "Running Static Analysis..."
 ##     - ./vendor/bin/psalm --show-info=true
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
+
+4_release-image:
+  stage: release
+  dependencies:
+    - 1_build_project
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - main
 
 5_deploy_project:
   stage: deploy
   only:
     - main
   script:
-    - cd src/
-    - echo "Deploying Project..."
-
-    # verificar se o ssh-agent ta instalado
-    - 'which ssh-agent || ( apk add --update --no-cache openssh-client )'
-    - eval $(ssh-agent -s)
-
-    # adicionar nossa SSH KEY que está armazenada em SSH_PRIVATE_KEY (agent)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-    - echo "Checking System Requirements..."
-    - php -v
-    - composer -V
-    - ~/.composer/vendor/bin/envoy -V
-
-    - echo "Deploying Project on VPS HOST"
-
-    # Run Envoy
-    - ~/.composer/vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --env=production
+    - echo "Running deploying project..."
+    - ./deploylalalalal.sh
 
 6_success_notification:
   stage: notification
