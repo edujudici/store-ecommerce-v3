@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   web:
@@ -17,10 +17,11 @@ services:
       - mailhog
     networks:
       - app-network
-  
+
   app:
     build:
-      dockerfile: ./dockerfiles/php/root.Dockerfile
+      dockerfile: ./dockerfiles/php/one.Dockerfile
+      target: "dev"
     ports:
       - "9000:9000"
     volumes:
@@ -87,7 +88,7 @@ services:
       - "3001:3001"
       - "5173:5173"
     working_dir: /var/www
-    entrypoint: [ 'npm' ]
+    entrypoint: ["npm"]
     networks:
       - app-network
 
