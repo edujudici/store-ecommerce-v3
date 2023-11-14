@@ -9,9 +9,9 @@ stages:
   - build
   # - test
   # - analysis
-  # - release
-  # - deploy
-  - notification
+  - release
+  - deploy
+  # - notification
 
 variables:
   # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
@@ -53,45 +53,45 @@ variables:
 ##     - ./vendor/bin/psalm --show-info=true
 #     - php artisan insights --no-interaction --min-quality=80 --min-architecture=80 --min-style=80
 
-# 4_release-image:
-#   stage: release
-#   dependencies:
-#     - 1_build_project
-#   script:
-#     - docker pull $CONTAINER_TEST_IMAGE
-#     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-#     - docker push $CONTAINER_RELEASE_IMAGE
-#   only:
-#     - main
-
-# 5_deploy_project:
-#   stage: deploy
-#   only:
-#     - main
-#   script:
-#     - echo "Running deploying project..."
-#     - ./deploylalalalal.sh
-
-6_success_notification:
-  stage: notification
-  when: on_success
+4_release-image:
+  stage: release
+  dependencies:
+    - 1_build_project
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - main
-  variables:
-    SLACK_ICON: ':heavy_check_mark:'
-    NOTIFICATION_MESSAGE: "$SLACK_ICON Fim da atualização do $IDENTIFICACAO_PROJETO"
-    NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
-  script:
-    - eval "$NOTIFY_NOW"
 
-6_failure_notification:
-  stage: notification
-  when: on_failure
+5_deploy_project:
+  stage: deploy
   only:
     - main
-  variables:
-    SLACK_ICON: ':heavy_check_mark:'
-    NOTIFICATION_MESSAGE: "$SLACK_ICON Falha no $IDENTIFICACAO_PROJETO"
-    NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
   script:
-    - eval "$NOTIFY_NOW"
+    - echo "Running deploying project..."
+    # - ./deploylalalalal.sh
+
+# 6_success_notification:
+#   stage: notification
+#   when: on_success
+#   only:
+#     - main
+#   variables:
+#     SLACK_ICON: ':heavy_check_mark:'
+#     NOTIFICATION_MESSAGE: "$SLACK_ICON Fim da atualização do $IDENTIFICACAO_PROJETO"
+#     NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
+#   script:
+#     - eval "$NOTIFY_NOW"
+
+# 6_failure_notification:
+#   stage: notification
+#   when: on_failure
+#   only:
+#     - main
+#   variables:
+#     SLACK_ICON: ':heavy_check_mark:'
+#     NOTIFICATION_MESSAGE: "$SLACK_ICON Falha no $IDENTIFICACAO_PROJETO"
+#     NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
+#   script:
+#     - eval "$NOTIFY_NOW"
