@@ -54,6 +54,7 @@ variables:
       --build-arg UID=1000
       --build-arg GID=1000
       --cache-from $CI_REGISTRY_IMAGE:latest
+      --file ./dockerfiles/php/Dockerfile
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
