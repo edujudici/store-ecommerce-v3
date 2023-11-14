@@ -17,8 +17,8 @@ variables:
   # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
-  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  # CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  # CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
   # Slack config
   IDENTIFICACAO_PROJETO: "*$CI_PROJECT_NAME $CI_COMMIT_REF_NAME*"
@@ -32,8 +32,31 @@ variables:
     - docker --version
     - docker compose version
 
-    - docker build --pull --build-arg USER=deployer --build-arg UID=1000 --build-arg GID=1000 -f ./dockerfiles/php/Dockerfile -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
+    # - docker build
+      # --pull
+      # -build-arg USER=deployer
+      # --build-arg UID=1000
+      # --build-arg GID=1000
+      # -f ./dockerfiles/php/Dockerfile
+      # -t $CONTAINER_TEST_IMAGE .
+    # - docker push $CONTAINER_TEST_IMAGE
+
+    # fetches the latest image (not failing if image is not found)
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+
+    # builds the project, passing proxy variables, using OCI labels
+    # notice the cache-from, which is going to use the image we just pulled locally
+    # the built image is tagged locally with the commit SHA, and then pushed to
+    # the GitLab registry
+    - docker build
+      --pull
+      -build-arg USER=deployer
+      --build-arg UID=1000
+      --build-arg GID=1000
+      --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 # 2_unit_tests:
 #   stage: test
@@ -58,9 +81,17 @@ variables:
   dependencies:
     - 1_build_project
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
+    # - docker pull $CONTAINER_TEST_IMAGE
+    # - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    # - docker push $CONTAINER_RELEASE_IMAGE
+
+    # Because we have no guarantee that this job will be picked up by the same runner
+    # that built the image in the previous step, we pull it again locally
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    # Then we tag it "latest"
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+    # Annnd we push it.
+    - docker push $CI_REGISTRY_IMAGE:latest
   only:
     - main
 
