@@ -50,7 +50,7 @@ variables:
     # the GitLab registry
     - docker build
       --pull
-      -build-arg USER=deployer
+      --build-arg USER=deployer
       --build-arg UID=1000
       --build-arg GID=1000
       --cache-from $CI_REGISTRY_IMAGE:latest
