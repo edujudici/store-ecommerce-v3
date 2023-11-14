@@ -23,6 +23,7 @@ cache:
   script:
     - cd src/
     - echo "Running composer install..."
+    - chown -R www-data:www-data *
     - composer install --no-progress
     - cp .env.testing .env
     - php artisan key:generate
