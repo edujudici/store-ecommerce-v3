@@ -7,6 +7,7 @@ services:
     expose:
       - 80
     volumes:
+      - ./src:/var/www
       - ./dockerfiles/nginx/conf.d/:/etc/nginx/conf.d/
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
@@ -23,7 +24,6 @@ services:
   app:
     build:
       dockerfile: ./dockerfiles/php/Dockerfile
-      target: "prod"
       args:
         UID: ${UID:-1000}
         GID: ${GID:-1000}
@@ -32,6 +32,7 @@ services:
     container_name: store-ecommerce_app
     restart: unless-stopped
     volumes:
+      - ./src:/var/www:delegated
       - ../shared/storage:/var/www/storage:delegated
       - ../shared/.env:/var/www/.env
     networks:
@@ -73,6 +74,7 @@ services:
       - web
       - app
     volumes:
+      - ./src:/var/www:delegated
       - ../shared/storage:/var/www/storage:delegated
       - ../shared/.env:/var/www/.env
     networks:
@@ -81,6 +83,8 @@ services:
 
   npm:
     image: node:current-alpine
+    volumes:
+      - ./src:/var/www
     ports:
       - "3000:3000"
       - "3001:3001"

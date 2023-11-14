@@ -20,8 +20,7 @@ services:
 
   app:
     build:
-      dockerfile: ./dockerfiles/php/one.Dockerfile
-      target: "dev"
+      dockerfile: ./dockerfiles/php/root.Dockerfile
     ports:
       - "9000:9000"
     volumes:
