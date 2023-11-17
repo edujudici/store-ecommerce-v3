@@ -24,6 +24,9 @@ RUN composer global require laravel/envoy --dev
 
 COPY ./dockerfiles/php/supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
 
+COPY ./src /var/www
+RUN chown -R nobody:nobody /var/www/storage
+
 USER root
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]

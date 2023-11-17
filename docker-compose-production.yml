@@ -1,28 +1,42 @@
 version: "3.9"
 
 services:
-  app:
-    build:
-      dockerfile: ./dockerfiles/php/Dockerfile
-    image: store-ecommerce-v3-app
-    container_name: store-ecommerce_app
+  web:
+    image: nginx:stable-alpine
     restart: unless-stopped
     expose:
       - 80
     volumes:
-      - ./src:/var/www:delegated
-      - ../shared/storage:/var/www/storage:delegated
-      - ../shared/.env:/var/www/.env
+      - ./src:/var/www
+      - ./dockerfiles/nginx/conf.d/:/etc/nginx/conf.d/
     environment:
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     depends_on:
+      - app
       - db
       - redis
     networks:
       - app-network
       - proxy
+
+  app:
+    build:
+      dockerfile: ./dockerfiles/php/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        USER: ${USER:-www}
+    image: store-ecommerce-v3-app
+    container_name: store-ecommerce_app
+    restart: unless-stopped
+    volumes:
+      - ./src:/var/www:delegated
+      - ../shared/storage:/var/www/storage:delegated
+      - ../shared/.env:/var/www/.env
+    networks:
+      - app-network
 
   db:
     image: mariadb:10.6
@@ -53,6 +67,19 @@ services:
     networks:
       - app-network
     command: redis-server --requirepass ${REDIS_PASSWORD}
+
+  supervisor:
+    image: store-ecommerce-v3-app
+    depends_on:
+      - web
+      - app
+    volumes:
+      - ./src:/var/www:delegated
+      - ../shared/storage:/var/www/storage:delegated
+      - ../shared/.env:/var/www/.env
+    networks:
+      - app-network
+    command: supervisord -c /etc/supervisor/conf.d/store-ecommerce.conf
 
   npm:
     image: node:current-alpine
