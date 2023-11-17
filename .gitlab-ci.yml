@@ -39,9 +39,6 @@ variables:
     # the GitLab registry
     - docker build
       --pull
-      --build-arg USER=deployer
-      --build-arg UID=1000
-      --build-arg GID=1000
       --cache-from $CI_REGISTRY_IMAGE:latest
       --file ./dockerfiles/php/Dockerfile
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
@@ -87,32 +84,6 @@ variables:
     - main
   script:
     - echo "Running deploying project..."
-
-    # create the new docker-compose.yml
-    - envsubst < docker-compose-production.tmpl > docker-compose-prod.yml
-
-    # verificar se o ssh-agent ta instalado
-    - 'which ssh-agent || ( apk add --update --no-cache openssh-client )'
-    - eval $(ssh-agent -s)
-
-    # adicionar nossa SSH KEY que está armazenada em SSH_PRIVATE_KEY (agent)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-
-    # add server to list of known hosts
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - touch ~/.ssh/known_hosts
-    - chmod 600 ~/.ssh/known_hosts
-    - echo $SSH_HOST_KEY >> ~/.ssh/known_hosts
-
-    # upload docker-compose to the server
-    - scp docker-compose-prod.yml $DEPLOY_USER@$DEPLOY_SERVER:/var/www/
-
-    # docker login and restart services
-    - ssh $DEPLOY_USER@$DEPLOY_SERVER "cd /var/www;
-        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY;
-        docker compose up -d"
-
 
 # 6_success_notification:
 #   stage: notification
