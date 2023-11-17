@@ -11,7 +11,7 @@ stages:
   # - analysis
   # - release
   - deploy
-  # - notification
+  - notification
 
 variables:
   # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
@@ -29,6 +29,8 @@ variables:
     - echo "Running build project..."
     - docker --version
     - docker compose version
+    - echo $CI_REGISTRY_IMAGE
+    - echo $CI_COMMIT_SHA
 
     # use previous image as a cache to speedup build process
     - docker pull $CI_REGISTRY_IMAGE:latest || true
@@ -82,26 +84,28 @@ variables:
   script:
     - echo "Running deploying project..."
 
-# 6_success_notification:
-#   stage: notification
-#   when: on_success
-#   only:
-#     - main
-#   variables:
-#     SLACK_ICON: ':heavy_check_mark:'
-#     NOTIFICATION_MESSAGE: "$SLACK_ICON Fim da atualização do $IDENTIFICACAO_PROJETO"
-#     NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
-#   script:
-#     - eval "$NOTIFY_NOW"
+6_success_notification:
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  stage: notification
+  when: on_success
+  only:
+    - main
+  variables:
+    SLACK_ICON: ':heavy_check_mark:'
+    NOTIFICATION_MESSAGE: "$SLACK_ICON Fim da atualização do $IDENTIFICACAO_PROJETO"
+    NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
+  script:
+    - eval "$NOTIFY_NOW"
 
-# 6_failure_notification:
-#   stage: notification
-#   when: on_failure
-#   only:
-#     - main
-#   variables:
-#     SLACK_ICON: ':heavy_check_mark:'
-#     NOTIFICATION_MESSAGE: "$SLACK_ICON Falha no $IDENTIFICACAO_PROJETO"
-#     NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
-#   script:
-#     - eval "$NOTIFY_NOW"
+6_failure_notification:
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  stage: notification
+  when: on_failure
+  only:
+    - main
+  variables:
+    SLACK_ICON: ':heavy_check_mark:'
+    NOTIFICATION_MESSAGE: "$SLACK_ICON Falha no $IDENTIFICACAO_PROJETO"
+    NOTIFY_NOW: 'curl -X POST --data-urlencode "payload={\"channel\": \"$SLACK_CHANNEL\", \"username\": \"$SLACK_USERNAME\", \"text\": \"$NOTIFICATION_MESSAGE\"}" $SLACK_WEBHOOK_URL'
+  script:
+    - eval "$NOTIFY_NOW"
