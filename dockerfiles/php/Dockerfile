@@ -1,36 +1,72 @@
-FROM php:8-fpm-alpine
+FROM alpine:latest
 
-ARG UID
-ARG GID
-ARG USER
+WORKDIR /var/www/
 
-RUN mkdir -p /var/www
+# Essentials
+RUN echo "UTC" > /etc/timezone
+RUN apk add --no-cache zip unzip curl sqlite nginx supervisor
 
-WORKDIR /var/www
+# Installing bash
+RUN apk add bash
+RUN sed -i 's/bin\/ash/bin\/bash/g' /etc/passwd
 
-RUN apk add --update --no-cache \
-    supervisor
+# Installing PHP
+RUN apk add --no-cache php82 \
+    php82-common \
+    php82-fpm \
+    php82-pdo \
+    php82-opcache \
+    php82-zip \
+    php82-phar \
+    php82-iconv \
+    php82-cli \
+    php82-curl \
+    php82-openssl \
+    php82-mbstring \
+    php82-tokenizer \
+    php82-fileinfo \
+    php82-json \
+    php82-xml \
+    php82-xmlwriter \
+    php82-simplexml \
+    php82-dom \
+    php82-pdo_mysql \
+    php82-pdo_sqlite \
+    php82-tokenizer \
+    php82-pecl-redis \
+    php82-pcntl \
+    php82-posix
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN ln -s /usr/bin/php82 /usr/bin/php
 
-RUN addgroup -g ${GID} --system ${USER}
-RUN adduser -G ${USER} --system -D -s /bin/sh -u ${UID} ${USER}
+# Installing composer
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN rm -rf composer-setup.php
 
-RUN sed -i "s/user = www-data/user = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf
-RUN sed -i "s/group = www-data/group = ${USER}/g" /usr/local/etc/php-fpm.d/www.conf
-RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+# Configure supervisor
+COPY ./dockerfiles/php/supervisord.ini /etc/supervisor.d/supervisord.ini
 
-RUN docker-php-ext-install pdo pdo_mysql pcntl
+# Configure PHP
+RUN mkdir -p /run/php/
+RUN touch /run/php/php8.2-fpm.pid
 
-RUN mkdir -p /usr/src/php/ext/redis \
-    && curl -L https://github.com/phpredis/phpredis/archive/5.3.4.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
-    && echo 'redis' >> /usr/src/php-available-exts \
-    && docker-php-ext-install redis
-    
-RUN composer global require laravel/envoy --dev
+COPY ./dockerfiles/php/php-fpm.conf /etc/php82/php-fpm.conf
+COPY ./dockerfiles/php/php.ini-production /etc/php82/php.ini
 
-COPY ./dockerfiles/php/supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
+# Configure nginx
+COPY ./dockerfiles/nginx/nginx.conf /etc/nginx/
+COPY ./dockerfiles/nginx/default.conf /etc/nginx/modules/
 
-USER ${USER}
+RUN mkdir -p /run/nginx/
+RUN touch /run/nginx/nginx.pid
 
-CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
+
+# Building process
+COPY ./src /var/www
+RUN chown -R nobody:nobody /var/www/storage
+
+EXPOSE 80
+CMD ["supervisord", "-c", "/etc/supervisor.d/supervisord.ini"]
