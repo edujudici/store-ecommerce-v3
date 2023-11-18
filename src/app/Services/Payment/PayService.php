@@ -7,9 +7,9 @@ use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Services\BaseService;
 use App\Services\Order\OrderService;
-use MercadoPago\MerchantOrder;
-use MercadoPago\Payment;
-use MercadoPago\SDK;
+use MercadoPago\MercadoPagoConfig;
+use MercadoPago\Resources\MerchantOrder;
+use MercadoPago\Resources\Payment;
 
 class PayService extends BaseService
 {
@@ -44,7 +44,7 @@ class PayService extends BaseService
     {
         debug(['Executing of the job PayNotification with params' => $params]);
 
-        SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
+        MercadoPagoConfig::setAccessToken(env('MERCADO_PAGO_TOKEN'));
 
         $this->intanceClass();
 
@@ -87,8 +87,8 @@ class PayService extends BaseService
     /**
      * Save payment data
      *
-     * @param \MercadoPago\Payment $payment
-     * @param \MercadoPago\Merchant $payment
+     * @param Payment $payment
+     * @param MerchantOrder $payment
      *
      * @return void
      */
@@ -107,7 +107,7 @@ class PayService extends BaseService
         $this->orderPayment->create([
             'ord_id' => $order->ord_id,
             'orp_payment_id' => $payment->id,
-            'orp_order_id' => $payment->order->id,
+            'orp_order_id' => $payment->order_id,
             'orp_payer_id' => $payment->payer->id,
             'orp_payer_email' => $payment->payer->email,
             'orp_payer_first_name' => $payment->payer->first_name,

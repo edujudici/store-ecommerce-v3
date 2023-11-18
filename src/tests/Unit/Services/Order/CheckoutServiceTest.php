@@ -13,7 +13,6 @@ use App\Services\User\VoucherService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
-use MercadoPago\Item;
 use Tests\TestCase;
 
 /**
@@ -133,17 +132,6 @@ class CheckoutServiceTest extends TestCase
             'id' => $this->faker->randomNumber(9),
             'init_point' => $this->faker->url()
         ];
-    }
-
-    private function getItems(): array
-    {
-        $item = new Item();
-        $item->id = $this->faker->randomNumber(9);
-        $item->title = $this->faker->title;
-        $item->quantity = $this->faker->randomNumber(2);
-        $item->currency_id = 'BRL';
-        $item->unit_price = $this->faker->randomFloat(2, 1, 3);
-        return [$item];
     }
 
     private function mockCart($total): array

@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use MercadoPago\Preference;
-
 trait OrderTransformable
 {
     /**

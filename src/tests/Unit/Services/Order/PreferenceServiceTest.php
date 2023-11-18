@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Services\Order\PreferenceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use MercadoPago\Preference;
 use Tests\TestCase;
 
 /**

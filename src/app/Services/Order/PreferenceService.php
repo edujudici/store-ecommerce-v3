@@ -2,125 +2,114 @@
 
 namespace App\Services\Order;
 
-use App;
 use App\Exceptions\BusinessError;
 use App\Services\BaseService;
-use MercadoPago\Item;
-use MercadoPago\Payer;
-use MercadoPago\Preference;
-use MercadoPago\SDK;
-use MercadoPago\Shipments;
+use Exception;
+use Illuminate\Support\Facades\App;
+use MercadoPago\Client\Preference\PreferenceClient;
+use MercadoPago\Exceptions\MPApiException;
+use MercadoPago\MercadoPagoConfig;
 
 class PreferenceService extends BaseService
 {
     private const PRICE_ZERO = 0;
 
-    private $preference;
-
-    public function __construct()
-    {
-        SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
-        $this->preference = new Preference();
-    }
-
     public function create($address, $cart): array
     {
-        // if (! App::environment('testing')) {
-        //     if ($cart['user']->email === 'client@client.com'
-        //         || $cart['user']->email == 'shopper@shopper.com') {
-        //         debug('valid e-mail to homolog');
-        //         $cart['user']->email = 'test_user_36370294@testuser.com';
-        //         $cart['freightData']['price'] = '0,00';
-        //         $cart['products'] = array_map(static function ($item) {
-        //             $item['price'] = 0.5;
-        //             return $item;
-        //         }, $cart['products']);
-        //     }
-        // }
+        MercadoPagoConfig::setAccessToken(env('MERCADO_PAGO_TOKEN'));
+        $client = new PreferenceClient();
 
-        $this->loadItems($cart['products']);
-        $this->loadPayer($cart['user'], $address);
-        $this->loadShipment($cart['freightData']);
-        $this->preference->back_urls = [
-            'success' => route('site.payment.confirmation', ['success']),
-            'failure' => route('site.payment.confirmation', ['failure']),
-            'pending' => route('site.payment.confirmation', ['pending']),
-        ];
-        $this->preference->auto_return = 'approved';
-        $this->preference->notification_url = env(
-            'MERCADO_PAGO_IPN',
-            route('api.notifications.ipn', ['source_news' => 'webhooks'])
-        );
         $externalReference = 'Reference_' . randomText(8);
-        $this->preference->external_reference = $externalReference;
-        $this->preference->save();
 
-        if (is_null($this->preference->id)) {
-            throw new BusinessError('Ocorreu um erro ao integrar com o
-            mercado pago. Tente novamente mais tarde!');
-        }
-
-        return [
-            'id' => $this->preference->id,
-            'external_reference' => $externalReference,
-            'init_point' => App::environment('local')
-                ? $this->preference->sandbox_init_point
-                : $this->preference->init_point,
-        ];
-    }
-
-    private function loadItems($products): void
-    {
+        /* items */
         $items = [];
-        foreach ($products as $product) {
-            $price = $product['newPrice']
-                ?? $product['price'];
+        foreach ($cart['products'] as $product) {
+            $price = $product['newPrice'] ?? $product['price'];
+
             if ($price === self::PRICE_ZERO) {
                 continue;
             }
-            $item = new Item();
-            $item->id = $product['id'];
-            $item->title = $product['title'];
-            $item->quantity = $product['amount'];
-            $item->currency_id = 'BRL';
-            $item->unit_price = $price;
-            $items[] = $item;
+            $items[] = [
+                'id' => $product['id'], //required
+                'title' => $product['title'], //required
+                'quantity' => (int) $product['amount'], //required
+                'unit_price' => $price, //required
+                'currency_id' => 'BRL',
+            ];
         }
-        $this->preference->items = $items;
-    }
+        /* end items */
 
-    private function loadPayer($user, $address): void
-    {
-        $payer = new Payer();
-        $payer->name = $user->name;
-        $payer->surname = $user->surname;
-        $payer->email = $user->email;
-        $payer->date_created = $user->created_at;
-        $payer->address = [
-            'street_name' => $address->adr_address,
-            'street_number' => $address->adr_number,
-            'zip_code' => $address->adr_zipcode,
+        /* payer */
+        $payer = [
+            'name' => $cart['user']->name,
+            'surname' => $cart['user']->surname,
+            'email' => $cart['user']->email,
+            'date_created' => $cart['user']->created_at,
+            'address' => [
+                'zip_code' => $address->adr_zipcode,
+                'street_name' => $address->adr_address,
+                'street_number' => $address->adr_number,
+            ],
         ];
-        $this->preference->payer = $payer;
-    }
+        /* end payer */
 
-    private function loadShipment($freightData): void
-    {
+        /* shipments */
+        $freightData = $cart['freightData'];
         $freightPrice = (float) str_replace(',', '.', $freightData['price']);
 
-        if (count($this->preference->items) === 0) {
-            $item = new Item();
-            $item->title = 'Envio: ' . $freightData['serviceName'];
-            $item->quantity = 1;
-            $item->currency_id = 'BRL';
-            $item->unit_price = $freightPrice;
-
-            $this->preference->items = [$item];
-            return;
+        if (count($items) === 0) {
+            $items[] = [
+                'id' => 1, //required
+                'title' => 'Envio: ' . $freightData['serviceName'], //required
+                'quantity' => 1, //required
+                'unit_price' => $freightPrice, //required
+                'currency_id' => 'BRL',
+            ];
         }
+        $shipment = [
+            'cost' => $freightPrice
+        ];
+        /* end shipments */
 
-        $shipment = new Shipments();
-        $shipment->cost = $freightPrice;
-        $this->preference->shipments = $shipment;
+        try {
+            $preferenceData = [
+                'items' => $items,
+                'payer' => $payer,
+                'shipments' => $shipment,
+                'back_urls' => [
+                    'success' => route('site.payment.confirmation', ['success']),
+                    'failure' => route('site.payment.confirmation', ['failure']),
+                    'pending' => route('site.payment.confirmation', ['pending']),
+                ],
+                'auto_return' => 'approved',
+                'notification_url' => env(
+                    'MERCADO_PAGO_IPN',
+                    route('api.notifications.ipn', ['source_news' => 'webhooks'])
+                ),
+                'external_reference' => $externalReference,
+
+            ];
+
+            $preference = $client->create($preferenceData);
+
+            debug([
+                'debug message' => 'Generate new preference for mercado pago checkout',
+                'externalReference' => $externalReference,
+                'preference' => json_encode($preference),
+            ]);
+
+            return [
+                'id' => $preference->id,
+                'external_reference' => $preference->external_reference,
+                'init_point' => App::environment('local')
+                    ? $preference->sandbox_init_point
+                    : $preference->init_point,
+            ];
+        } catch (MPApiException $e) {
+            debug('Error for create new preference');
+            debug($e->getApiResponse()->getStatusCode());
+            debug($e->getApiResponse()->getContent());
+            throw new BusinessError('Ocorreu um erro ao integrar com o mercado pago. Tente novamente mais tarde!');
+        }
     }
 }
