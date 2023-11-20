@@ -105,10 +105,14 @@ class PreferenceService extends BaseService
                     ? $preference->sandbox_init_point
                     : $preference->init_point,
             ];
-        } catch (MPApiException $e) {
-            debug('Error for create new preference');
-            debug($e->getApiResponse()->getStatusCode());
-            debug($e->getApiResponse()->getContent());
+        } catch (MPApiException $exc) {
+            debug('Error mapped type MPApiException');
+            debug($exc->getApiResponse()->getStatusCode());
+            debug($exc->getApiResponse()->getContent());
+            throw new BusinessError('Ocorreu um erro ao integrar com o mercado pago. Tente novamente mais tarde!');
+        } catch (Exception $exc) {
+            debug('Error not mapped for preference creation');
+            debug($exc->getMessage());
             throw new BusinessError('Ocorreu um erro ao integrar com o mercado pago. Tente novamente mais tarde!');
         }
     }
