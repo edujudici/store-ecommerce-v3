@@ -7,18 +7,14 @@ use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Services\BaseService;
 use App\Services\Order\OrderService;
-use MercadoPago\Client\MerchantOrder\MerchantOrderClient;
-use MercadoPago\Client\Payment\PaymentClient;
 use MercadoPago\MercadoPagoConfig;
 
 class PayService extends BaseService
 {
     private const STATUS_APPROVED = 'approved';
-
-    public $merchantOrder;
-    public $payment;
     private $orderService;
     private $orderPayment;
+    private $payClientInterface;
 
     /**
      * Create a new service instance.
@@ -27,10 +23,12 @@ class PayService extends BaseService
      */
     public function __construct(
         OrderService $orderService,
-        OrderPayment $orderPayment
+        OrderPayment $orderPayment,
+        PayClientInterface $payClientInterface
     ) {
         $this->orderService = $orderService;
         $this->orderPayment = $orderPayment;
+        $this->payClientInterface = $payClientInterface;
     }
 
     /**
@@ -46,13 +44,11 @@ class PayService extends BaseService
 
         MercadoPagoConfig::setAccessToken(env('MERCADO_PAGO_TOKEN'));
 
-        $this->intanceClass();
-
         if (isset($params['type'])) {
             switch ($params['type']) {
                 case 'payment':
                     // payment
-                    $payment = $this->payment->get($params['data']['id']);
+                    $payment = $this->payClientInterface->getPaymentClient()->get($params['data']['id']);
                     if (is_null($payment) || $payment->getResponse() === null) {
                         throw new BusinessError('Payment not found');
                     }
@@ -65,7 +61,7 @@ class PayService extends BaseService
                     }
 
                     // merchant order
-                    $merchantOrder = $this->merchantOrder->get($order['id']);
+                    $merchantOrder = $this->payClientInterface->getMerchantOrderClient()->get($order['id']);
                     if (is_null($merchantOrder) || $merchantOrder->getResponse() === null) {
                         throw new BusinessError('Merchant order not found');
                     }
@@ -82,21 +78,6 @@ class PayService extends BaseService
                 default:
                     throw new BusinessError('Notification type does not exists');
             }
-        }
-    }
-
-    /**
-     * Instance class with depency on SDK
-     *
-     * @return void
-     */
-    private function intanceClass(): void
-    {
-        if (is_null($this->merchantOrder)) {
-            $this->merchantOrder = new MerchantOrderClient();
-        }
-        if (is_null($this->payment)) {
-            $this->payment = new PaymentClient();
         }
     }
 
