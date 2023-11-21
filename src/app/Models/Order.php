@@ -94,9 +94,9 @@ class Order extends BaseModel
     /**
      * Get the payments for the order.
      */
-    public function payment()
+    public function payments()
     {
-        return $this->hasOne('App\Models\OrderPayment', 'ord_id', 'ord_id');
+        return $this->hasMany('App\Models\OrderPayment', 'ord_id', 'ord_id');
     }
 
     public static function getStatus(): array

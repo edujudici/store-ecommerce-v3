@@ -192,28 +192,29 @@ class PayServiceTest extends TestCase
 
         $this->service->processNotification($data);
 
+        $payment = $order->payments[0];
 
-        $this->assertEquals($order->payment->ord_id, $mockPayment['order']['id']);
-        $this->assertEquals($order->payment->orp_payment_id, $mockPayment['id']);
-        $this->assertEquals($order->payment->orp_order_id, $mockPayment['order']['id']);
-        $this->assertEquals($order->payment->orp_payer_id, $mockPayment['payer']['id']);
-        $this->assertEquals($order->payment->orp_payer_email, $mockPayment['payer']['email']);
-        $this->assertEquals($order->payment->orp_payer_first_name, $mockPayment['payer']['first_name']);
-        $this->assertEquals($order->payment->orp_payer_last_name, $mockPayment['payer']['last_name']);
-        $this->assertEquals($order->payment->orp_payer_phone, $mockPayment['payer']['phone']['number']);
-        $this->assertEquals($order->payment->orp_payment_method_id, $mockPayment['payment_method_id']);
-        $this->assertEquals($order->payment->orp_payment_type_id, $mockPayment['payment_type_id']);
-        $this->assertEquals($order->payment->orp_status, $mockPayment['status']);
-        $this->assertEquals($order->payment->orp_status_detail, $mockPayment['status_detail']);
-        $this->assertEquals($order->payment->orp_transaction_amount, $mockPayment['transaction_amount']);
-        $this->assertEquals($order->payment->orp_received_amount, $mockPayment['transaction_details']['net_received_amount']);
-        $this->assertEquals($order->payment->orp_resource_url, $mockPayment['transaction_details']['external_resource_url']);
-        $this->assertEquals($order->payment->orp_total_paid_amount, $mockPayment['transaction_details']['total_paid_amount']);
-        $this->assertEquals($order->payment->orp_shipping_amount, $mockPayment['shipping_amount']);
-        $this->assertEquals($order->payment->orp_date_approved, date('Y-m-d H:i:s', strtotime($mockPayment['date_approved'])));
-        $this->assertEquals($order->payment->orp_date_created, date('Y-m-d H:i:s', strtotime($mockPayment['date_created'])));
-        $this->assertEquals($order->payment->orp_date_of_expiration, date('Y-m-d H:i:s', strtotime($mockPayment['date_of_expiration'])));
-        $this->assertEquals($order->payment->orp_live_mode, $mockPayment['live_mode']);
+        $this->assertEquals($payment->ord_id, $mockPayment['order']['id']);
+        $this->assertEquals($payment->orp_payment_id, $mockPayment['id']);
+        $this->assertEquals($payment->orp_order_id, $mockPayment['order']['id']);
+        $this->assertEquals($payment->orp_payer_id, $mockPayment['payer']['id']);
+        $this->assertEquals($payment->orp_payer_email, $mockPayment['payer']['email']);
+        $this->assertEquals($payment->orp_payer_first_name, $mockPayment['payer']['first_name']);
+        $this->assertEquals($payment->orp_payer_last_name, $mockPayment['payer']['last_name']);
+        $this->assertEquals($payment->orp_payer_phone, $mockPayment['payer']['phone']['number']);
+        $this->assertEquals($payment->orp_payment_method_id, $mockPayment['payment_method_id']);
+        $this->assertEquals($payment->orp_payment_type_id, $mockPayment['payment_type_id']);
+        $this->assertEquals($payment->orp_status, $mockPayment['status']);
+        $this->assertEquals($payment->orp_status_detail, $mockPayment['status_detail']);
+        $this->assertEquals($payment->orp_transaction_amount, $mockPayment['transaction_amount']);
+        $this->assertEquals($payment->orp_received_amount, $mockPayment['transaction_details']['net_received_amount']);
+        $this->assertEquals($payment->orp_resource_url, $mockPayment['transaction_details']['external_resource_url']);
+        $this->assertEquals($payment->orp_total_paid_amount, $mockPayment['transaction_details']['total_paid_amount']);
+        $this->assertEquals($payment->orp_shipping_amount, $mockPayment['shipping_amount']);
+        $this->assertEquals($payment->orp_date_approved, date('Y-m-d H:i:s', strtotime($mockPayment['date_approved'])));
+        $this->assertEquals($payment->orp_date_created, date('Y-m-d H:i:s', strtotime($mockPayment['date_created'])));
+        $this->assertEquals($payment->orp_date_of_expiration, date('Y-m-d H:i:s', strtotime($mockPayment['date_of_expiration'])));
+        $this->assertEquals($payment->orp_live_mode, $mockPayment['live_mode']);
     }
 
     private function mockPayment($orderId = null): array
