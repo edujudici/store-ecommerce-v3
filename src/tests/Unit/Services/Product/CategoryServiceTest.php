@@ -29,7 +29,9 @@ class CategoryServiceTest extends TestCase
     /** @test  */
     public function should_list_items()
     {
-        Category::factory()->count(3)->create();
+        Category::factory()->count(3)->create([
+            'cat_seller_id' => null,
+        ]);
 
         $response = $this->service->index();
 

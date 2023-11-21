@@ -38,10 +38,15 @@ class LoadCategoryServiceTest extends TestCase
     public function should_save_items()
     {
         $category = Category::factory()
-            ->create();
+            ->create([
+                'cat_id_secondary' => 123,
+                'cat_seller_id' => 456,
+            ]);
         $product = Product::factory()
             ->for($category)
-            ->create();
+            ->create([
+                'pro_seller_id' => $category->cat_seller_id,
+            ]);
 
         $data = [
             'id' => $category->cat_id_secondary,
