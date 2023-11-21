@@ -14,7 +14,6 @@ class PayService extends BaseService
     private const STATUS_APPROVED = 'approved';
     private $orderService;
     private $orderPayment;
-    private $payClientInterface;
 
     /**
      * Create a new service instance.
@@ -23,12 +22,10 @@ class PayService extends BaseService
      */
     public function __construct(
         OrderService $orderService,
-        OrderPayment $orderPayment,
-        PayClientInterface $payClientInterface
+        OrderPayment $orderPayment
     ) {
         $this->orderService = $orderService;
         $this->orderPayment = $orderPayment;
-        $this->payClientInterface = $payClientInterface;
     }
 
     /**
@@ -38,7 +35,7 @@ class PayService extends BaseService
      *
      * @return void
      */
-    public function processNotification($params): void
+    public function processNotification($params, $payClientInterface): void
     {
         debug(['Executing of the job PayNotification with params' => $params]);
 
@@ -48,7 +45,7 @@ class PayService extends BaseService
             switch ($params['type']) {
                 case 'payment':
                     // payment
-                    $payment = $this->payClientInterface->getPaymentClient()->get($params['data']['id']);
+                    $payment = $payClientInterface->getPaymentClient()->get($params['data']['id']);
                     if (is_null($payment) || $payment->getResponse() === null) {
                         throw new BusinessError('Payment not found');
                     }
@@ -61,7 +58,7 @@ class PayService extends BaseService
                     }
 
                     // merchant order
-                    $merchantOrder = $this->payClientInterface->getMerchantOrderClient()->get($order['id']);
+                    $merchantOrder = $payClientInterface->getMerchantOrderClient()->get($order['id']);
                     if (is_null($merchantOrder) || $merchantOrder->getResponse() === null) {
                         throw new BusinessError('Merchant order not found');
                     }

@@ -34,8 +34,7 @@ class PayServiceTest extends TestCase
 
         $this->service = new PayService(
             $this->orderServiceMock,
-            new OrderPayment(),
-            $this->payClientInterfaceMock
+            new OrderPayment()
         );
     }
 
@@ -48,7 +47,7 @@ class PayServiceTest extends TestCase
             'type' => 'type_does_not_exists',
         ];
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
     }
 
     /** @test  */
@@ -68,7 +67,7 @@ class PayServiceTest extends TestCase
             ->once()
             ->andReturn(new MockPayClient(new MockPayClientResponse(null)));
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
     }
 
     /** @test  */
@@ -88,7 +87,7 @@ class PayServiceTest extends TestCase
             ->once()
             ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(400, null))));
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
     }
 
     /** @test  */
@@ -110,7 +109,7 @@ class PayServiceTest extends TestCase
                 'order' => null
             ]))));
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
     }
 
     /** @test  */
@@ -135,7 +134,7 @@ class PayServiceTest extends TestCase
             ->once()
             ->andReturn(new MockPayClient(new MockPayClientResponse(null)));
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
     }
 
     /** @test  */
@@ -160,7 +159,7 @@ class PayServiceTest extends TestCase
             ->once()
             ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(400, null))));
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
     }
 
     /** @test  */
@@ -190,7 +189,7 @@ class PayServiceTest extends TestCase
             ->once()
             ->andReturn($order);
 
-        $this->service->processNotification($data);
+        $this->service->processNotification($data, $this->payClientInterfaceMock);
 
         $payment = $order->payments[0];
 

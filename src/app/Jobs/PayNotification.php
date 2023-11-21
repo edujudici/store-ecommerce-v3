@@ -14,15 +14,17 @@ class PayNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $data;
+    private $payClientInterface;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data, $payClientInterface)
     {
         $this->data = $data;
+        $this->payClientInterface = $payClientInterface;
     }
 
     /**
@@ -32,6 +34,6 @@ class PayNotification implements ShouldQueue
      */
     public function handle(PayService $payService)
     {
-        $payService->processNotification($this->data);
+        $payService->processNotification($this->data, $this->payClientInterface);
     }
 }

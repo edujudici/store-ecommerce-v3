@@ -38,7 +38,7 @@ class LoadSingleService extends BaseService
         $data = $this->apiMercadoLibre->getSingleProduct($sku, ['pictures']);
         $product = $this->store($data);
         $this->loadPictureService->store($product, $data->pictures);
-        $this->loadCategoryService->store($product->pro_category_id);
+        $this->loadCategoryService->store($product->pro_category_id, $product->pro_seller_id);
         $this->loadDescriptionService->loadDescription($sku);
     }
 

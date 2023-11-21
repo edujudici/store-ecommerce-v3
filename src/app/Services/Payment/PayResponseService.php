@@ -51,6 +51,6 @@ class PayResponseService extends BaseService
     {
         $params = $request->all();
         debug(['debug notification MP' => $params]);
-        PayNotification::dispatch($params)->onQueue('payment');
+        PayNotification::dispatch($params, new PayClientService())->onQueue('payment');
     }
 }
