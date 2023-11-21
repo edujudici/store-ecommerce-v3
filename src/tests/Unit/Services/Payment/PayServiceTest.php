@@ -6,12 +6,10 @@ use App\Exceptions\BusinessError;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Services\Order\OrderService;
+use App\Services\Payment\PayClientInterface;
 use App\Services\Payment\PayService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use MercadoPago\MerchantOrder;
-use MercadoPago\Payment;
-use MercadoPago\SDK;
 use Tests\TestCase;
 
 /**
@@ -23,6 +21,7 @@ class PayServiceTest extends TestCase
 
     private $orderServiceMock;
     private $service;
+    private $payClientInterfaceMock;
 
     public function setUp(): void
     {
@@ -30,10 +29,13 @@ class PayServiceTest extends TestCase
 
         $this->orderServiceMock = $this->mock(OrderService::class)
             ->makePartial();
+        $this->payClientInterfaceMock = $this->mock(PayClientInterface::class)
+            ->makePartial();
 
         $this->service = new PayService(
             $this->orderServiceMock,
-            new OrderPayment()
+            new OrderPayment(),
+            $this->payClientInterfaceMock
         );
     }
 
@@ -41,8 +43,6 @@ class PayServiceTest extends TestCase
     public function should_process_notification_type_error()
     {
         $this->expectException(BusinessError::class);
-
-        SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
 
         $data = [
             'type' => 'type_does_not_exists',
@@ -55,8 +55,7 @@ class PayServiceTest extends TestCase
     public function should_process_notification_payment_not_found()
     {
         $this->expectException(BusinessError::class);
-
-        SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
+        $this->expectExceptionMessage('Payment not found');
 
         $data = [
             'data' => [
@@ -64,13 +63,53 @@ class PayServiceTest extends TestCase
             ],
             'type' => 'payment',
         ];
-        $paymentMock = $this->mock(Payment::class)
-            ->makePartial();
-        $paymentMock->shouldReceive('find_by_id')
-            ->once()
-            ->andReturn(null);
 
-        $this->service->payment = $paymentMock;
+        $this->payClientInterfaceMock->shouldReceive('getPaymentClient')
+            ->once()
+            ->andReturn(new MockPayClient(new MockPayClientResponse(null)));
+
+        $this->service->processNotification($data);
+    }
+
+    /** @test  */
+    public function should_process_notification_payment_error()
+    {
+        $this->expectException(BusinessError::class);
+        $this->expectExceptionMessage('Payment error: 400');
+
+        $data = [
+            'data' => [
+                'id' => $this->faker->randomNumber(9)
+            ],
+            'type' => 'payment',
+        ];
+
+        $this->payClientInterfaceMock->shouldReceive('getPaymentClient')
+            ->once()
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(400, null))));
+
+        $this->service->processNotification($data);
+    }
+
+    /** @test  */
+    public function should_process_notification_payment_order_not_found()
+    {
+        $this->expectException(BusinessError::class);
+        $this->expectExceptionMessage('Payment order not found');
+
+        $data = [
+            'data' => [
+                'id' => $this->faker->randomNumber(9)
+            ],
+            'type' => 'payment',
+        ];
+
+        $this->payClientInterfaceMock->shouldReceive('getPaymentClient')
+            ->once()
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(200, [
+                'order' => null
+            ]))));
+
         $this->service->processNotification($data);
     }
 
@@ -78,8 +117,7 @@ class PayServiceTest extends TestCase
     public function should_process_notification_merchant_not_found()
     {
         $this->expectException(BusinessError::class);
-
-        SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
+        $this->expectExceptionMessage('Merchant order not found');
 
         $data = [
             'data' => [
@@ -87,80 +125,100 @@ class PayServiceTest extends TestCase
             ],
             'type' => 'payment',
         ];
-        $payment = $this->mockPayment();
-        $paymentMock = $this->mock(Payment::class)
-            ->makePartial();
-        $paymentMock->shouldReceive('find_by_id')
+        $this->payClientInterfaceMock->shouldReceive('getPaymentClient')
             ->once()
-            ->andReturn($payment);
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(200, [
+                'order' => ['id' => 1]
+            ]))));
 
-        $merchantOrderMock = $this->mock(MerchantOrder::class)
-            ->makePartial();
-        $merchantOrderMock->shouldReceive('find_by_id')
+        $this->payClientInterfaceMock->shouldReceive('getMerchantOrderClient')
             ->once()
-            ->andReturn(null);
+            ->andReturn(new MockPayClient(new MockPayClientResponse(null)));
 
-        $this->service->merchantOrder = $merchantOrderMock;
-        $this->service->payment = $paymentMock;
         $this->service->processNotification($data);
     }
 
     /** @test  */
-    public function should_process_notification_sucess()
+    public function should_process_notification_merchant_error()
     {
-        SDK::setAccessToken(env('MERCADO_PAGO_TOKEN'));
+        $this->expectException(BusinessError::class);
+        $this->expectExceptionMessage('Merchant error: 400');
 
         $data = [
             'data' => [
-                'id' => $this->faker->randomNumber(9),
+                'id' => $this->faker->randomNumber(9)
             ],
             'type' => 'payment',
         ];
-        $order = Order::factory()->create();
-
-        $merchantOrder = $this->mockMerchantOrder($order->ord_preference_id);
-        $merchantOrderMock = $this->mock(MerchantOrder::class)
-            ->makePartial();
-        $merchantOrderMock->shouldReceive('find_by_id')
+        $this->payClientInterfaceMock->shouldReceive('getPaymentClient')
             ->once()
-            ->andReturn($merchantOrder);
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(200, [
+                'order' => ['id' => 1]
+            ]))));
 
-        $payment = $this->mockPayment($order->ord_id);
-        $paymentMock = $this->mock(Payment::class)
-            ->makePartial();
-        $paymentMock->shouldReceive('find_by_id')
+        $this->payClientInterfaceMock->shouldReceive('getMerchantOrderClient')
             ->once()
-            ->andReturn($payment);
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(400, null))));
 
+        $this->service->processNotification($data);
+    }
+
+    /** @test  */
+    public function should_process_notification_payment_success()
+    {
+        $data = [
+            'data' => [
+                'id' => $this->faker->randomNumber(9)
+            ],
+            'type' => 'payment',
+        ];
+        $mockPayment = $this->mockPayment(1);
+        $this->payClientInterfaceMock->shouldReceive('getPaymentClient')
+            ->once()
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(200, $mockPayment))));
+
+        $this->payClientInterfaceMock->shouldReceive('getMerchantOrderClient')
+            ->once()
+            ->andReturn(new MockPayClient(new MockPayClientResponse(new MockPayClientStatus(200, [
+                'preference_id' => 'abc123'
+            ]))));
+
+        $order = Order::factory()->create([
+            'ord_id' => $mockPayment['order']['id'],
+        ]);
         $this->orderServiceMock->shouldReceive('store')
             ->once()
             ->andReturn($order);
 
-        $this->app->instance('MercadoPago\MerchantOrder', $merchantOrderMock);
-        $this->app->instance('MercadoPago\Payment', $paymentMock);
-
-        $this->service->merchantOrder = $merchantOrderMock;
-        $this->service->payment = $paymentMock;
         $this->service->processNotification($data);
+
+
+        $this->assertEquals($order->payment->ord_id, $mockPayment['order']['id']);
+        $this->assertEquals($order->payment->orp_payment_id, $mockPayment['id']);
+        $this->assertEquals($order->payment->orp_order_id, $mockPayment['order']['id']);
+        $this->assertEquals($order->payment->orp_payer_id, $mockPayment['payer']['id']);
+        $this->assertEquals($order->payment->orp_payer_email, $mockPayment['payer']['email']);
+        $this->assertEquals($order->payment->orp_payer_first_name, $mockPayment['payer']['first_name']);
+        $this->assertEquals($order->payment->orp_payer_last_name, $mockPayment['payer']['last_name']);
+        $this->assertEquals($order->payment->orp_payer_phone, $mockPayment['payer']['phone']['number']);
+        $this->assertEquals($order->payment->orp_payment_method_id, $mockPayment['payment_method_id']);
+        $this->assertEquals($order->payment->orp_payment_type_id, $mockPayment['payment_type_id']);
+        $this->assertEquals($order->payment->orp_status, $mockPayment['status']);
+        $this->assertEquals($order->payment->orp_status_detail, $mockPayment['status_detail']);
+        $this->assertEquals($order->payment->orp_transaction_amount, $mockPayment['transaction_amount']);
+        $this->assertEquals($order->payment->orp_received_amount, $mockPayment['transaction_details']['net_received_amount']);
+        $this->assertEquals($order->payment->orp_resource_url, $mockPayment['transaction_details']['external_resource_url']);
+        $this->assertEquals($order->payment->orp_total_paid_amount, $mockPayment['transaction_details']['total_paid_amount']);
+        $this->assertEquals($order->payment->orp_shipping_amount, $mockPayment['shipping_amount']);
+        $this->assertEquals($order->payment->orp_date_approved, date('Y-m-d H:i:s', strtotime($mockPayment['date_approved'])));
+        $this->assertEquals($order->payment->orp_date_created, date('Y-m-d H:i:s', strtotime($mockPayment['date_created'])));
+        $this->assertEquals($order->payment->orp_date_of_expiration, date('Y-m-d H:i:s', strtotime($mockPayment['date_of_expiration'])));
+        $this->assertEquals($order->payment->orp_live_mode, $mockPayment['live_mode']);
     }
 
-    private function mockMerchantOrder($preferenceId): MerchantOrder
+    private function mockPayment($orderId = null): array
     {
-        $data = [
-            'preference_id' => $preferenceId,
-        ];
-        $dataObj = json_decode(json_encode($data));
-
-        $merchantOrder = new MerchantOrder();
-        foreach ($dataObj as $key => $value) {
-            $merchantOrder->{$key} = $value;
-        }
-        return $merchantOrder;
-    }
-
-    private function mockPayment($orderId = null): Payment
-    {
-        $data = [
+        return [
             'id' => $this->faker->randomNumber(9),
             'order' => [
                 'id' => $orderId,
@@ -173,7 +231,7 @@ class PayServiceTest extends TestCase
                 'phone' => [
                     'number' => '99 99999-9999',
                 ]
-                ],
+            ],
             'payment_method_id' => 'master',
             'payment_type_id' => 'credit_card',
             'status' => 'approved',
@@ -189,14 +247,60 @@ class PayServiceTest extends TestCase
             'date_created' => $this->faker->date(),
             'date_of_expiration' => $this->faker->date(),
             'live_mode' => $this->faker->boolean,
-
         ];
-        $dataObj = json_decode(json_encode($data));
+    }
+}
 
-        $payment = new Payment();
-        foreach ($dataObj as $key => $value) {
-            $payment->{$key} = $value;
-        }
-        return $payment;
+/** Internal classes to assist with unit testing */
+
+class MockPayClient
+{
+    private $response;
+
+    public function __construct($response)
+    {
+        $this->response = $response;
+    }
+
+    public function get()
+    {
+        return $this->response;
+    }
+}
+
+class MockPayClientResponse
+{
+    private $response;
+
+    public function __construct($response)
+    {
+        $this->response = $response;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
+    }
+}
+
+class MockPayClientStatus
+{
+    private $statusCode;
+    private $content;
+
+    public function __construct($statusCode, $content)
+    {
+        $this->statusCode = $statusCode;
+        $this->content = $content;
+    }
+
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
     }
 }
