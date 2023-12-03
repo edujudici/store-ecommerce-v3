@@ -1,37 +1,27 @@
 version: "3.9"
 
 services:
-  web:
-    image: nginx:stable-alpine
+  app:
+    build:
+      dockerfile: ./docker/Dockerfile
+    image: store-ecommerce-v3-app
     restart: unless-stopped
+    expose:
+      - 80
     ports:
-      - 8000:80
-      - "443:443"
+      - 80:80
     volumes:
       - ./src:/var/www
-      - ./dockerfiles/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
-      - app
       - db
       - redis
       - mailhog
     networks:
       - app-network
 
-  app:
-    build:
-      dockerfile: ./dockerfiles/php/root.Dockerfile
-    ports:
-      - "9000:9000"
-    volumes:
-      - ./src:/var/www:delegated
-    networks:
-      - app-network
-
   supervisor:
     image: store-ecommerce-v3-app
     depends_on:
-      - web
       - app
     volumes:
       - ./src:/var/www
@@ -54,8 +44,8 @@ services:
       SERVICE_NAME: ${SERVICE_NAME:-db}
     volumes:
       - dbdata:/var/lib/mysql/
-      - ./dockerfiles/mysql/my.cnf:/etc/mysql/my.cnf
-      - ./dockerfiles/mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+      - ./docker/config/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/config/mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
     networks:
       - app-network
 
@@ -66,7 +56,7 @@ services:
       - "6379:6379"
     volumes:
       - redis:/data
-      - ./dockerfiles/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
       - app-network
 

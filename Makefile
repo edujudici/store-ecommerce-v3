@@ -55,8 +55,6 @@ cache-clear:
 	docker compose exec app composer clear-cache
 	@make optimize-clear
 	docker compose exec app php artisan event:clear
-web:
-	docker compose exec web sh
 app:
 	docker compose exec app sh
 redis:
