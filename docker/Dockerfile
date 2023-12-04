@@ -65,17 +65,17 @@ EXPOSE 80
 CMD ["/usr/local/bin/start"]
 
 # layer from production mode
-FROM local as production
+# FROM local as production
 
-ARG UID
-ARG GID
-ARG USER
+# ARG UID
+# ARG GID
+# ARG USER
 
-RUN addgroup -g ${GID} --system ${USER}
-RUN adduser -G ${USER} --system -D -s /bin/sh -u ${UID} ${USER}
+# RUN addgroup -g ${GID} --system ${USER}
+# RUN adduser -G ${USER} --system -D -s /bin/sh -u ${UID} ${USER}
 
-RUN sed -i "s/user = nobody/user = ${USER}/g" /etc/php82/php-fpm.d/www.conf
-RUN sed -i "s/group = nobody/group = ${USER}/g" /etc/php82/php-fpm.d/www.conf
-RUN echo "php_admin_flag[log_errors] = on" >> /etc/php82/php-fpm.d/www.conf
+# RUN sed -i "s/user = nobody/user = ${USER}/g" /etc/php82/php-fpm.d/www.conf
+# RUN sed -i "s/group = nobody/group = ${USER}/g" /etc/php82/php-fpm.d/www.conf
+# RUN echo "php_admin_flag[log_errors] = on" >> /etc/php82/php-fpm.d/www.conf
 
-USER ${USER}
+# USER ${USER}
