@@ -7,8 +7,6 @@ services:
     container_name: store-ecommerce_app
     expose:
       - 80
-    ports:
-      - 80:80
     volumes:
       - ./src:/var/www
       - ../shared/storage:/var/www/storage:delegated
