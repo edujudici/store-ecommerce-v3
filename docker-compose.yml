@@ -9,7 +9,7 @@ services:
     expose:
       - 80
     ports:
-      - 80:80
+      - 8000:80
     volumes:
       - ./src:/var/www
     depends_on:
