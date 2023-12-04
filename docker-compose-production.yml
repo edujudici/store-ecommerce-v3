@@ -2,6 +2,13 @@ version: "3.9"
 
 services:
   app:
+    build:
+      dockerfile: ./docker/Dockerfile
+      target: production
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        USER: ${USER:-nobody}
     image: store-ecommerce-v3-app
     restart: unless-stopped
     container_name: store-ecommerce_app
