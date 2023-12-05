@@ -9,7 +9,7 @@ services:
       - "443:443"
     volumes:
       - ./src:/var/www
-      - ./dockerfiles/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/config/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
       - app
       - db
@@ -20,7 +20,7 @@ services:
 
   app:
     build:
-      dockerfile: ./dockerfiles/php/root.Dockerfile
+      dockerfile: ./docker/root.Dockerfile
     ports:
       - "9000:9000"
     volumes:
@@ -54,8 +54,8 @@ services:
       SERVICE_NAME: ${SERVICE_NAME:-db}
     volumes:
       - dbdata:/var/lib/mysql/
-      - ./dockerfiles/mysql/my.cnf:/etc/mysql/my.cnf
-      - ./dockerfiles/mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+      - ./docker/config/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/config/mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
     networks:
       - app-network
 
@@ -66,7 +66,7 @@ services:
       - "6379:6379"
     volumes:
       - redis:/data
-      - ./dockerfiles/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
       - app-network
 

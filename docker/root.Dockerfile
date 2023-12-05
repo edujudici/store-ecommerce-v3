@@ -15,14 +15,14 @@ RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 RUN docker-php-ext-install pdo pdo_mysql pcntl
 
-RUN mkdir -p /usr/src/php/ext/redis \
-    && curl -L https://github.com/phpredis/phpredis/archive/5.3.4.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
-    && echo 'redis' >> /usr/src/php-available-exts \
-    && docker-php-ext-install redis
+# RUN mkdir -p /usr/src/php/ext/redis \
+#     && curl -L https://github.com/phpredis/phpredis/archive/5.3.4.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
+#     && echo 'redis' >> /usr/src/php-available-exts \
+#     && docker-php-ext-install redis
 
 RUN composer global require laravel/envoy --dev
 
-COPY ./dockerfiles/php/supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
+COPY ./docker/config/supervisor/supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
 
 COPY ./src /var/www
 RUN chown -R nobody:nobody /var/www/storage
