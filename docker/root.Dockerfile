@@ -5,7 +5,7 @@ RUN mkdir -p /var/www
 WORKDIR /var/www
 
 RUN apk add --update --no-cache \
-    supervisor
+    supervisor nginx
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
@@ -24,9 +24,8 @@ RUN composer global require laravel/envoy --dev
 
 COPY ./docker/config/supervisor/supervisord.conf /etc/supervisor/conf.d/store-ecommerce.conf
 
-COPY ./src /var/www
-RUN chown -R nobody:nobody /var/www/storage
+COPY ./docker/config/nginx/conf.d/default.conf /etc/nginx/http.d/default.conf
 
 USER root
 
-CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
+CMD ["tail", "-f", "/dev/null"]

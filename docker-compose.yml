@@ -1,40 +1,15 @@
 version: "3.9"
 
 services:
-  web:
-    image: nginx:stable-alpine
+  app:
+    build:
+      dockerfile: ./docker/root.Dockerfile
     restart: unless-stopped
     ports:
       - 8000:80
       - "443:443"
     volumes:
-      - ./src:/var/www
-      - ./docker/config/nginx/conf.d/:/etc/nginx/conf.d/
-    depends_on:
-      - app
-      - db
-      - redis
-      - mailhog
-    networks:
-      - app-network
-
-  app:
-    build:
-      dockerfile: ./docker/root.Dockerfile
-    ports:
-      - "9000:9000"
-    volumes:
       - ./src:/var/www:delegated
-    networks:
-      - app-network
-
-  supervisor:
-    image: store-ecommerce-v3-app
-    depends_on:
-      - web
-      - app
-    volumes:
-      - ./src:/var/www
     networks:
       - app-network
     command: supervisord -c /etc/supervisor/conf.d/store-ecommerce.conf
