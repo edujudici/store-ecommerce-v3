@@ -1,6 +1,26 @@
 version: "3.9"
 
 services:
+  web:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    expose:
+      - 80
+    volumes:
+      - ./src:/var/www
+      - ./docker/config/nginx/conf.d/:/etc/nginx/conf.d/
+    environment:
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    depends_on:
+      - app
+      - db
+      - redis
+    networks:
+      - app-network
+      - proxy
+
   app:
     build:
       dockerfile: ./docker/Dockerfile
@@ -8,20 +28,20 @@ services:
         UID: ${UID:-1000}
         GID: ${GID:-1000}
         USER: ${USER:-www}
+    image: store-ecommerce-v3-app
+    container_name: store-ecommerce_app
     restart: unless-stopped
-    expose:
-      - 80
+
+  supervisor:
+    image: store-ecommerce-v3-app
+    depends_on:
+      - web
     volumes:
       - ./src:/var/www:delegated
       - ../shared/storage:/var/www/storage:delegated
       - ../shared/.env:/var/www/.env
-    environment:
-      VIRTUAL_HOST: ${VIRTUAL_HOST}
-      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     networks:
       - app-network
-      - proxy
     command: supervisord -c /etc/supervisor/conf.d/store-ecommerce.conf
 
   db:
