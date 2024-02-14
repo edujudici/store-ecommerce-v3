@@ -35,11 +35,16 @@ class MelhorEnvioService extends BaseService
             'mee_expires_in' => $response->expires_in,
             'mee_access_token' => $response->access_token,
             'mee_refresh_token' => $response->refresh_token,
+            'mee_authorize_code' => $code,
         ];
 
-        return $this->melhorEnvio->updateOrCreate([
-            'mee_authorize_code' => $code,
-        ], $params);
+        $melhorEnvio = $this->index();
+        if (is_null($melhorEnvio)) {
+            return $this->melhorEnvio->create($params);
+        }
+
+        $melhorEnvio->update($params);
+        return $melhorEnvio;
     }
 
     public function calculate($from, $to, $value): array
