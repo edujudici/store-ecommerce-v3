@@ -24,7 +24,7 @@ class MercadoLibre
     private const AUTHORIZATION_CODE = 'authorization_code';
     private const STATUS_NOT_AUTH = 401;
     private const STATUS_INVALID_GRANT = 400;
-    private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity',];
+    private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity', 'status',];
 
     private $mercadoLivre;
 

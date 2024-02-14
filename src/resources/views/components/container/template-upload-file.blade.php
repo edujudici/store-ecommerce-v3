@@ -1,34 +1,29 @@
 <template id="template-upload-file">
     <style>
-        .editor-container
-        {
+        .editor-container {
             display: inline-block;
             width: 500px;
             height: 330px;
             margin: 1em;
         }
 
-        .img-preview
-        {
+        .img-preview {
             margin: 1em 0;
             display: inline-block;
             overflow: hidden;
         }
 
-        .img-preview.large
-        {
+        .img-preview.large {
             width: 256px;
             height: 256px;
         }
 
-        .img-preview.medium
-        {
+        .img-preview.medium {
             width: 128px;
             height: 128px;
         }
 
-        .img-preview.small
-        {
+        .img-preview.small {
             width: 64px;
             height: 64px;
         }
@@ -37,45 +32,51 @@
     <div class="form-group">
         <label class="btn btn-info btn-file">
             <i class="fa fa-plus" aria-hidden="true"></i>
-            Carregar Imagem <input type="file" name="file" hidden data-bind="event: {'change': function() { fileSelected($element); }}, attr: {multiple: multiple ? 'multiple' : ''}">
+            Carregar Imagem <input type="file" name="file" hidden
+                data-bind="event: {'change': function() { fileSelected($element); }}, attr: {multiple: multiple ? 'multiple' : ''}">
         </label>
         <div class="form-row" data-bind="visible: imageInternalControl().length == 0">
             <!-- ko if: !multiple && image -->
-                <div class="col-md-6">
-                    <img data-bind="attr: {src: image}" class="img-thumbnail rounded float-left" style="width: 200px; height: 200px">
-                </div>
+            <div class="col-md-6">
+                <img data-bind="attr: {src: image}" class="img-thumbnail rounded float-left"
+                    style="width: 200px; height: 200px">
+            </div>
             <!-- /ko -->
 
             <!-- ko if: multiple && image().length > 0 -->
-                <!-- ko foreach: image -->
-                    <div class="col-md-3">
-                        <img data-bind="attr: {src: $data}" class="img-thumbnail rounded float-left" style="width: 200px; height: 200px">
-                    </div>
-                <!-- /ko -->
+            <!-- ko foreach: image -->
+            <div class="col-md-3">
+                <img data-bind="attr: {src: $data}" class="img-thumbnail rounded float-left"
+                    style="width: 200px; height: 200px">
+            </div>
+            <!-- /ko -->
             <!-- /ko -->
         </div>
         <div class="form-row" data-bind="visible: imageInternalControl().length > 0">
             <!-- ko foreach: imageInternalControl -->
-                <div class="col-md-3" data-bind="class: 'preview-container-' + $index()">
-                    <div class="img-preview large"></div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type="button" class="btn btn-primary btn-default" data-bind="click: $parent.cropperImageToFile.bind(null, $index())">Confirmar Crop Imagem</button>
-                        </div>
+            <div class="col-md-3" data-bind="class: 'preview-container-' + $index()">
+                <div class="img-preview large"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary btn-default"
+                            data-bind="click: $parent.cropperImageToFile.bind(null, $index())">Confirmar Crop
+                            Imagem</button>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="editor-container" {{--  data-bind="style: { width: $parent.width, height: $parent.height }"  --}}>
-                        <img data-bind="attr: {src: $data, id: 'cropper-' + $index()}, cropper: { aspectRatio: $parent.aspectRatio, preview: '.preview-container-' + $index() + ' .img-preview' }" />
-                    </div>
+            </div>
+            <div class="col-md-9">
+                <div class="editor-container" {{-- data-bind="style: { width: $parent.width, height: $parent.height }"
+                    --}}>
+                    <img
+                        data-bind="attr: {src: $data, id: 'cropper-' + $index()}, cropper: { aspectRatio: $parent.aspectRatio, preview: '.preview-container-' + $index() + ' .img-preview' }" />
                 </div>
+            </div>
             <!-- /ko -->
         </div>
     </div>
 </template>
 
 <script type="text/javascript">
-
     function uploadFile(){[native/code]}
 
     uploadFile.Response = function(file) {
