@@ -50,6 +50,7 @@ class MercadoLibre
         $params = http_build_query([
             'offset' => $offset,
             'limit' => $limit,
+            'status' => 'active',
         ]);
         $url = self::ML . self::ML_USERS . $model->mel_user_id . self::ML_ITEMS_SEARCH . $params;
         $response = json_decode(self::runCurl($url, [
