@@ -14,7 +14,7 @@ class LoadMultipleService extends BaseService
 {
     use ProductTransformable;
 
-    private const LIMIT = 50;
+    private const LIMIT = 20;
 
     private $loadProductService;
     private $loadHistoryService;
@@ -38,6 +38,7 @@ class LoadMultipleService extends BaseService
         $data = $this->apiMercadoLibre->getMultipleProducts($mlAccountId, 0, self::LIMIT);
 
         $total = $data->paging->total ?? 0;
+        debug('Dispatch products total: ' . $total . ' to account: ' . $mlAccountId);
         if ($total > 0) {
             $this->loadProductService->destroy(
                 $data->seller_id
@@ -71,7 +72,9 @@ class LoadMultipleService extends BaseService
                 self::LIMIT
             );
             $skus = $data->results ?? [];
-            if (count($skus) > 0) {
+            $total = count($skus);
+            debug('Load more products total: ' . $total . ' to account: ' . $mlAccountId);
+            if ($total > 0) {
                 $this->loadProducts($loadDate, $mlAccountId, $skus, $offset);
             }
         }
