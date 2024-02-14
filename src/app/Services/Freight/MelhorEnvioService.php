@@ -58,6 +58,20 @@ class MelhorEnvioService extends BaseService
             'weight' => 1,
         ];
 
-        return $this->apiMelhorEnvio->calculate($data, $token);
+        $response = $this->apiMelhorEnvio->calculate($data, $token);
+
+        if (isset($response['message']) && $response['message'] === 'Unauthenticated.') {
+            debug('Melhor Envio refresh token');
+            $response = $this->apiMelhorEnvio->refreshToken($melhorEnvio->mee_refresh_token);
+            $this->melhorEnvio->update([
+                'mee_token_type' => $response->token_type,
+                'mee_expires_in' => $response->expires_in,
+                'mee_access_token' => $response->access_token,
+                'mee_refresh_token' => $response->refresh_token,
+            ]);
+            return $this->calculate($from, $to, $value);
+        }
+
+        return $response;
     }
 }
