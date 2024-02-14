@@ -15,7 +15,7 @@
     $baseDir = env('DEPLOY_BASE_DIR');
 
     $releaseDir = $baseDir . '/releases';
-    $currentDir = $baseDir . '/current';
+    $currentDir = $baseDir . '/imperio-current';
     $release = date('YmdHis');
     $currentReleaseDir = $releaseDir .'/'. $release;
 @endsetup
