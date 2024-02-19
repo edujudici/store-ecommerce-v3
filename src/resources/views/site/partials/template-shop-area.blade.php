@@ -25,8 +25,7 @@
                             options: filterOrdered,
                             optionsText: 'title',
                             optionsValue: 'id',
-                            value: filterOrderedSelected,
-                            event: {change: filter}">
+                            value: filterOrderedSelected">
                         </select>
                     </div>
                 </div>
@@ -62,8 +61,7 @@
                             options: filterAmounts,
                             optionsText: 'title',
                             optionsValue: 'id',
-                            value: filterAmountSelected,
-                            event: {change: filter}">
+                            value: filterAmountSelected">
                         </select>
                     </div>
                     <!-- ko if: pagination() !== '' -->
@@ -172,7 +170,6 @@
         self.filterCategory = function()
         {
             self.vm.filterCategorySelected(self.idSelected);
-            self.vm.filter();
         }
     }
 
@@ -185,7 +182,6 @@
         self.filterPrice = function()
         {
             self.vm.filterPriceSelected(self.id);
-            self.vm.filter();
         }
     }
 
@@ -207,6 +203,7 @@
         self.products = ko.observableArray();
         self.pagination = ko.observable();
 
+        self.page = ko.observable(1);
         self.filterOrdered = ko.observableArray();
         self.filterAmounts = ko.observableArray();
         self.filterPrices = ko.observableArray();
@@ -236,10 +233,10 @@
             base.post(shopArea.urlGetCategories, null, callback, 'GET');
         }
 
-        self.getProducts = function(page)
+        self.getProducts = function()
         {
             let params = {
-                'page': page ? page : base.getParamUrl('page'),
+                'page': self.page(),
                 'amount': self.filterAmountSelected(),
                 'order': self.filterOrderedSelected(),
                 'category': self.filterCategorySelected(),
@@ -258,6 +255,8 @@
                 }));
                 $('#dismiss').click();
                 $(window).scrollTop(300);
+
+                self.eventFilter();
             };
             base.post(shopArea.urlGetProducts, params, callback, 'GET');
         }
@@ -293,6 +292,21 @@
             });
         }
 
+        self.eventFilter = function()
+        {
+            setTimeout(function() {
+                $('.page-link').on('click', function(event) {
+                    event.preventDefault();
+
+                    var url = $(this).attr('href');
+                    let page = base.getParameterByName('page', url);
+
+                    self.filter(page);
+
+                });
+            }, 500)
+        }
+
         self.init = function()
         {
             self.getCategories();
@@ -303,14 +317,37 @@
         }
         self.init();
 
-        self.filter = function()
+        self.filter = function(page)
         {
-            self.getProducts(1);
+            self.page(page);
+            self.getProducts();
         }
 
         self.searchFiltered.subscribe(function(value) {
-            self.filter();
+            self.filter(self.page());
         });
+        let previousAmount = self.filterAmountSelected();
+        self.filterAmountSelected.subscribe(function(value) {
+            if (previousAmount !== undefined) {
+                self.filter(self.page());
+            }
+
+            previousAmount = value;
+        })
+        let previousOrdered = self.filterOrderedSelected();
+        self.filterOrderedSelected.subscribe(function(value) {
+            if (previousOrdered !== undefined) {
+                self.filter(self.page());
+            }
+
+            previousOrdered = value;
+        })
+        self.filterCategorySelected.subscribe(function(value) {
+            self.filter(self.page());
+        })
+        self.filterPriceSelected.subscribe(function(value) {
+            self.filter(self.page());
+        })
     }
 
 	ko.components.register('shop-area', {
