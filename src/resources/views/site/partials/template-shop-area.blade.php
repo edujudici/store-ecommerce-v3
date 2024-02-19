@@ -294,17 +294,15 @@
 
         self.eventFilter = function()
         {
-            setTimeout(function() {
-                $('.page-link').on('click', function(event) {
-                    event.preventDefault();
+            $('.page-link').on('click', function(event) {
+                event.preventDefault();
 
-                    var url = $(this).attr('href');
-                    let page = base.getParameterByName('page', url);
+                var url = $(this).attr('href');
+                let page = base.getParameterByName('page', url);
 
-                    self.filter(page);
+                self.filter(page);
 
-                });
-            }, 500)
+            });
         }
 
         self.init = function()
