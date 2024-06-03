@@ -201,3 +201,7 @@ base.getParameterByName = function(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+base.removeNonNumeric = function(value) {
+    return value.replace(/\D/g,"");
+}

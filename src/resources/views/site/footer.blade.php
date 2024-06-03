@@ -162,7 +162,7 @@
             </div>
         </div>
     </div>
-    <a class="btn-whatsapp" href="https://wa.me/5519999211052" target="_blank">
+    <a class="btn-whatsapp" data-bind="attr: {href: 'https://wa.me/55' + base.removeNonNumeric(phone)}" target="_blank">
         <i class="fa fa-whatsapp"></i>
     </a>
 </footer>
@@ -186,6 +186,7 @@
                 message: 'O campo e-mail não pode ter mais que 255 caracteres.'
             }
         });
+        self.phone = company && company.com_phone ? company.com_phone : "";
         self.errors = ko.validation.group(self);
 
         self.send = function()
@@ -214,3 +215,10 @@
     footer.viewModel = new footer.ViewModel();
     ko.applyBindings(footer.viewModel, document.getElementById('koFooter'));
 </script>
+
+
+@if (App::environment('production'))
+{{-- Aviso de consentimento de uso de cookies --}}
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="11eec05c-eb30-46a5-ba69-eb988c0c1240"
+    data-blockingmode="auto" type="text/javascript"></script>
+@endif

@@ -60,6 +60,16 @@
         Atenciosamente,
 
 ## Mercado livre
+    # Fluxo access_token
+        gerar api token
+        https://developers.mercadolivre.com.br/devcenter
+
+        autorizar
+        https://auth.mercadolibre.com/authorization?response_type=code&client_id=114113715204334&redirect_uri=https://imperiodomdf.com.br/api/ml/auth
+
+        codigo gerado + url de redirecionamento
+        https://imperiodomdf.com.br/?code=TG-5eda4527d23e6f0006b373d3-331666203
+
     # Contas
         Aplicativo
             App ID: 114113715204334
@@ -150,6 +160,7 @@
         truncate table `products_specification`;
         truncate table `products`;
         truncate table `categories`;
+        truncate table `loads_history`;
 
     # Remove all orders
         truncate table orders_payment;
@@ -159,16 +170,6 @@
         truncate table orders_history;
         truncate table orders_address;
         truncate table orders;
-
-    # Fluxo access_token
-        gerar api token
-        https://developers.mercadolivre.com.br/devcenter
-
-        autorizar
-        https://auth.mercadolibre.com/authorization?response_type=code&client_id=504943015795700&redirect_uri=https://imperiodomdf.com.br/api/ml/auth
-
-        codigo gerado + url de redirecionamento
-        https://imperiodomdf.com.br/?code=TG-5eda4527d23e6f0006b373d3-331666203
 
 ## Fluxo de compra local
     Passo 1: Adicionar token referente ao vendedor MERCADO_PAGO_TOKEN
