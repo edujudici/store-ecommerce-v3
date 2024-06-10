@@ -44,9 +44,8 @@ class MercadoLibre
         return json_decode(self::runCurl($url));
     }
 
-    public function getMultipleProducts($accountId, $offset = 0, $limit = 50)
+    public function getMultipleProducts($model, $offset = 0, $limit = 50)
     {
-        $model = $this->findById($accountId);
         $params = http_build_query([
             'offset' => $offset,
             'limit' => $limit,
@@ -59,15 +58,14 @@ class MercadoLibre
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
             if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->getMultipleProducts($accountId, $offset, $limit);
+                return $this->getMultipleProducts($model, $offset, $limit);
             }
         }
         return $response;
     }
 
-    public function getMultipleProductsDetails($accountId, $skus, $attributes = [])
+    public function getMultipleProductsDetails($model, $skus, $attributes = [])
     {
-        $model = $this->findById($accountId);
         $url = self::ML . self::ML_ITEMS
             . '?ids=' . implode(',', $skus)
             . '&attributes='
@@ -81,7 +79,7 @@ class MercadoLibre
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
             if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->getMultipleProducts($accountId, $skus);
+                return $this->getMultipleProductsDetails($model, $skus, $attributes);
             }
         }
         return $response;

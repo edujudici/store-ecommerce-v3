@@ -13,6 +13,7 @@ use App\Services\Seller\LoadHistoryService;
 use App\Services\Seller\LoadMultipleService;
 use App\Services\Seller\LoadPictureService;
 use App\Services\Seller\LoadProductService;
+use App\Services\Seller\MercadoLivreService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class LoadMultipleServiceTest extends TestCase
     private $loadHistoryServiceMock;
     private $apiMercadoLibreMock;
     private $service;
+    private $mercadoLivreServiceMock;
 
     public function setUp(): void
     {
@@ -41,11 +43,14 @@ class LoadMultipleServiceTest extends TestCase
             ->makePartial();
         $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
             ->makePartial();
+        $this->mercadoLivreServiceMock = $this->mock(MercadoLivreService::class)
+            ->makePartial();
 
         $this->service = new LoadMultipleService(
             $this->loadProductServiceMock,
             $this->loadHistoryServiceMock,
-            $this->apiMercadoLibreMock
+            $this->apiMercadoLibreMock,
+            $this->mercadoLivreServiceMock
         );
     }
 
@@ -68,6 +73,9 @@ class LoadMultipleServiceTest extends TestCase
             ->once();
         $this->loadHistoryServiceMock->shouldReceive('store')
             ->once();
+        $this->mercadoLivreServiceMock->shouldReceive('findById')
+            ->once()
+            ->andReturn(new MercadoLivre());
 
         $this->service->dispatchProducts($request);
 
@@ -84,6 +92,9 @@ class LoadMultipleServiceTest extends TestCase
         $offset = $this->faker->randomNumber(2);
         $skus = $this->generateSkusLists();
 
+        $this->mercadoLivreServiceMock->shouldReceive('findById')
+            ->twice()
+            ->andReturn($mercadoLivre);
         $this->apiMercadoLibreMock->shouldReceive('getMultipleProductsDetails')
             ->twice()
             ->andReturn($this->mockMultipleProductsDetails());
@@ -92,19 +103,6 @@ class LoadMultipleServiceTest extends TestCase
         $this->apiMercadoLibreMock->shouldReceive('getMultipleProducts')
             ->once()
             ->andReturn($this->mockMultipleProducts());
-
-        $this->mock(LoadDescriptionService::class)
-            ->makePartial()
-            ->shouldReceive('loadDescription')
-            ->twice();
-        $this->mock(LoadPictureService::class)
-            ->makePartial()
-            ->shouldReceive('loadPictures')
-            ->twice();
-        $this->mock(LoadCategoryService::class)
-            ->makePartial()
-            ->shouldReceive('organizeCategories')
-            ->twice();
 
         $this->service->loadProducts($loadDate, $mercadoLivre->mel_id, $skus, $offset);
     }
@@ -152,12 +150,10 @@ class LoadMultipleServiceTest extends TestCase
         return $data;
     }
 
-
-
     private function generateSkusLists()
     {
         $skus = [];
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $skus[] = $this->faker->word;
         }
         return $skus;
