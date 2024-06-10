@@ -19,15 +19,18 @@ class LoadMultipleService extends BaseService
     private $loadProductService;
     private $loadHistoryService;
     private $apiMercadoLibre;
+    private $mercadoLivreService;
 
     public function __construct(
         LoadProductService $loadProductService,
         LoadHistoryService $loadHistoryService,
-        MercadoLibre $apiMercadoLibre
+        MercadoLibre $apiMercadoLibre,
+        MercadoLivreService $mercadoLivreService
     ) {
         $this->loadProductService = $loadProductService;
         $this->loadHistoryService = $loadHistoryService;
         $this->apiMercadoLibre = $apiMercadoLibre;
+        $this->mercadoLivreService = $mercadoLivreService;
     }
 
     public function dispatchProducts($request): void
@@ -35,7 +38,8 @@ class LoadMultipleService extends BaseService
         $mlAccountId = $request->input('mlAccountId');
         $mlAccountTitle = $request->input('mlAccountTitle');
         $loadDate = date('Y-m-d H:i:s');
-        $data = $this->apiMercadoLibre->getMultipleProducts($mlAccountId, 0, self::LIMIT);
+        $mlAccount = $this->mercadoLivreService->findById($mlAccountId);
+        $data = $this->apiMercadoLibre->getMultipleProducts($mlAccount, 0, self::LIMIT);
 
         $total = $data->paging->total ?? 0;
         debug('Dispatch products total: ' . $total . ' to account: ' . $mlAccountId);
@@ -54,20 +58,21 @@ class LoadMultipleService extends BaseService
         debug('Job LoadProduct on date ' . $loadDate . ' to mercado livre account ' . $mlAccountId
             . ' for skus list: ' . json_encode($skus));
 
+        $mlAccount = $this->mercadoLivreService->findById($mlAccountId);
         $data = $this->apiMercadoLibre->getMultipleProductsDetails(
-            $mlAccountId,
+            $mlAccount,
             $skus,
             ['pictures']
         );
         $this->loadProductService->storeProducts(
             $this->prepareProducts($data, $loadDate)
         );
-        $this->completeProductFields($data, $mlAccountId);
+        $this->completeProductFields($data, $mlAccount->mel_user_id);
 
         if (count($skus) === self::LIMIT) {
             $offset += self::LIMIT;
             $data = $this->apiMercadoLibre->getMultipleProducts(
-                $mlAccountId,
+                $mlAccount,
                 $offset,
                 self::LIMIT
             );

@@ -1,3 +1,11 @@
+## External toolings
+    cookiebot - Controle de consentimento de cookies
+    sendinblue - SMTP para envio de e-mail
+    mercadolivre - Mktplace para importar produtos
+    mercadopago - Fluxo de pagamento
+    google-api - Login rede social
+    sentry - Rastreamento de erros
+
 ## Commands
     # insights
         docker compose exec app php artisan insights
