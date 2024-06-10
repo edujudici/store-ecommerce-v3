@@ -39,11 +39,10 @@ class LoadMultipleService extends BaseService
         $mlAccountId = $request->input('mlAccountId');
         $mlAccountTitle = $request->input('mlAccountTitle');
         $loadDate = date('Y-m-d H:i:s');
-        $mlAccount = $this->mercadoLivreService->findById(
-            Request::create('/', 'POST', [
-                'id' => $mlAccountId,
-            ])
-        );
+        $newRequest = Request::create('/', 'POST', [
+            'id' => $mlAccountId,
+        ]);
+        $mlAccount = $this->mercadoLivreService->findById($newRequest);
         $data = $this->apiMercadoLibre->getMultipleProducts($mlAccount, 0, self::LIMIT);
 
         $total = $data->paging->total ?? 0;
