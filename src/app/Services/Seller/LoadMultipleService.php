@@ -9,6 +9,7 @@ use App\Jobs\LoadProductDescription;
 use App\Jobs\LoadProductPicture;
 use App\Services\BaseService;
 use App\Traits\ProductTransformable;
+use Illuminate\Http\Request;
 
 class LoadMultipleService extends BaseService
 {
@@ -38,7 +39,11 @@ class LoadMultipleService extends BaseService
         $mlAccountId = $request->input('mlAccountId');
         $mlAccountTitle = $request->input('mlAccountTitle');
         $loadDate = date('Y-m-d H:i:s');
-        $mlAccount = $this->mercadoLivreService->findById($mlAccountId);
+        $mlAccount = $this->mercadoLivreService->findById(
+            Request::create('/', 'POST', [
+                'id' => $mlAccountId,
+            ])
+        );
         $data = $this->apiMercadoLibre->getMultipleProducts($mlAccount, 0, self::LIMIT);
 
         $total = $data->paging->total ?? 0;
