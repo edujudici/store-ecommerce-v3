@@ -61,8 +61,10 @@ class LoadMultipleService extends BaseService
     {
         debug('Job LoadProduct on date ' . $loadDate . ' to mercado livre account ' . $mlAccountId
             . ' for skus list: ' . json_encode($skus));
-
-        $mlAccount = $this->mercadoLivreService->findById($mlAccountId);
+        $newRequest = Request::create('/', 'POST', [
+            'id' => $mlAccountId,
+        ]);
+        $mlAccount = $this->mercadoLivreService->findById($newRequest);
         $data = $this->apiMercadoLibre->getMultipleProductsDetails(
             $mlAccount,
             $skus,
