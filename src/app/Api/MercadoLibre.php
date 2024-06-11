@@ -18,6 +18,7 @@ class MercadoLibre
     private const ML_DESCRIPTION = '/description';
     private const ML_QUESTIONS = '/questions/';
     private const ML_USERS = '/users/';
+    private const ML_USERS_ME = '/users/me';
     private const ML_ANSWERS = '/answers';
     private const ML_MESSAGES = '/messages/packs/PCK_ID/sellers/SEL_ID';
     private const REFRESH_TOKEN = 'refresh_token';
@@ -187,6 +188,21 @@ class MercadoLibre
     {
         $url = self::ML . self::ML_USERS . $userId;
         return json_decode(self::runCurl($url));
+    }
+
+    public function getMyUserDetails($model)
+    {
+        $url = self::ML . self::ML_USERS_ME;
+        $response = json_decode(self::runCurl($url, [
+            'bearerKey' => $model->mel_access_token,
+        ]));
+        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
+            $resToken = $this->refreshToken($model);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->getMyUserDetails($model);
+            }
+        }
+        return $response;
     }
 
     public function getUserDetailsByNickname($nickname)

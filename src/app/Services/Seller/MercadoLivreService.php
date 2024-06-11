@@ -62,6 +62,12 @@ class MercadoLivreService extends BaseService
         return $mercadoLivre->delete();
     }
 
+    public function getMyInfoData($request)
+    {
+        $mercadoLivre = $this->findById($request);
+        return $this->mercadoLibre->getMyUserDetails($mercadoLivre);
+    }
+
     private function saveTitle($mercadoLivre): void
     {
         $usersData = $this->mercadoLibre->getUserDetails(

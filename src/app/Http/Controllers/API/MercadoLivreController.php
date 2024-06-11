@@ -45,4 +45,13 @@ class MercadoLivreController extends Controller
 
         return redirect()->route('painel.mercadolivre.accounts.index');
     }
+
+    public function getMyInfoData(Request $request)
+    {
+        return $this->_callService(
+            MercadoLivreService::class,
+            'getMyInfoData',
+            $request
+        );
+    }
 }
