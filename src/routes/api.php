@@ -139,6 +139,7 @@ Route::name('api.')->group(static function () {
     Route::post('ml/accounts', [MercadoLivreController::class, 'store'])->name('mercadolivre.accounts.store');
     Route::delete('ml/accounts', [MercadoLivreController::class, 'destroy'])->name('mercadolivre.accounts.destroy');
     Route::get('ml/auth', [MercadoLivreController::class, 'auth'])->name('mercadolivre.auth.index');
+    Route::get('ml/me', [MercadoLivreController::class, 'getMyInfoData'])->name('mercadolivre.me.data');
     Route::get('ml/comments', [MercadoLivreCommentController::class, 'index'])->name('mercadolivre.comments.index');
     Route::post('ml/comments', [MercadoLivreCommentController::class, 'store'])->name('mercadolivre.comments.store');
     Route::delete('ml/comments', [MercadoLivreCommentController::class, 'destroy'])->name('mercadolivre.comments.destroy');
