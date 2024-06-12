@@ -10,19 +10,19 @@ class MercadoLibre
     use MakeCurl;
 
     private const ML = 'https://api.mercadolibre.com';
-    private const ML_ITEMS = '/items';
-    private const ML_ITEMS_SEARCH = '/items/search?';
-    private const ML_SITES = '/sites/MLB/search?';
-    private const ML_CATEGORIES = '/categories/';
-    private const ML_OAUTH = '/oauth/token?';
-    private const ML_DESCRIPTION = '/description';
-    private const ML_QUESTIONS = '/questions/';
-    private const ML_USERS = '/users/';
-    private const ML_USERS_ME = '/users/me';
-    private const ML_ANSWERS = '/answers';
-    private const ML_MESSAGES = '/messages/packs/PCK_ID/sellers/SEL_ID';
-    private const REFRESH_TOKEN = 'refresh_token';
-    private const AUTHORIZATION_CODE = 'authorization_code';
+    private const ML_ITEMS = self::ML . '/items';
+    private const ML_ITEMS_SEARCH = self::ML . '/items/search?';
+    private const ML_SITES = self::ML . '/sites/MLB/search?';
+    private const ML_CATEGORIES = self::ML . '/categories/';
+    private const ML_OAUTH = self::ML . '/oauth/token?';
+    private const ML_DESCRIPTION = self::ML . '/description';
+    private const ML_QUESTIONS = self::ML . '/questions/';
+    private const ML_USERS = self::ML . '/users/';
+    private const ML_USERS_ME = self::ML . '/users/me';
+    private const ML_ANSWERS = self::ML . '/answers';
+    private const ML_MESSAGES = self::ML . '/messages/packs/PCK_ID/sellers/SEL_ID';
+    private const REFRESH_TOKEN = self::ML . 'refresh_token';
+    private const AUTHORIZATION_CODE = self::ML . 'authorization_code';
     private const STATUS_NOT_AUTH = 401;
     private const STATUS_INVALID_GRANT = 400;
     private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity', 'status',];
@@ -36,7 +36,7 @@ class MercadoLibre
 
     public function getSingleProduct($sku, $attributes = [])
     {
-        $url = self::ML . self::ML_ITEMS . '/' . $sku
+        $url = self::ML_ITEMS . '/' . $sku
             . '?attributes='
             . implode(
                 ',',
@@ -52,7 +52,7 @@ class MercadoLibre
             'limit' => $limit,
             'status' => 'active',
         ]);
-        $url = self::ML . self::ML_USERS . $model->mel_user_id . self::ML_ITEMS_SEARCH . $params;
+        $url = self::ML_USERS . $model->mel_user_id . self::ML_ITEMS_SEARCH . $params;
         $response = json_decode(self::runCurl($url, [
             'bearerKey' => $model->mel_access_token,
         ]));
@@ -67,7 +67,7 @@ class MercadoLibre
 
     public function getMultipleProductsDetails($model, $skus, $attributes = [])
     {
-        $url = self::ML . self::ML_ITEMS
+        $url = self::ML_ITEMS
             . '?ids=' . implode(',', $skus)
             . '&attributes='
             . implode(
@@ -88,19 +88,19 @@ class MercadoLibre
 
     public function getDetailCategory($categoryId)
     {
-        $url = self::ML . self::ML_CATEGORIES . $categoryId;
+        $url = self::ML_CATEGORIES . $categoryId;
         return json_decode(self::runCurl($url));
     }
 
     public function getDescriptionProduct($sku)
     {
-        $url = self::ML . self::ML_ITEMS . '/' . $sku . self::ML_DESCRIPTION;
+        $url = self::ML_ITEMS . '/' . $sku . self::ML_DESCRIPTION;
         return json_decode(self::runCurl($url));
     }
 
     public function getQuestion($model, $questionId)
     {
-        $url = self::ML . self::ML_QUESTIONS . $questionId;
+        $url = self::ML_QUESTIONS . $questionId;
         $response = json_decode(self::runCurl($url, [
             'bearerKey' => $model->mel_access_token,
         ]));
@@ -134,7 +134,7 @@ class MercadoLibre
             'offset' => $offset,
             'limit' => $limit,
         ]);
-        $url = self::ML . self::ML_QUESTIONS . 'search?' . $params;
+        $url = self::ML_QUESTIONS . 'search?' . $params;
         $response = json_decode(self::runCurl($url, [
             'bearerKey' => $model->mel_access_token,
         ]));
@@ -149,12 +149,11 @@ class MercadoLibre
 
     public function answerQuestion($model, $questionId, $text)
     {
-        $url = self::ML . self::ML_ANSWERS;
         $params = json_encode([
             'question_id' => $questionId,
             'text' => $text,
         ]);
-        $response = json_decode(self::runCurl($url, [
+        $response = json_decode(self::runCurl(self::ML_ANSWERS, [
             'postFields' => $params,
             'bearerKey' => $model->mel_access_token,
         ]));
@@ -170,7 +169,7 @@ class MercadoLibre
 
     public function deleteQuestions($model, $questionId)
     {
-        $url = self::ML . self::ML_QUESTIONS . $questionId;
+        $url = self::ML_QUESTIONS . $questionId;
         $response = json_decode(self::runCurl($url, [
             'customRequest' => 'DELETE',
             'bearerKey' => $model->mel_access_token,
@@ -186,14 +185,13 @@ class MercadoLibre
 
     public function getUserDetails($userId)
     {
-        $url = self::ML . self::ML_USERS . $userId;
+        $url = self::ML_USERS . $userId;
         return json_decode(self::runCurl($url));
     }
 
     public function getMyUserDetails($model)
     {
-        $url = self::ML . self::ML_USERS_ME;
-        $response = json_decode(self::runCurl($url, [
+        $response = json_decode(self::runCurl(self::ML_USERS_ME, [
             'bearerKey' => $model->mel_access_token,
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
@@ -208,7 +206,7 @@ class MercadoLibre
     public function getUserDetailsByNickname($nickname)
     {
         $nickname = urlencode($nickname);
-        $url = self::ML . self::ML_SITES . "nickname={$nickname}";
+        $url = self::ML_SITES . "nickname={$nickname}";
         return json_decode(self::runCurl($url));
     }
 
@@ -216,7 +214,7 @@ class MercadoLibre
     {
         $fakeParams = ['PCK_ID', 'SEL_ID'];
         $params = [$packId, $model->mel_user_id];
-        $url = self::ML . str_replace($fakeParams, $params, self::ML_MESSAGES);
+        $url = str_replace($fakeParams, $params, self::ML_MESSAGES);
         $params = json_encode([
             'from' => [
                 'user_id' => $model->mel_user_id,
@@ -242,8 +240,7 @@ class MercadoLibre
 
     public function searchByUrl($model, $url)
     {
-        $url = self::ML . $url;
-        $response = json_decode(self::runCurl($url, [
+        $response = json_decode(self::runCurl(self::ML . $url, [
             'bearerKey' => $model->mel_access_token,
         ]));
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
@@ -257,7 +254,6 @@ class MercadoLibre
 
     public function accessToken($model)
     {
-        $url = self::ML . self::ML_OAUTH;
         $params = http_build_query([
             'grant_type' => self::AUTHORIZATION_CODE,
             'client_id' => env('MERCADO_LIVRE_CLIENT_ID'),
@@ -265,7 +261,7 @@ class MercadoLibre
             'redirect_uri' => env('MERCADO_LIVRE_REDIRECT_URI'),
             'code' => $model->mel_code_tg,
         ]);
-        $response = json_decode(self::runCurl($url, [
+        $response = json_decode(self::runCurl(self::ML_OAUTH, [
             'postFields' => $params,
         ]));
         $this->update($model, $response);
@@ -275,14 +271,13 @@ class MercadoLibre
 
     private function refreshToken($model)
     {
-        $url = self::ML . self::ML_OAUTH;
         $params = http_build_query([
             'grant_type' => self::REFRESH_TOKEN,
             'client_id' => env('MERCADO_LIVRE_CLIENT_ID'),
             'client_secret' => env('MERCADO_LIVRE_CLIENT_SECRET'),
             'refresh_token' => $model->mel_refresh_token,
         ]);
-        $response = json_decode(self::runCurl($url, [
+        $response = json_decode(self::runCurl(self::ML_OAUTH, [
             'postFields' => $params,
         ]));
         $this->update($model, $response);
