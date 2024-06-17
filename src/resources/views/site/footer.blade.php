@@ -219,6 +219,9 @@
 
 @if (App::environment('production'))
 {{-- Aviso de consentimento de uso de cookies --}}
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="11eec05c-eb30-46a5-ba69-eb988c0c1240"
-    data-blockingmode="auto" type="text/javascript"></script>
+{{-- <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="11eec05c-eb30-46a5-ba69-eb988c0c1240"
+    data-blockingmode="auto" type="text/javascript"></script> --}}
+
+<script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/fd8655d387d4c2f1b646ddf5a5435086.js">
+</script>
 @endif
