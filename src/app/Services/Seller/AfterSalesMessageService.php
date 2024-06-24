@@ -46,7 +46,7 @@ class AfterSalesMessageService extends BaseService
         debug('Executing of the job AfterSalesMessage');
         $mlAccount = $notification->mercadolivre;
         $payment = $this->apiMercadoLibre
-            ->searchByUrl($mlAccount, $notification->men_resource);
+            ->getNotificationResource($mlAccount, $notification->men_resource);
         debug('send after sales message by ml account ' . $mlAccount);
 
         if ($payment->status === self::PAYMENT_STATUS) {

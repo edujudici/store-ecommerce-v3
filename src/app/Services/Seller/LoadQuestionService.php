@@ -7,6 +7,7 @@ use App\Exceptions\BusinessError;
 use App\Jobs\LoadQuestion;
 use App\Services\BaseService;
 use Exception;
+use Illuminate\Http\Request;
 
 class LoadQuestionService extends BaseService
 {
@@ -37,31 +38,30 @@ class LoadQuestionService extends BaseService
 
     public function dispatchQuestions(): void
     {
-        debug('Requested via command uestions:load');
+        debug('Requested via command questions:load');
 
         $loadDate = date('Y-m-d H:i:s');
         $offset = 0;
         $accounts = $this->mercadoLivreService->index();
-        foreach ($accounts as $value) {
-            if (!$value->mel_user_id) {
+        foreach ($accounts as $account) {
+            if (!$account->mel_user_id) {
                 continue;
             }
-            $mlAccountId = $value->mel_id;
-            $data = $this->apiMercadoLibre->getQuestions(0, $mlAccountId, 1);
+            $data = $this->apiMercadoLibre->getQuestions($account, 0, 1);
             $total = $data->total ?? 0;
             $history = $this->loadQuestionHistoryService->store(
                 $loadDate,
                 $total,
                 0,
-                $value->mel_id,
-                $value->mel_title
+                $account->mel_id,
+                $account->mel_title
             );
             if ($total > 0) {
                 do {
                     LoadQuestion::dispatch(
                         $offset,
                         $loadDate,
-                        $mlAccountId,
+                        $account->mel_id,
                         $history->lqh_id
                     )->onQueue('questions');
                     $offset += self::LIMIT;
@@ -76,7 +76,12 @@ class LoadQuestionService extends BaseService
     {
         debug('Job LoadQuestion on date ' . $loadDate . ' and offset ' . $offset
             . ' to mercado livre account ' . $mlId);
-        $data = $this->apiMercadoLibre->getQuestions($offset, $mlId);
+
+        $newRequest = Request::create('/', 'POST', [
+            'id' => $mlId,
+        ]);
+        $account = $this->mercadoLivreService->findById($newRequest);
+        $data = $this->apiMercadoLibre->getQuestions($account, $offset);
         if (isset($data->questions)) {
             $totalSync = 0;
             foreach ($data->questions as $value) {
@@ -124,8 +129,13 @@ class LoadQuestionService extends BaseService
     {
         debug('request other questions to: ' . $question->from->id
             . ' and item: ' . $question->item_id . ' on date: ' . $date);
+
+        $newRequest = Request::create('/', 'POST', [
+            'id' => $accountId,
+        ]);
+        $account = $this->mercadoLivreService->findById($newRequest);
         $data = $this->apiMercadoLibre->getQuestionsFilter(
-            $accountId,
+            $account,
             $question->item_id,
             $question->from->id
         );
