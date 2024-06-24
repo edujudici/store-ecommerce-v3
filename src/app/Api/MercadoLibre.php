@@ -196,7 +196,7 @@ class MercadoLibre
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
             if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->afterSalesMessage($model, $packId, $to, $text);
+                $this->afterSalesMessage($model, $packId, $to, $text);
             }
         }
     }
@@ -339,7 +339,7 @@ class MercadoLibre
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
             if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->deleteQuestion($model, $questionId);
+                $this->deleteQuestion($model, $questionId);
             }
         }
     }
