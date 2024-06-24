@@ -21,8 +21,8 @@ class MercadoLibre
     private const ML_USERS_ME = self::ML . '/users/me';
     private const ML_ANSWERS = self::ML . '/answers';
     private const ML_MESSAGES = self::ML . '/messages/packs/PCK_ID/sellers/SEL_ID';
-    private const REFRESH_TOKEN = self::ML . 'refresh_token';
-    private const AUTHORIZATION_CODE = self::ML . 'authorization_code';
+    private const REFRESH_TOKEN = 'refresh_token';
+    private const AUTHORIZATION_CODE = 'authorization_code';
     private const STATUS_NOT_AUTH = 401;
     private const STATUS_INVALID_GRANT = 400;
     private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity', 'status',];
@@ -34,7 +34,14 @@ class MercadoLibre
         $this->mercadoLivre = $mercadoLivre;
     }
 
-    public function getSingleProduct($sku, $attributes = [])
+    /**
+     * Gets product data according to the attribute list
+     *
+     * @param string $sku
+     * @param array $attributes
+     * @return mixed
+     */
+    public function getSingleProduct($sku, $attributes = []): mixed
     {
         $url = self::ML_ITEMS . '/' . $sku
             . '?attributes='
@@ -45,7 +52,15 @@ class MercadoLibre
         return json_decode(self::runCurl($url));
     }
 
-    public function getMultipleProducts($model, $offset = 0, $limit = 50)
+    /**
+     * Gets list of products according to the informed offset and limit
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param integer $offset
+     * @param integer $limit
+     * @return mixed
+     */
+    public function getMultipleProducts(MercadoLivre $model, $offset = 0, $limit = 50): mixed
     {
         $params = http_build_query([
             'offset' => $offset,
@@ -65,7 +80,15 @@ class MercadoLibre
         return $response;
     }
 
-    public function getMultipleProductsDetails($model, $skus, $attributes = [])
+    /**
+     * Gets products with details according to the attribute list
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param array $skus
+     * @param array $attributes
+     * @return mixed
+     */
+    public function getMultipleProductsDetails(MercadoLivre $model, array $skus, $attributes = []): mixed
     {
         $url = self::ML_ITEMS
             . '?ids=' . implode(',', $skus)
@@ -86,110 +109,37 @@ class MercadoLibre
         return $response;
     }
 
-    public function getDetailCategory($categoryId)
+    /**
+     * Obtain category details by id
+     *
+     * @param string|integer $categoryId
+     * @return mixed
+     */
+    public function getDetailCategory($categoryId): mixed
     {
         $url = self::ML_CATEGORIES . $categoryId;
         return json_decode(self::runCurl($url));
     }
 
-    public function getDescriptionProduct($sku)
+    /**
+     * Obtain product description long by sku
+     *
+     * @param string $sku
+     * @return mixed
+     */
+    public function getDescriptionProduct($sku): mixed
     {
         $url = self::ML_ITEMS . '/' . $sku . self::ML_DESCRIPTION;
         return json_decode(self::runCurl($url));
     }
 
-    public function getQuestion($model, $questionId)
-    {
-        $url = self::ML_QUESTIONS . $questionId;
-        $response = json_decode(self::runCurl($url, [
-            'bearerKey' => $model->mel_access_token,
-        ]));
-        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
-            $resToken = $this->refreshToken($model);
-            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->deleteQuestions($model, $questionId);
-            }
-        }
-        return $response;
-    }
-
-    public function getQuestionsFilter($mlAccountId, $item, $fromId)
-    {
-        return $this->getQuestions(0, $mlAccountId, 50, http_build_query([
-            'api_version' => 4,
-            'item' => $item,
-            'from' => $fromId,
-        ]));
-    }
-
-    public function getQuestions($offset, $accountId, $limit = 50, $data = null)
-    {
-        $model = $this->findById($accountId);
-        $params = !is_null($data) ? $data : http_build_query([
-            'seller_id' => $model->mel_user_id,
-            'sort_fields' => 'date_created',
-            'sort_types' => 'DESC',
-            'status' => 'UNANSWERED',
-            'api_version' => 4,
-            'offset' => $offset,
-            'limit' => $limit,
-        ]);
-        $url = self::ML_QUESTIONS . 'search?' . $params;
-        $response = json_decode(self::runCurl($url, [
-            'bearerKey' => $model->mel_access_token,
-        ]));
-        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
-            $resToken = $this->refreshToken($model);
-            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->getQuestions($offset, $accountId, $limit, $data);
-            }
-        }
-        return $response;
-    }
-
-    public function answerQuestion($model, $questionId, $text)
-    {
-        $params = json_encode([
-            'question_id' => $questionId,
-            'text' => $text,
-        ]);
-        $response = json_decode(self::runCurl(self::ML_ANSWERS, [
-            'postFields' => $params,
-            'bearerKey' => $model->mel_access_token,
-        ]));
-        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
-            $resToken = $this->refreshToken($model);
-            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->answerQuestion($model, $questionId, $text);
-            }
-        }
-
-        return $response;
-    }
-
-    public function deleteQuestions($model, $questionId)
-    {
-        $url = self::ML_QUESTIONS . $questionId;
-        $response = json_decode(self::runCurl($url, [
-            'customRequest' => 'DELETE',
-            'bearerKey' => $model->mel_access_token,
-        ]));
-        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
-            $resToken = $this->refreshToken($model);
-            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->deleteQuestions($model, $questionId);
-            }
-        }
-        return $response;
-    }
-
-    public function getUserDetails($userId)
-    {
-        $url = self::ML_USERS . $userId;
-        return json_decode(self::runCurl($url));
-    }
-
-    public function getMyUserDetails($model)
+    /**
+     * Get my user data
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @return mixed
+     */
+    public function getMyUserDetails(MercadoLivre $model): mixed
     {
         $response = json_decode(self::runCurl(self::ML_USERS_ME, [
             'bearerKey' => $model->mel_access_token,
@@ -203,6 +153,12 @@ class MercadoLibre
         return $response;
     }
 
+    public function getUserDetails($userId)
+    {
+        $url = self::ML_USERS . $userId;
+        return json_decode(self::runCurl($url));
+    }
+
     public function getUserDetailsByNickname($nickname)
     {
         $nickname = urlencode($nickname);
@@ -210,7 +166,16 @@ class MercadoLibre
         return json_decode(self::runCurl($url));
     }
 
-    public function afterSalesMessage($model, $packId, $to, $text)
+    /**
+     * Send message for client after sales
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param string|integer $packId
+     * @param string|integer $to
+     * @param string|integer $text
+     * @return void
+     */
+    public function afterSalesMessage(MercadoLivre $model, $packId, $to, $text): void
     {
         $fakeParams = ['PCK_ID', 'SEL_ID'];
         $params = [$packId, $model->mel_user_id];
@@ -231,14 +196,19 @@ class MercadoLibre
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
             if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->answerQuestion($model, $to, $text);
+                return $this->afterSalesMessage($model, $packId, $to, $text);
             }
         }
-
-        return $response;
     }
 
-    public function searchByUrl($model, $url)
+    /**
+     * Get notification data by notification resource
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param string $url
+     * @return mixed
+     */
+    public function getNotificationResource(MercadoLivre $model, $url): mixed
     {
         $response = json_decode(self::runCurl(self::ML . $url, [
             'bearerKey' => $model->mel_access_token,
@@ -246,13 +216,141 @@ class MercadoLibre
         if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
             $resToken = $this->refreshToken($model);
             if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
-                return $this->searchByUrl($model, $url);
+                return $this->getNotificationResource($model, $url);
             }
         }
         return $response;
     }
 
-    public function accessToken($model)
+    /**
+     * Get question data by id
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param string|integer $questionId
+     * @return mixed
+     */
+    public function getQuestion(MercadoLivre $model, $questionId): mixed
+    {
+        $url = self::ML_QUESTIONS . $questionId;
+        $response = json_decode(self::runCurl($url, [
+            'bearerKey' => $model->mel_access_token,
+        ]));
+        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
+            $resToken = $this->refreshToken($model);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->getQuestion($model, $questionId);
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * Filter child questions for the same user
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param string|integer $item
+     * @param string|integer $fromId
+     * @return mixed
+     */
+    public function getQuestionsFilter($model, $item, $fromId): mixed
+    {
+        return $this->getQuestions($model, 0, 50, http_build_query([
+            'api_version' => 4,
+            'item' => $item,
+            'from' => $fromId,
+        ]));
+    }
+
+    /**
+     * Gets list of questions according to the informed offset and limit
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param integer $offset
+     * @param integer $limit
+     * @param mixed $data
+     * @return mixed
+     */
+    public function getQuestions($model, $offset, $limit = 50, $data = null): mixed
+    {
+        $params = !is_null($data) ? $data : http_build_query([
+            'seller_id' => $model->mel_user_id,
+            'sort_fields' => 'date_created',
+            'sort_types' => 'DESC',
+            'status' => 'UNANSWERED',
+            'api_version' => 4,
+            'offset' => $offset,
+            'limit' => $limit,
+        ]);
+        $url = self::ML_QUESTIONS . 'search?' . $params;
+        $response = json_decode(self::runCurl($url, [
+            'bearerKey' => $model->mel_access_token,
+        ]));
+        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
+            $resToken = $this->refreshToken($model);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->getQuestions($model, $offset, $limit, $data);
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * Answering question according to specified id
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param string|integer $questionId
+     * @param string $text
+     * @return mixed
+     */
+    public function answerQuestion(MercadoLivre $model, $questionId, $text): mixed
+    {
+        $params = json_encode([
+            'question_id' => $questionId,
+            'text' => $text,
+        ]);
+        $response = json_decode(self::runCurl(self::ML_ANSWERS, [
+            'postFields' => $params,
+            'bearerKey' => $model->mel_access_token,
+        ]));
+        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
+            $resToken = $this->refreshToken($model);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->answerQuestion($model, $questionId, $text);
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Delete question by id
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param string|integer $questionId
+     * @return void
+     */
+    public function deleteQuestion(MercadoLivre $model, $questionId): void
+    {
+        $url = self::ML_QUESTIONS . $questionId;
+        $response = json_decode(self::runCurl($url, [
+            'customRequest' => 'DELETE',
+            'bearerKey' => $model->mel_access_token,
+        ]));
+        if ($this->hasStatus($response, self::STATUS_NOT_AUTH)) {
+            $resToken = $this->refreshToken($model);
+            if (!$this->hasStatus($resToken, self::STATUS_INVALID_GRANT)) {
+                return $this->deleteQuestion($model, $questionId);
+            }
+        }
+    }
+
+    /**
+     * Get access token
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @return void
+     */
+    public function accessToken(MercadoLivre $model): void
     {
         $params = http_build_query([
             'grant_type' => self::AUTHORIZATION_CODE,
@@ -265,11 +363,15 @@ class MercadoLibre
             'postFields' => $params,
         ]));
         $this->update($model, $response);
-
-        return $response;
     }
 
-    private function refreshToken($model)
+    /**
+     * Refresh token by account access
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @return mixed
+     */
+    private function refreshToken(MercadoLivre $model): mixed
     {
         $params = http_build_query([
             'grant_type' => self::REFRESH_TOKEN,
@@ -285,7 +387,14 @@ class MercadoLibre
         return $response;
     }
 
-    private function update($model, $response): void
+    /**
+     * Update auth account access
+     *
+     * @param \App\Models\MercadoLivre $model
+     * @param mixed $response
+     * @return void
+     */
+    private function update(MercadoLivre $model, $response): void
     {
         if (
             !$this->hasStatus($response, self::STATUS_INVALID_GRANT)
@@ -308,14 +417,16 @@ class MercadoLibre
         }
     }
 
+    /**
+     * Verify if status exists
+     *
+     * @param mixed $response
+     * @param integer $status
+     * @return boolean
+     */
     private function hasStatus($response, $status): bool
     {
         return isset($response->status)
             && $response->status === $status;
-    }
-
-    private function findById($id): MercadoLivre
-    {
-        return $this->mercadoLivre->findOrFail($id);
     }
 }
