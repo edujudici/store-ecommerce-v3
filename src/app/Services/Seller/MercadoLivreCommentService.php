@@ -104,7 +104,7 @@ class MercadoLivreCommentService extends BaseService
         $comment = $this->mercadoLivreComment->findOrFail(
             $request->input('id')
         );
-        $this->mercadoLibre->deleteQuestions(
+        $this->mercadoLibre->deleteQuestion(
             $comment->mercadolivre,
             $comment->mec_id_secondary
         );
@@ -124,8 +124,10 @@ class MercadoLivreCommentService extends BaseService
                 'mec_answer_text' => $response->answer->text,
             ]);
         } else {
-            if (isset($response->status)
-                && $response->status === self::STATUS_NOT_FOUND) {
+            if (
+                isset($response->status)
+                && $response->status === self::STATUS_NOT_FOUND
+            ) {
                 $comment->delete();
                 return;
             }
