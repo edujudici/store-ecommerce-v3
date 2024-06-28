@@ -11,21 +11,21 @@ class MercadoLibre
 
     private const ML = 'https://api.mercadolibre.com';
     private const ML_ITEMS = self::ML . '/items';
-    private const ML_ITEMS_SEARCH = self::ML . '/items/search?';
     private const ML_SITES = self::ML . '/sites/MLB/search?';
     private const ML_CATEGORIES = self::ML . '/categories/';
     private const ML_OAUTH = self::ML . '/oauth/token?';
-    private const ML_DESCRIPTION = self::ML . '/description';
     private const ML_QUESTIONS = self::ML . '/questions/';
     private const ML_USERS = self::ML . '/users/';
     private const ML_USERS_ME = self::ML . '/users/me';
     private const ML_ANSWERS = self::ML . '/answers';
     private const ML_MESSAGES = self::ML . '/messages/packs/PCK_ID/sellers/SEL_ID';
+    private const ITEMS_SEARCH = '/items/search?';
+    private const DESCRIPTION = '/description';
     private const REFRESH_TOKEN = 'refresh_token';
     private const AUTHORIZATION_CODE = 'authorization_code';
     private const STATUS_NOT_AUTH = 401;
     private const STATUS_INVALID_GRANT = 400;
-    private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity', 'status',];
+    private const ITEMS_ATTRIBUTES = ['id', 'title', 'price', 'seller_id', 'category_id', 'condition', 'permalink', 'thumbnail', 'secure_thumbnail', 'accepts_mercadopago', 'sold_quantity', 'status', 'item_relations',];
 
     private $mercadoLivre;
 
@@ -67,7 +67,7 @@ class MercadoLibre
             'limit' => $limit,
             'status' => 'active',
         ]);
-        $url = self::ML_USERS . $model->mel_user_id . self::ML_ITEMS_SEARCH . $params;
+        $url = self::ML_USERS . $model->mel_user_id . self::ITEMS_SEARCH . $params;
         $response = json_decode(self::runCurl($url, [
             'bearerKey' => $model->mel_access_token,
         ]));
@@ -129,7 +129,7 @@ class MercadoLibre
      */
     public function getDescriptionProduct($sku): mixed
     {
-        $url = self::ML_ITEMS . '/' . $sku . self::ML_DESCRIPTION;
+        $url = self::ML_ITEMS . '/' . $sku . self::DESCRIPTION;
         return json_decode(self::runCurl($url));
     }
 
