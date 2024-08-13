@@ -15,6 +15,7 @@ class ProductRelated extends BaseModel
     protected $fillable = [
         'pro_sku',
         'pro_sku_related',
+        'prr_external',
     ];
 
     /**

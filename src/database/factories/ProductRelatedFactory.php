@@ -21,6 +21,7 @@ class ProductRelatedFactory extends Factory
             'prr_id' => $this->faker->randomNumber(9),
             'pro_sku' => $this->faker->randomNumber(9),
             'pro_sku_related' => $this->faker->randomNumber(9),
+            'prr_external' => false
         ];
     }
 }
