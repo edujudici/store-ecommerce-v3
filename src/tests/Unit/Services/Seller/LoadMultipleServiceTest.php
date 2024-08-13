@@ -3,7 +3,11 @@
 namespace Tests\Unit\Services\Seller;
 
 use App\Api\MercadoLibre;
+use App\Jobs\LoadCategory;
 use App\Jobs\LoadProduct;
+use App\Jobs\LoadProductDescription;
+use App\Jobs\LoadProductPicture;
+use App\Jobs\LoadProductRelated;
 use App\Models\Category;
 use App\Models\MercadoLivre;
 use App\Models\Product;
@@ -86,6 +90,8 @@ class LoadMultipleServiceTest extends TestCase
     /** @test  */
     public function should_load_products()
     {
+        Queue::fake();
+
         $mercadoLivre = MercadoLivre::factory()->create();
 
         $loadDate = date('Y-m-d H:i:s');
@@ -105,6 +111,18 @@ class LoadMultipleServiceTest extends TestCase
             ->andReturn($this->mockMultipleProducts());
 
         $this->service->loadProducts($loadDate, $mercadoLivre->mel_id, $skus, $offset);
+
+        Queue::assertPushedOn('description', LoadProductDescription::class);
+        Queue::assertPushed(LoadProductDescription::class, 2);
+
+        Queue::assertPushedOn('pictures', LoadProductPicture::class);
+        Queue::assertPushed(LoadProductPicture::class, 2);
+
+        Queue::assertPushedOn('products', LoadProductRelated::class);
+        Queue::assertPushed(LoadProductRelated::class, 2);
+
+        Queue::assertPushedOn('products', LoadCategory::class);
+        Queue::assertPushed(LoadCategory::class, 2);
     }
 
     private function mockMultipleProducts()
@@ -141,7 +159,7 @@ class LoadMultipleServiceTest extends TestCase
                 'seller_id' => $product->pro_seller_id,
                 'secure_thumbnail' => $product->secure_thumbnail,
                 'pictures' => [],
-
+                'item_relations' => [],
             ]
         ];
 
