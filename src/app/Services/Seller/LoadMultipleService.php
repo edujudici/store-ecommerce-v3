@@ -7,6 +7,7 @@ use App\Jobs\LoadCategory;
 use App\Jobs\LoadProduct;
 use App\Jobs\LoadProductDescription;
 use App\Jobs\LoadProductPicture;
+use App\Jobs\LoadProductRelated;
 use App\Services\BaseService;
 use App\Traits\ProductTransformable;
 use Illuminate\Http\Request;
@@ -103,6 +104,7 @@ class LoadMultipleService extends BaseService
         foreach ($products as $product) {
             LoadProductDescription::dispatch($product->body->id)->onQueue('description');
             LoadProductPicture::dispatch($product->body->id, $product->body->pictures)->onQueue('pictures');
+            LoadProductRelated::dispatch($product->body->id, $product->body->item_relations)->onQueue('products');
         }
         LoadCategory::dispatch($mlAccountId)->onQueue('products');
     }
