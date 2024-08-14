@@ -180,7 +180,8 @@ class Product extends BaseModel
                 $query
                     ->where('mercadolivre.mel_enabled', true)
                     ->orWhereNull('products.pro_seller_id');
-            });
+            })
+            ->whereNull('mercadolivre.deleted_at');
     }
 
     private function filterCategory(&$query, $request)

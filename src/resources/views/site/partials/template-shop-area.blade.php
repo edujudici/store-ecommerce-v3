@@ -133,24 +133,6 @@
 </template>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
-
-        $('#dismiss, .overlay').on('click', function () {
-            $('#sidebar').removeClass('active');
-            $('.overlay').removeClass('active');
-        });
-
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').addClass('active');
-            $('.overlay').addClass('active');
-        });
-    });
-</script>
-
-<script type="text/javascript">
     function shopArea(){[native/code]}
     shopArea.urlGetCategories = "{{ route('api.categories.index') }}";
     shopArea.urlGetProducts = "{{ route('api.products.index') }}";
@@ -302,6 +284,20 @@
 
                 self.filter(page);
 
+            });
+
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
             });
         }
 
