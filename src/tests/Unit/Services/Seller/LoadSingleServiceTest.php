@@ -73,7 +73,7 @@ class LoadSingleServiceTest extends TestCase
         $this->loadPictureServiceMock->shouldReceive('store')
             ->once();
 
-            $this->loadCategoryServiceMock->shouldReceive('store')
+        $this->loadCategoryServiceMock->shouldReceive('store')
             ->once();
 
         $this->loadDescriptionServiceMock->shouldReceive('loadDescription')
