@@ -27,6 +27,7 @@ class CategoryService extends BaseService
                     ->where('mercadolivre.mel_enabled', true)
                     ->orWhereNull('categories.cat_seller_id');
             })
+            ->orderBy('categories.cat_title')
             ->get();
     }
 
