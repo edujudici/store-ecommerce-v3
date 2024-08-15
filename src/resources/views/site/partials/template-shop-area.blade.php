@@ -42,7 +42,8 @@
                 </div>
                 <div class="sidebar-categories">
                     <div class="head">Categorias</div>
-                    <ul class="main-categories" data-bind="foreach: categories">
+                    <ul class="main-categories" style="position: relative; max-height: 505px; overflow: auto;"
+                        data-bind="foreach: categories">
                         <li class="main-nav-list"
                             data-bind="style: {'background-color': vm.filterCategorySelected() == idSelected ? '#cccccc4a' : ''}">
                             <a data-bind="click: filterCategory">
