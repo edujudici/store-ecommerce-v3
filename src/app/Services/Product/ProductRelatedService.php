@@ -18,7 +18,7 @@ class ProductRelatedService extends BaseService
 
     public function index($request = null): Collection
     {
-        $queryProduct = $this->productRelated
+        $query = $this->productRelated
             ->selectRaw('products.*')
             ->join(
                 'products',
@@ -27,23 +27,8 @@ class ProductRelatedService extends BaseService
             )
             ->whereNull('products.deleted_at');
         if ($request && $request->has('sku')) {
-            $queryProduct->where(
-                'products_related.pro_sku',
-                $request->input('sku')
-            );
-        }
-        $query = $this->productRelated
-            ->selectRaw('products.*')
-            ->join(
-                'products',
-                'products.pro_sku',
-                'products_related.pro_sku'
-            )
-            ->whereNull('products.deleted_at')
-            ->unionAll($queryProduct);
-        if ($request && $request->has('sku')) {
             $query->where(
-                'products_related.pro_sku_related',
+                'products_related.pro_sku',
                 $request->input('sku')
             );
         }
