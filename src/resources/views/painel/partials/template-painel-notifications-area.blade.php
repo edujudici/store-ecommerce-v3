@@ -5,30 +5,29 @@
         <div class="card-header justify-content-between border-bottom">
             <h2>Todas as notificações</h2>
             <!-- ko if: notifications().length > 0 -->
-                <a href="#" data-bind="click: markAll">
-                    Marcar todos como lida
-                </a>
+            <a href="#" data-bind="click: markAll">
+                Marcar todos como lida
+            </a>
             <!-- /ko -->
         </div>
         <div class="card-body slim-scroll">
             <!-- ko if: notifications().length == 0 -->
-                <p>Não existe nenhuma notifação no momento.</p>
+            <p>Não existe nenhuma notifação no momento.</p>
             <!-- /ko -->
 
             <!-- ko foreach: notifications -->
-                <div role="alert" class="mb-3">
-                    <span data-bind="text: base.monthStringEn(date)"></span> - <span data-bind="text: message"></span>
-                    <a href="#" class="float-right" data-bind="click: markAsRead">Marcar como lida</a>
-                </div>
+            <div role="alert" class="mb-3">
+                <span data-bind="text: base.monthStringEn(date)"></span> - <span data-bind="text: message"></span>
+                <a href="#" class="float-right" data-bind="click: markAsRead">Marcar como lida</a>
+            </div>
             <!-- /ko -->
         </div>
         <div class="mt-3"></div>
     </div>
-	<!--================End Notifications Area =================-->
+    <!--================End Notifications Area =================-->
 </template>
 
 <script type="text/javascript">
-
     function notifications(){[native/code]}
     notifications.list = {!! $notifications !!};
     notifications.urlNotificationsMark = "{{ route('painel.notifications.read') }}";
