@@ -35,7 +35,7 @@ class ProductService extends BaseService
         $products = $this->product
             ->search($request)
             ->with('exclusiveDeal')
-            ->paginate($request->input('amount', 12))
+            ->paginate($request->input('amount', 24))
             ->onEachSide(1);
         return [
             'products' => isset($products->toArray()['data'])

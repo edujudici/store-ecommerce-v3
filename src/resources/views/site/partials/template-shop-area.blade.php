@@ -139,16 +139,19 @@
     shopArea.urlGetProducts = "{{ route('api.products.index') }}";
     shopArea.urlProductDetail = "{{ route('site.shop.detail') }}/";
     shopArea.search = '{!! $search !!}';
+    shopArea.categoryParam = base.getParamUrl('category');
 
     shopArea.Category = function(obj, vm) {
         let self = this;
+        self.vm = vm;
         self.id = obj.cat_id;
         self.idSecondary = obj.cat_id_secondary;
         self.title = obj.cat_title;
-        self.vm = vm;
-        self.idSelected = self.id == -1
+        self.idSelected = self.id === -1
             ? undefined
-            : obj.cat_id_secondary ? obj.cat_id_secondary : self.id;
+            : shopArea.categoryParam == obj.cat_id_secondary || shopArea.categoryParam == self.id
+                ? shopArea.categoryParam
+                : obj.cat_id_secondary || self.id;
 
         self.filterCategory = function()
         {
@@ -191,8 +194,8 @@
         self.filterAmounts = ko.observableArray();
         self.filterPrices = ko.observableArray();
         self.filterOrderedSelected = ko.observable();
-        self.filterAmountSelected = ko.observable();
-        self.filterCategorySelected = ko.observable(base.getParamUrl('category'));
+        self.filterAmountSelected = ko.observable(24);
+        self.filterCategorySelected = ko.observable(shopArea.categoryParam);
         self.filterPriceSelected = ko.observable();
         self.searchFiltered = ko.observable(shopArea.search);
 
@@ -259,6 +262,7 @@
                 {'id': 12, 'title': 'Exibir 12'},
                 {'id': 24, 'title': 'Exibir 24'},
                 {'id': 48, 'title': 'Exibir 48'},
+                {'id': 96, 'title': 'Exibir 96'},
             ];
         }
 
@@ -319,12 +323,12 @@
         }
 
         self.searchFiltered.subscribe(function(value) {
-            self.filter(self.page());
+            self.filter(1);
         });
         let previousAmount = self.filterAmountSelected();
         self.filterAmountSelected.subscribe(function(value) {
             if (previousAmount !== undefined) {
-                self.filter(self.page());
+                self.filter(1);
             }
 
             previousAmount = value;
@@ -332,16 +336,16 @@
         let previousOrdered = self.filterOrderedSelected();
         self.filterOrderedSelected.subscribe(function(value) {
             if (previousOrdered !== undefined) {
-                self.filter(self.page());
+                self.filter(1);
             }
 
             previousOrdered = value;
         })
         self.filterCategorySelected.subscribe(function(value) {
-            self.filter(self.page());
+            self.filter(1);
         })
         self.filterPriceSelected.subscribe(function(value) {
-            self.filter(self.page());
+            self.filter(1);
         })
     }
 
