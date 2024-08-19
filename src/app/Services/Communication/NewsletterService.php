@@ -33,7 +33,7 @@ class NewsletterService extends BaseService
             'new_email' => $request->input('email'),
         ];
         $newsletter = $this->newsletter->create($params);
-        event(new NewsletterRegistered($request->input('email')));
+        NewsletterRegistered::dispatch($request->input('email'));
         return $newsletter;
     }
 

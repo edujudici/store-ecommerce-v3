@@ -100,9 +100,9 @@ class OrderCommentService extends BaseService
     private function sendNotification($request, $order)
     {
         if ($request->has('orc_answer')) {
-            event(new OrderCommentAnswerRegistered($order));
+            OrderCommentAnswerRegistered::dispatch($order);
             return;
         }
-        event(new OrderCommentRegistered($order));
+        OrderCommentRegistered::dispatch($order);
     }
 }
