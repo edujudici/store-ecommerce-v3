@@ -25,6 +25,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="price"></label>
+                                    <label class="control control-checkbox">Exibir na pagina inicial?
+                                        <input type="checkbox" name="visible" data-bind="checked: isCategoryVisible" />
+                                        <div class="control-indicator"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-footer pt-4 pt-5 mt-4 border-top">
                             <button type="submit" class="btn btn-secondary btn-default"
                                 data-bind="click: cancel">Cancelar</button>
@@ -53,6 +64,7 @@
                             <tr>
                                 <th class="d-none d-md-table-cell" scope="col">#</th>
                                 <th scope="col">Título</th>
+                                <th scope="col">Exibir na Pagina Inicial?</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -61,6 +73,7 @@
                                 <td class="d-none d-md-table-cell" scope="row"
                                     data-bind="text: idSecondary ? idSecondary : id"></td>
                                 <td><span data-bind="text: title"></span></td>
+                                <td><span data-bind="text: isCategoryVisible() ? 'Sim' : 'Não'"></span></td>
                                 <td class="center">
                                     <i class="mdi mdi-pencil" aria-hidden="true" data-bind="click: edit"></i>
                                     <i class="mdi mdi-delete" aria-hidden="true" data-bind="click: remove"></i>
@@ -99,6 +112,7 @@
                 message: 'O campo título não pode ter mais que 255 caracteres.'
             }
         });
+        self.isCategoryVisible = ko.observable(obj.cat_visible ? true : false);
         self.image = ko.observable(base.displayImage(obj.cat_image));
         self.file  = ko.observableArray().extend({
             required: {
@@ -168,7 +182,7 @@
                 formData.append('cat_id_secondary', self.idSecondary);
             }
             formData.append('cat_title', self.title());
-
+            formData.append('cat_visible', self.isCategoryVisible());
             let callback = function(data)
             {
                 if(!data.status) {

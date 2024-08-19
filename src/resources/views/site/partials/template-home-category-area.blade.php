@@ -1,13 +1,14 @@
 <home-category-area></home-category-area>
 <template id="template-home-category-area">
     <!-- Start category Area -->
-    <section class="category-area mb-5">
+    <section class="category-area mb-5" data-bind="visible: categories().length > 0">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
                         <h1>Categorias</h1>
-                        <p>Encontre mais rápido os produtos que esta procurando, escolha alguma categoria e aproveite!</p>
+                        <p>Encontre mais rápido os produtos que esta procurando, escolha alguma categoria e aproveite!
+                        </p>
                     </div>
                 </div>
             </div>
@@ -18,7 +19,8 @@
                             <a class="img-pop-up" data-bind="attr: {href: url }">
                                 <div class="single-deal">
                                     <div class="overlay"></div>
-                                    <img class="img-fluid w-100" style="height: 190px" alt="" data-bind="attr: {src: image}">
+                                    <img class="img-fluid w-100" style="height: 190px" alt=""
+                                        data-bind="attr: {src: image}">
                                     <div class="deal-details">
                                         <h6 class="deal-title" data-bind="text: title"></h6>
                                     </div>
@@ -34,7 +36,6 @@
 </template>
 
 <script type="text/javascript">
-
     function homeCategory(){[native/code]}
     homeCategory.urlGetCategories = "{{ route('api.categories.index') }}";
     homeCategory.urlShop = "{{ route('site.shop.index') }}";
@@ -53,7 +54,10 @@
         self.categories = ko.observableArray();
 
         self.init = function() {
-            let callback = function(data) {
+            let params = {
+                'visible': true
+            },
+            callback = function(data) {
                 if(!data.status) {
                     Alert.error(data.message);
                     return;
@@ -65,7 +69,7 @@
                     }
                 });
             };
-            base.post(homeCategory.urlGetCategories, null, callback, 'GET');
+            base.post(homeCategory.urlGetCategories, params, callback, 'GET');
         }
         self.init();
     }
