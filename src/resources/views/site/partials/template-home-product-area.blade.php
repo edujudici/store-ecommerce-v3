@@ -12,45 +12,48 @@
                     </div>
                 </div>
             </div>
-            <div class="owl-carousel active-product-area section_gap">
+            <div class="owl-carousel active-product-area section_gap recent">
                 <!-- ko foreach: products -->
-                    <!-- single product slide -->
-                    <div class="single-product-slider">
-                        <div class="container">
-                            <div class="row" data-bind="foreach: $data">
-                                <div class="col-6 col-sm-6 col-lg-3 col-md-4" style="border: 0.1px solid #ccc;  ">
-                                    <div class="single-product">
-                                        <div class="product-details">
-                                            <a data-bind="attr: {href: detailUrl}">
-                                                <div class="container-product">
-                                                    <img alt="" data-bind="attr: {src: image}">
-                                                </div>
-                                                <h6 data-bind="text: description, attr: {title: description}"></h6>
+                <!-- single product slide -->
+                <div class="single-product-slider">
+                    <div class="container">
+                        <div class="row" data-bind="foreach: $data">
+                            <div class="col-6 col-sm-6 col-lg-3 col-md-4" style="border: 0.1px solid #ccc;  ">
+                                <div class="single-product">
+                                    <div class="product-details">
+                                        <a data-bind="attr: {href: detailUrl}">
+                                            <div class="container-product">
+                                                <img alt="" data-bind="attr: {src: image}">
+                                            </div>
+                                            <h6 data-bind="text: description, attr: {title: description}"></h6>
+                                        </a>
+                                        <div class="price">
+                                            <h6 class="l-through"
+                                                data-bind="text: oldPrice, visible: price != oldPrice"></h6>
+                                            <h6 data-bind="text: price"></h6>
+                                        </div>
+                                        <div class="prd-bottom">
+                                            <a class="social-info"
+                                                data-bind="click: head.viewModel.addProductCart.bind($data, sku, 1)">
+                                                <span class="ti-bag"></span>
+                                                <p class="hover-text">Carrinho</p>
                                             </a>
-                                            <div class="price">
-                                                <h6 class="l-through" data-bind="text: oldPrice, visible: price != oldPrice"></h6>
-                                                <h6 data-bind="text: price"></h6>
-                                            </div>
-                                            <div class="prd-bottom">
-                                                <a class="social-info" data-bind="click: head.viewModel.addProductCart.bind($data, sku, 1)">
-                                                    <span class="ti-bag"></span>
-                                                    <p class="hover-text">Carrinho</p>
-                                                </a>
-                                                <a href="" class="social-info" data-bind="click: head.viewModel.addProductFavorite.bind($data, sku)">
-                                                    <span class="lnr lnr-heart"></span>
-                                                    <p class="hover-text">Favoritar</p>
-                                                </a>
-                                                <a class="social-info dismiss-web" data-bind="attr: {href: detailUrl}">
-                                                    <span class="lnr lnr-move"></span>
-                                                    <p class="hover-text">Detalhes</p>
-                                                </a>
-                                            </div>
+                                            <a href="" class="social-info"
+                                                data-bind="click: head.viewModel.addProductFavorite.bind($data, sku)">
+                                                <span class="lnr lnr-heart"></span>
+                                                <p class="hover-text">Favoritar</p>
+                                            </a>
+                                            <a class="social-info dismiss-web" data-bind="attr: {href: detailUrl}">
+                                                <span class="lnr lnr-move"></span>
+                                                <p class="hover-text">Detalhes</p>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 <!-- /ko -->
             </div>
         </div>
@@ -59,7 +62,6 @@
 </template>
 
 <script type="text/javascript">
-
     function homeProduct(){[native/code]}
     homeProduct.urlGetProducts = "{{ route('api.products.index.format') }}";
     homeProduct.urlProductDetail = "{{ route('site.shop.detail') }}/";
@@ -82,7 +84,7 @@
         self.init = function() {
             let params = {
                 'order': 'recent',
-                'amount': 8,
+                'amount': 24,
             },
             callback = function(data) {
                 if(!data.status) {
@@ -110,9 +112,9 @@
         self.init();
     }
     homeProduct.activeProduct = function() {
-        $(".active-product-area").owlCarousel({
+        $(".active-product-area.recent").owlCarousel({
             items:1,
-            autoplay:false,
+            autoplay:true,
             autoplayTimeout: 5000,
             loop:true,
             nav:true,

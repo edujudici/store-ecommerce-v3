@@ -19,7 +19,7 @@ class ProductVisitedService extends BaseService
     {
         $products = $this->productVisited
             ->with('product')
-            ->limit($request->input('amount', 12))
+            ->limit($request->input('amount', 24))
             ->orderBy('prv_visited', 'desc')
             ->get()
             ->toArray();

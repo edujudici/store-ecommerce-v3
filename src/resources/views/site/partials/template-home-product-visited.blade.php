@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class="owl-carousel active-product-area section_gap">
+            <div class="owl-carousel active-product-area section_gap visited">
                 <!-- ko foreach: products -->
                 <!-- single product slide -->
                 <div class="single-product-slider">
@@ -86,7 +86,7 @@
 
         self.init = function() {
             let params = {
-                'amount': 8,
+                'amount': 24,
             },
             callback = function(data) {
                 if(!data.status) {
@@ -114,9 +114,9 @@
         self.init();
     }
     homeProductVisited.activeProduct = function() {
-        $(".active-product-area").owlCarousel({
+        $(".active-product-area.visited").owlCarousel({
             items:1,
-            autoplay:false,
+            autoplay:true,
             autoplayTimeout: 5000,
             loop:true,
             nav:true,
