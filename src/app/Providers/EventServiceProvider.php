@@ -10,6 +10,7 @@ use App\Events\OrderPaidRegistered;
 use App\Events\OrderRegistered;
 use App\Events\OrderStatusRegistered;
 use App\Events\ProductCommentRegistered;
+use App\Events\ProductVisited;
 use App\Listeners\SendNewContactNotification;
 use App\Listeners\SendNewNewsletterNotification;
 use App\Listeners\SendNewOrderCommentAnswerNotification;
@@ -18,6 +19,7 @@ use App\Listeners\SendNewOrderNotification;
 use App\Listeners\SendNewOrderPaidNotification;
 use App\Listeners\SendNewOrderStatusNotification;
 use App\Listeners\SendNewProductCommentNotification;
+use App\Listeners\SendNewProductVisited;
 use App\Listeners\SendNewUserNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -59,6 +61,9 @@ class EventServiceProvider extends ServiceProvider
         OrderStatusRegistered::class => [
             SendNewOrderStatusNotification::class,
         ],
+        ProductVisited::class => [
+            SendNewProductVisited::class,
+        ],
     ];
 
     /**
@@ -66,10 +71,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        
-    }
+    public function boot() {}
 
     /**
      * Determine if events and listeners should be automatically discovered.

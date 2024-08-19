@@ -1,14 +1,17 @@
-<home-exclusive-deal-area></home-exclusive-deal-area>
-<template id="template-home-exclusive-deal-area">
-    <!-- Start exclusive deal Area -->
+<home-visited-area></home-visited-area>
+<template id="template-home-visited-area">
+    <!-- Start visited Area -->
     <section class="category-area mb-5" data-bind="visible: products().length > 0">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">
                     <div class="section-title">
-                        <h1>Promoção</h1>
-                        <p>Encontre aqui as melhores ofertas para o que procura é muito fácil.</p>
-                        <p>Super descontos, confira abaixo!</p>
+                        <h1>Mais Visitados</h1>
+                        <p>Confira a lista dos produtos mais acessados em nosso site. São os itens que conquistaram a
+                            preferência dos nossos
+                            clientes e que podem ser exatamente o que você está procurando. Não perca a chance de
+                            conhecer esses produtos e
+                            aproveite para garantir o seu!</p>
                     </div>
                 </div>
             </div>
@@ -58,25 +61,25 @@
             </div>
         </div>
     </section>
-    <!-- End exclusive deal Area -->
+    <!-- End visited Area -->
 </template>
 
 <script type="text/javascript">
-    function homeProductExclusive(){[native/code]}
-    homeProductExclusive.urlGetProducts = "{{ route('api.productsExclusives.index') }}";
-    homeProductExclusive.urlProductDetail = "{{ route('site.shop.detail') }}/";
+    function homeProductVisited(){[native/code]}
+    homeProductVisited.urlGetProducts = "{{ route('api.productsVisiteds.index') }}";
+    homeProductVisited.urlProductDetail = "{{ route('site.shop.detail') }}/";
 
-    homeProductExclusive.Product = function(obj) {
+    homeProductVisited.Product = function(obj) {
         let self = this;
         self.sku = obj.pro_sku;
         self.price = base.numeroParaMoeda(obj.product.pro_price);
         self.oldPrice = base.numeroParaMoeda(obj.product.pro_oldprice);
         self.image = obj.product.pro_secure_thumbnail ? obj.product.pro_secure_thumbnail : base.displayImage(obj.product.pro_image);
         self.description = obj.product.pro_description;
-        self.detailUrl = homeProductExclusive.urlProductDetail+obj.pro_sku;
+        self.detailUrl = homeProductVisited.urlProductDetail+obj.pro_sku;
     }
 
-    homeProductExclusive.ProductExclusiveViewModel = function() {
+    homeProductVisited.ProductExclusiveViewModel = function() {
         let self = this;
 
         self.products = ko.observableArray();
@@ -93,7 +96,7 @@
 
                 ko.utils.arrayForEach(data.response, function(subList) {
                     let tempList = ko.utils.arrayMap(subList, function(obj) {
-                        return new homeProductExclusive.Product(obj)
+                        return new homeProductVisited.Product(obj)
                     });
 
                     self.products.push(tempList);
@@ -102,15 +105,15 @@
                 if (self.products().length >= 2)
                 {
                     setTimeout(function() {
-                        homeProductExclusive.activeProduct();
+                        homeProductVisited.activeProduct();
                     }, 500);
                 }
             };
-            base.post(homeProductExclusive.urlGetProducts, params, callback, 'GET');
+            base.post(homeProductVisited.urlGetProducts, params, callback, 'GET');
         }
         self.init();
     }
-    homeProductExclusive.activeProduct = function() {
+    homeProductVisited.activeProduct = function() {
         $(".active-product-area").owlCarousel({
             items:1,
             autoplay:false,
@@ -122,8 +125,8 @@
         });
     }
 
-	ko.components.register('home-exclusive-deal-area', {
-	    template: { element: 'template-home-exclusive-deal-area'},
-	    viewModel: homeProductExclusive.ProductExclusiveViewModel
+	ko.components.register('home-visited-area', {
+	    template: { element: 'template-home-visited-area'},
+	    viewModel: homeProductVisited.ProductExclusiveViewModel
 	});
 </script>

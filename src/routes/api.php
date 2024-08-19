@@ -27,6 +27,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProductExclusiveController;
 use App\Http\Controllers\API\ProductRelatedController;
 use App\Http\Controllers\API\ProductSpecificationController;
+use App\Http\Controllers\API\ProductVisitedController;
 use App\Http\Controllers\API\SellerController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VoucherController;
@@ -105,6 +106,7 @@ Route::name('api.')->group(static function () {
     Route::get('exclusives', [ProductExclusiveController::class, 'index'])->name('productsExclusives.index');
     Route::get('relateds', [ProductRelatedController::class, 'index'])->name('productsRelateds.index');
     Route::post('relateds/format', [ProductRelatedController::class, 'indexFormat'])->name('productsRelateds.index.format');
+    Route::get('visiteds', [ProductVisitedController::class, 'index'])->name('productsVisiteds.index');
 
     Route::post('freight/calculate', [FreightController::class, 'calculate'])->name('freight.calculate');
 

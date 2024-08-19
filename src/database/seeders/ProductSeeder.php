@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
         Product::factory()
             ->count(15)
             ->state(new Sequence(
-                fn ($sequence) => ['cat_id' => Category::all()->random()],
+                fn($sequence) => ['cat_id' => Category::all()->random()],
             ))
             ->state(new Sequence(
                 ['pro_seller_id' => 1],
@@ -46,6 +46,7 @@ class ProductSeeder extends Seeder
                 'productsRelated'
             )
             ->hasExclusiveDeal(1)
+            ->hasVisited(1)
             ->hasSpecifications(3)
             ->hasPictures(3)
             ->hasComments(3)
