@@ -94,18 +94,18 @@ class OrderService extends BaseService
 
     private function registerEvents($params, $order): void
     {
-        event(new OrderStatusRegistered(
+        OrderStatusRegistered::dispatch(
             $order,
             $order::getStatusDescription($params['status'])
-        ));
+        );
 
         switch ($params['status']) {
             case $this->order::STATUS_NEW:
-                event(new OrderRegistered($order));
+                OrderRegistered::dispatch($order);
                 $this->orderCommentService->storeMessageOrder($order);
                 break;
             case $this->order::STATUS_PAID:
-                event(new OrderPaidRegistered($order));
+                OrderPaidRegistered::dispatch($order);
                 $this->orderCommentService->storeMessageWelcome($order);
                 if (isset($params['approvedDate'])) {
                     $days = $order->ord_freight_time;

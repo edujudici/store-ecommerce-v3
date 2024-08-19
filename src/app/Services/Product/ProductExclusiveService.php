@@ -21,7 +21,7 @@ class ProductExclusiveService extends BaseService
     {
         $products = $this->productExclusive
             ->with('product')
-            ->limit($request->input('amount', 10))
+            ->limit($request->input('amount', 12))
             ->get()
             ->toArray();
         return array_chunk(

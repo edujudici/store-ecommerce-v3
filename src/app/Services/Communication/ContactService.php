@@ -39,7 +39,7 @@ class ContactService extends BaseService
             'con_subject' => $request->input('subject'),
             'con_message' => $request->input('message'),
         ]);
-        event(new ContactRegistered($request->input('subject')));
+        ContactRegistered::dispatch($request->input('subject'));
         return $contact;
     }
 

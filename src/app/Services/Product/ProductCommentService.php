@@ -54,7 +54,7 @@ class ProductCommentService extends BaseService
             'prc_id' => $request->input('prc_id'),
         ], $request->all());
 
-        event(new ProductCommentRegistered($product));
+        ProductCommentRegistered::dispatch($product);
 
         return $this->index($request);
     }
