@@ -41,6 +41,7 @@ class LoadCategoryServiceTest extends TestCase
             ->create([
                 'cat_id_secondary' => 123,
                 'cat_seller_id' => 456,
+                'cat_visible' => true
             ]);
         $product = Product::factory()
             ->for($category)

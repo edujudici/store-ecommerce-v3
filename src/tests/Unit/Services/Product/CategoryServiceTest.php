@@ -31,6 +31,7 @@ class CategoryServiceTest extends TestCase
     {
         Category::factory()->count(3)->create([
             'cat_seller_id' => null,
+            'cat_visible' => true
         ]);
 
         $response = $this->service->index();
