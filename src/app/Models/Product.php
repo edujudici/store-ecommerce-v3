@@ -132,6 +132,18 @@ class Product extends BaseModel
     }
 
     /**
+     * Get the exclusive deal record associated with the product.
+     */
+    public function visited()
+    {
+        return $this->hasOne(
+            'App\Models\ProductVisited',
+            'pro_sku',
+            'pro_sku'
+        );
+    }
+
+    /**
      * Scope a query to only include filters.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

@@ -6,6 +6,13 @@
     google-api - Login rede social
     sentry - Rastreamento de erros
 
+## Templates Theme
+    Admin Sleek-bootstrap
+    https://demo.themefisher.com/sleek-bootstrap/
+
+    Ecommerce Karma
+    https://preview.colorlib.com/#karma
+
 ## Commands
     # insights
         docker compose exec app php artisan insights
@@ -179,6 +186,13 @@
         truncate table orders_address;
         truncate table orders;
 
+## Teste carregar perguntas local
+    Passo 1: Executar uma chamada a API via Postman com protocolo POST
+        http://localhost:8082/api/ml/loads/questions
+
+    Passo 2: Executar queue work do laravel para processar a requisição
+        docker compose exec app php artisan queue:work --queue=questions --tries=3 --timeout=240
+
 ## Fluxo de compra local
     Passo 1: Adicionar token referente ao vendedor MERCADO_PAGO_TOKEN
         TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
@@ -209,13 +223,6 @@
         O administrador deve ter recebido uma notificação "Pagamento recebido" no e-mai
         O administrador deve ter recebido uma nova notificação no site o o pedido é exibido como "Pago" no painel
 
-## Teste carregar perguntas local
-    Passo 1: Executar uma chamada a API via Postman com protocolo POST
-        http://localhost:8082/api/ml/loads/questions
-
-    Passo 2: Executar queue work do laravel para processar a requisição
-        docker compose exec app php artisan queue:work --queue=questions --tries=3 --timeout=240
-
 ## Fluxo de notification
     Base: https://blog.especializati.com.br/aprenda-como-trabalhar-com-eventos-no-laravel/
 
@@ -231,7 +238,7 @@
     docker exec -it app php artisan make:notification ContactNotification
 
     Passo 5: Acionar o evento
-    event(new ContactRegistered($request->input('subject')));
+    ContactRegistered::dispatch($request->input('subject'));
 
 ## Fluxo de job
     Base: https://www.itsolutionstuff.com/post/example-of-cron-job-in-laravel-5example.html

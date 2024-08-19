@@ -2,6 +2,7 @@
 
 namespace App\Services\Product;
 
+use App\Events\ProductVisited;
 use App\Models\Product;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Collection;
@@ -73,9 +74,13 @@ class ProductService extends BaseService
 
     public function findBySku($sku): Product
     {
-        return $this->product->with('category')->with('categoryML')
+        $product = $this->product->with('category')->with('categoryML')
             ->where('pro_sku', $sku)
             ->firstOrFail();
+
+        ProductVisited::dispatch($sku);
+
+        return $product;
     }
 
     public function exists($sku): bool
