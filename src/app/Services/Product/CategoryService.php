@@ -15,9 +15,9 @@ class CategoryService extends BaseService
         $this->category = $category;
     }
 
-    public function index(): Collection
+    public function index($request = null): Collection
     {
-        return $this->category
+        $query = $this->category
             ->leftJoin('mercadolivre', function ($query) {
                 $query
                     ->on('mercadolivre.mel_user_id', 'categories.cat_seller_id');
@@ -27,8 +27,11 @@ class CategoryService extends BaseService
                     ->where('mercadolivre.mel_enabled', true)
                     ->orWhereNull('categories.cat_seller_id');
             })
-            ->orderBy('categories.cat_title')
-            ->get();
+            ->orderBy('categories.cat_title');
+        if ($request && $request->has('visible')) {
+            $query->where('categories.cat_visible', true);
+        }
+        return $query->get();
     }
 
     public function findById($request): Category
@@ -38,9 +41,9 @@ class CategoryService extends BaseService
 
     public function store($request): Category
     {
-        $this->validateFields($request->all());
+        $params = $this->transformParameters($request);
+        $this->validateFields($params);
 
-        $params = $request->all();
         uploadImage($request, $params, 'cat_image');
         return $this->category->updateOrCreate([
             'cat_id' => $request->input('id'),
@@ -64,5 +67,14 @@ class CategoryService extends BaseService
             'file' => 'Imagem',
         ];
         $this->_validate($request, $rules, $titles);
+    }
+
+    private function transformParameters($request)
+    {
+        $params = $request->all();
+        if ($request->has('cat_visible')) {
+            $params['cat_visible'] = filter_var($request->input('cat_visible'), FILTER_VALIDATE_BOOLEAN);
+        }
+        return $params;
     }
 }
