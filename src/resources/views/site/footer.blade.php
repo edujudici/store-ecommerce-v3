@@ -116,7 +116,7 @@
                             title="Selo segurança" width="80" height="80" />
                     </a>
                     <a target="_blank"
-                        href="https://transparencyreport.google.com/safe-browsing/search#url=https://www.imperiodomdf.com.br/">
+                        href="https://transparencyreport.google.com/safe-browsing/search#url=https://www.imperiodomdf.com.br">
                         <img class="mr-3" src="{{ asset('assets/site/img/google-security.jpg') }}" alt="Selo segurança"
                             title="Selo segurança" width="80" height="80" />
                     </a>
