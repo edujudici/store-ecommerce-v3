@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Freight;
+namespace App\Services\MerchantCenter;
 
 use App\Api\ApiMerchantCenter;
 use App\Models\MerchantCenter;
@@ -20,7 +20,7 @@ class MerchantCenterService extends BaseService
         $this->apiMerchantCenter = $apiMerchantCenter;
     }
 
-    public function index(): MerchantCenter|null
+    public function firstMerchantCenter(): MerchantCenter|null
     {
         return $this->merchantCenter->first();
     }
@@ -34,25 +34,25 @@ class MerchantCenterService extends BaseService
         return $this->store($response, $code);
     }
 
-    public function getAllProducts(): array
+    public function index(): array
     {
-        $merchantCenter = $this->index();
+        $merchantCenter = $this->firstMerchantCenter();
         $response = $this->apiMerchantCenter->allProducts($merchantCenter->mec_access_token);
 
         if ($this->isUnauthorized($response)) {
-            return $this->refreshTokenAndRetry('getAllProducts');
+            return $this->refreshTokenAndRetry('index');
         }
 
         return $response;
     }
 
-    public function getProductById($productId): mixed
+    public function findById($productId): mixed
     {
-        $merchantCenter = $this->index();
+        $merchantCenter = $this->firstMerchantCenter();
         $response = $this->apiMerchantCenter->getProduct($merchantCenter->mec_access_token, $productId);
 
         if ($this->isUnauthorized($response)) {
-            return $this->refreshTokenAndRetry('getProductById', $productId);
+            return $this->refreshTokenAndRetry('findById', $productId);
         }
 
         return $response;
@@ -60,7 +60,7 @@ class MerchantCenterService extends BaseService
 
     public function addProduct($params): array
     {
-        $merchantCenter = $this->index();
+        $merchantCenter = $this->firstMerchantCenter();
         $token = $merchantCenter->mec_access_token;
 
         $data = [
@@ -102,7 +102,7 @@ class MerchantCenterService extends BaseService
 
     public function destroy($productId): mixed
     {
-        $merchantCenter = $this->index();
+        $merchantCenter = $this->firstMerchantCenter();
         $response = $this->apiMerchantCenter->deleteProduct($merchantCenter->mec_access_token, $productId);
 
         if ($this->isUnauthorized($response)) {
@@ -122,7 +122,7 @@ class MerchantCenterService extends BaseService
             'mec_authorize_code' => $code,
         ];
 
-        $merchantCenter = $this->index();
+        $merchantCenter = $this->firstMerchantCenter();
 
         return $merchantCenter
             ? tap($merchantCenter)->update($params)
@@ -137,7 +137,7 @@ class MerchantCenterService extends BaseService
     private function refreshTokenAndRetry(string $methodName, ...$params): mixed
     {
         debug("Merchant Center refresh token to method {$methodName}");
-        $merchantCenter = $this->index();
+        $merchantCenter = $this->firstMerchantCenter();
         $response = $this->apiMerchantCenter->refreshToken($merchantCenter->mec_refresh_token);
 
         if (isset($response->access_token)) {
