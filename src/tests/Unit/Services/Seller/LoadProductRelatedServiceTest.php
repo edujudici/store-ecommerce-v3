@@ -51,8 +51,6 @@ class LoadProductRelatedServiceTest extends TestCase
             ->once();
 
         $this->service->loadProductsRelated($product->pro_sku, $this->mockItemsRelated());
-
-        $this->ver
     }
 
     private function mockItemsRelated()
