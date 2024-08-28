@@ -57,7 +57,6 @@ class AfterSalesMessageServiceTest extends TestCase
 
         Queue::assertPushedOn('aftersales-message', AfterSalesMessage::class);
         Queue::assertPushed(AfterSalesMessage::class, 2);
-
     }
 
     /** @test  */
@@ -70,7 +69,7 @@ class AfterSalesMessageServiceTest extends TestCase
             'men_user_id' => $mercadolivre->mel_user_id,
         ]);
 
-        $this->apiMercadoLibreMock->shouldReceive('searchByUrl')
+        $this->apiMercadoLibreMock->shouldReceive('getNotificationResource')
             ->once()
             ->andReturn($this->mockNotification());
 

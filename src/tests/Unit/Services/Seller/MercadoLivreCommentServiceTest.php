@@ -129,7 +129,9 @@ class MercadoLivreCommentServiceTest extends TestCase
     /** @test  */
     public function should_answer_item()
     {
-        $comment = MercadoLivreComment::factory()->create();
+        $comment = MercadoLivreComment::factory()
+            ->for(MercadoLivre::factory())
+            ->create();
         $request = Request::create('/', 'POST', [
             'id' => $comment->mec_id,
             'text' => 'Minha resposta de teste'
@@ -150,12 +152,14 @@ class MercadoLivreCommentServiceTest extends TestCase
     /** @test  */
     public function should_destroy_item()
     {
-        $comment = MercadoLivreComment::factory()->create();
+        $comment = MercadoLivreComment::factory()
+            ->for(MercadoLivre::factory())
+            ->create();
         $request = Request::create('/', 'POST', [
             'id' => $comment->mec_id
         ]);
 
-        $this->apiMercadoLibreMock->shouldReceive('deleteQuestions')
+        $this->apiMercadoLibreMock->shouldReceive('deleteQuestion')
             ->once();
 
         $response = $this->service->destroy($request);

@@ -122,6 +122,10 @@ class LoadQuestionServiceTest extends TestCase
         $mlId = $mercadolivre->mel_id;
         $histId = $history->lqh_id;
 
+        $this->mlServiceMock->shouldReceive('findById')
+            ->once()
+            ->andReturn($mercadolivre);
+
         $this->apiMercadoLibreMock->shouldReceive('getQuestions')
             ->once()
             ->andReturn(null);
@@ -141,6 +145,10 @@ class LoadQuestionServiceTest extends TestCase
         $loadDate = date('Y-m-d H:i:s');
         $mlId = $mercadolivre->mel_id;
         $histId = $history->lqh_id;
+
+        $this->mlServiceMock->shouldReceive('findById')
+            ->twice()
+            ->andReturn($mercadolivre);
 
         $this->apiMercadoLibreMock->shouldReceive('getQuestions')
             ->once()
@@ -171,6 +179,10 @@ class LoadQuestionServiceTest extends TestCase
         $loadDate = date('Y-m-d H:i:s');
         $mlId = $mercadolivre->mel_id;
         $histId = $history->lqh_id;
+
+        $this->mlServiceMock->shouldReceive('findById')
+            ->twice()
+            ->andReturn($mercadolivre);
 
         $this->apiMercadoLibreMock->shouldReceive('getQuestions')
             ->once()
@@ -217,7 +229,11 @@ class LoadQuestionServiceTest extends TestCase
     /** @test  */
     public function should_load_questions_answered_exception()
     {
-        $comments = MercadoLivreComment::factory()->count(1)->create();
+        $comments = MercadoLivreComment::factory()
+            ->for(MercadoLivre::factory())
+            ->count(1)
+            ->create();
+
         $this->mlCommentServiceMock->shouldReceive('questionsNotAnswered')
             ->once()
             ->andReturn($comments);

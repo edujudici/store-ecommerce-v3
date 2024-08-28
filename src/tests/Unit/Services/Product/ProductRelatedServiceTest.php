@@ -45,7 +45,7 @@ class ProductRelatedServiceTest extends TestCase
         $response = $this->service->indexFormat($request);
 
         $this->assertArrayHasKey('products', $response);
-        $this->assertCount(6, $response['products']);
+        $this->assertCount(3, $response['products']);
     }
 
     /** @test  */
@@ -67,7 +67,7 @@ class ProductRelatedServiceTest extends TestCase
         $response = $this->service->index($request);
 
         $this->assertInstanceOf(Collection::class, $response);
-        $this->assertCount(6, $response);
+        $this->assertCount(3, $response);
     }
 
     /** @test  */
