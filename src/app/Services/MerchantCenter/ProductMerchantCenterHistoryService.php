@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Seller;
+namespace App\Services\MerchantCenter;
 
 use App\Models\ProductMerchantCenterHistory;
 use App\Services\BaseService;
