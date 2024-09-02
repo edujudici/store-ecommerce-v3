@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Services\Seller;
+namespace Tests\Unit\Services\MerchantCenter;
 
 use App\Models\ProductMerchantCenterHistory;
-use App\Services\Seller\ProductMerchantCenterHistoryService;
+use App\Services\MerchantCenter\ProductMerchantCenterHistoryService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
