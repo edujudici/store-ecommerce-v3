@@ -35,7 +35,7 @@ class MercadoLivreController extends Controller
 
     public function productsLoad()
     {
-        return view('painel.productHistory');
+        return view('painel.mercadolivreLoad');
     }
 
     public function answers()
