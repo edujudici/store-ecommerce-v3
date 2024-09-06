@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\MelhorEnvio;
 
 use App\Http\Controllers\Controller;
 use App\Services\Freight\MelhorEnvioService;

@@ -302,3 +302,35 @@
 
     fluxograma de compras
         https://www.sebrae.com.br/sites/PortalSebrae/artigos/o-passo-a-passo-das-vendas-virtuais,1156a674acbc5410VgnVCM2000003c74010aRCRD
+
+
+
+
+
+
+Auth
+https://accounts.google.com/o/oauth2/v2/auth
+
+redirect
+http://localhost:8000/painel/login
+
+scopes
+https: //www.googleapis.com/auth/content
+
+
+Get Authentication Code
+https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/content&access_type=offline&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value&redirect_uri=http%3A//localhost:8000/painel/login&client_id=900862738500-3pcn0t9og7p7afk3vff382ckqgqpr9f6.apps.googleusercontent.com
+
+Get Access Token
+http://localhost:8000/painel/login?state=state_parameter_passthrough_value&code=4/0AQlEd8xrkab-F8v0cFXkJZKjZOJ5VEkvk74zDfwyl2-rc3sPWrXakKURUxaakSPUkvlhQg&scope=https://www.googleapis.com/auth/content
+http://localhost:8000/painel/login?state=state_parameter_passthrough_value&code=4/0AQlEd8z47ecgh006gP8Yuumz0UGNZFICHTBoN279Y-1JxjlRnI_ZaCfSDCfpUcPWpDrRMg&scope=https://www.googleapis.com/auth/content
+http://localhost:8000/painel/login?state=state_parameter_passthrough_value&code=4/0AQlEd8xPVoAMoZA_nKw56FkxprYWiFMFQwmDgnJlwObvcpZw7p1VTNKVjtTuANzUqV_33A&scope=https://www.googleapis.com/auth/content
+
+Response Example:
+{
+    "access_token": "ya29.a0AcM612x_vObo4tvYrpkbPA_LOEBG3h5Ym_eiyPbw2ZPa1YCHoOptIykZgXV93d-y8MGoSFrEgB33bwdFM6AT4Uv-6QdKzEBtR0-yxw7lYf7lR4ZKRuuVyKdWjXOZKsZ169ln969LVCp_DbtGObDX9kRMsh2hueED-hxKmQV6aCgYKATsSARISFQHGX2MigkF0BQEvIihgMbAag5xDDw0175",
+    "expires_in": 3599,
+    "refresh_token": "1//0heXwwiFjNE6QCgYIARAAGBESNwF-L9IrylPO_4rhbk2NS34Zar9XI0XJobGdtihKm81YKqAlgGKGqYhtLH3iv9NSVEKWWV5j8tE",
+    "scope": "https://www.googleapis.com/auth/content",
+    "token_type": "Bearer"
+}

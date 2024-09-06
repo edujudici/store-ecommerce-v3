@@ -1,13 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\MercadoLivre;
 
 use App\Http\Controllers\Controller;
+use App\Services\Seller\MercadoLivreDashboardService;
 use App\Services\Seller\MercadoLivreService;
 use Illuminate\Http\Request;
 
 class MercadoLivreController extends Controller
 {
+    public function dashboard(Request $request)
+    {
+        return $this->_callService(
+            MercadoLivreDashboardService::class,
+            'index',
+            $request
+        );
+    }
+
     public function index(Request $request)
     {
         return $this->_callService(

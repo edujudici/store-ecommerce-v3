@@ -19,6 +19,7 @@ use App\Http\Controllers\Painel\ProductCommentController;
 use App\Http\Controllers\Painel\ProductController;
 use App\Http\Controllers\Painel\UserController;
 use App\Http\Controllers\Painel\VoucherController;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('painel')->controller(AdminRegisterController::class)->group(function () {
     Route::get('/register', 'index')->name('painel.register.form');

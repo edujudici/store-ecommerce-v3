@@ -9,6 +9,7 @@ use App\Http\Controllers\Site\PayController;
 use App\Http\Controllers\Site\PrivacyController;
 use App\Http\Controllers\Site\ShopController;
 use App\Http\Controllers\Site\ZipcodeController;
+use Illuminate\Support\Facades\Route;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('site.home.index');
