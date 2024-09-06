@@ -17,6 +17,7 @@ use App\Http\Controllers\API\MercadoLivreCommentController;
 use App\Http\Controllers\API\MercadoLivreController;
 use App\Http\Controllers\API\MercadoLivreDashboardController;
 use App\Http\Controllers\API\MercadoLivreNotificationController;
+use App\Http\Controllers\API\MerchantCenterController;
 use App\Http\Controllers\API\NewsletterController;
 use App\Http\Controllers\API\OrderCommentController;
 use App\Http\Controllers\API\OrderController;
@@ -157,9 +158,10 @@ Route::name('api.')->group(static function () {
     Route::get('me/auth', [MelhorEnvioController::class, 'auth'])->name('melhorenvio.auth');
 
     // routes merchant center
-    Route::post('mc/loads/multiple-products', [LoadController::class, 'multipleProducts'])->name('mc.load.multiple.product');
-    Route::post('mc/loads/single-product', [LoadController::class, 'singleProduct'])->name('mc.load.single.product');
-    Route::get('mc/get-single-product', [LoadController::class, 'getSingleProduct'])->name('mc.get.single.product');
-    Route::patch('mc/update-single-product', [LoadController::class, 'updateSingleProduct'])->name('mc.update.single.product');
-    Route::delete('mc/delete-single-product', [LoadController::class, 'deleteSingleProduct'])->name('mc.delete.single.product');
+    Route::get('mc/loads/products/history', [MerchantCenterController::class, 'historyProduct'])->name('mc.get.product.history');
+    Route::post('mc/loads/multiple-products', [MerchantCenterController::class, 'multipleProducts'])->name('mc.load.multiple.product');
+    Route::post('mc/loads/single-product', [MerchantCenterController::class, 'singleProduct'])->name('mc.load.single.product');
+    Route::get('mc/get-single-product', [MerchantCenterController::class, 'getSingleProduct'])->name('mc.get.single.product');
+    Route::patch('mc/update-single-product', [MerchantCenterController::class, 'updateSingleProduct'])->name('mc.update.single.product');
+    Route::delete('mc/delete-single-product', [MerchantCenterController::class, 'deleteSingleProduct'])->name('mc.delete.single.product');
 });

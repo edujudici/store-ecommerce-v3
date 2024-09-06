@@ -1,7 +1,7 @@
 @extends('painel.baseTemplate')
 
 @section('content')
-<div class="content" id="koLoadHistory">
+<div class="content" id="koMercadoLivreLoad">
     <div class="row">
         <div class="col-lg-6">
             <div class="card card-default">
@@ -81,14 +81,15 @@
 
 @section('custom_script')
 <script type="text/javascript">
-    function loadHistory(){[native/code]}
+    function loadHistory() {
+        [native / code]
+    }
     loadHistory.urlData = "{{ route('api.load.product.history') }}";
     loadHistory.urlGetMlAccounts = "{{ route('api.mercadolivre.accounts.index') }}";
     loadHistory.loadProducts = "{{ route('api.load.multiple.products') }}";
     loadHistory.loadProduct = "{{ route('api.load.single.product') }}";
 
-    loadHistory.ViewModel = function()
-    {
+    loadHistory.ViewModel = function() {
         let self = this;
 
         self.sku = ko.observable();
@@ -96,24 +97,21 @@
         self.mlAccounts = ko.observableArray();
         self.mlAccountSelected = ko.observable();
 
-        self.loadMlAccounts = function()
-        {
+        self.loadMlAccounts = function() {
             let params = {
-                'mel_enabled': true,
-            },
-            callback = function(data)
-            {
-                if(!data.status) {
-                    Alert.error(data.message);
-                    return;
-                }
-                self.mlAccounts(data.response);
-            };
+                    'mel_enabled': true,
+                },
+                callback = function(data) {
+                    if (!data.status) {
+                        Alert.error(data.message);
+                        return;
+                    }
+                    self.mlAccounts(data.response);
+                };
             base.post(loadHistory.urlGetMlAccounts, params, callback, 'GET');
         }
 
-        self.init = function()
-        {
+        self.init = function() {
             let callback = function(data) {
                 if (data.status) {
                     self.loads(data.response);
@@ -125,49 +123,46 @@
         };
         self.init();
 
-        self.loadProducts = function()
-        {
+        self.loadProducts = function() {
             if (!self.mlAccountSelected()) {
                 Alert.error('Obrigatório selecionar uma conta do Mercado Livre');
                 return;
             }
 
             let params = {
-                'mlAccountId': self.mlAccountSelected().mel_id,
-                'mlAccountTitle': self.mlAccountSelected().mel_title
-            },
-            callback = function(data) {
-                if(!data.status) {
-                    Alert.error(data.message);
-                    return;
-                }
-                Alert.info('Uma nova carga de produtos esta sendo processada.');
-                setTimeout(function() {
-                    location.reload()
-                }, 500);
-            };
+                    'mlAccountId': self.mlAccountSelected().mel_id,
+                    'mlAccountTitle': self.mlAccountSelected().mel_title
+                },
+                callback = function(data) {
+                    if (!data.status) {
+                        Alert.error(data.message);
+                        return;
+                    }
+                    Alert.info('Uma nova carga de produtos esta sendo processada.');
+                    setTimeout(function() {
+                        location.reload()
+                    }, 500);
+                };
             base.post(loadHistory.loadProducts, params, callback);
         }
 
-        self.loadProduct = function()
-        {
+        self.loadProduct = function() {
             let params = {
-                'sku': self.sku()
-            },
-            callback = function(data) {
-                if(!data.status) {
-                    Alert.error(data.message);
-                    return;
-                }
-                Alert.info('Produto sincronizado com sucesso.');
-                self.sku(null);
-            };
+                    'sku': self.sku()
+                },
+                callback = function(data) {
+                    if (!data.status) {
+                        Alert.error(data.message);
+                        return;
+                    }
+                    Alert.info('Produto sincronizado com sucesso.');
+                    self.sku(null);
+                };
             base.post(loadHistory.loadProduct, params, callback);
         }
     }
 
-	loadHistory.viewModel = new loadHistory.ViewModel();
-    ko.applyBindings(loadHistory.viewModel, document.getElementById('koLoadHistory'));
-
+    loadHistory.viewModel = new loadHistory.ViewModel();
+    ko.applyBindings(loadHistory.viewModel, document.getElementById('koMercadoLivreLoad'));
 </script>
 @endsection
