@@ -212,3 +212,19 @@ if (! function_exists('randomText')) {
         return Str::upper(Str::random($size));
     }
 }
+
+if (! function_exists('randomNumber')) {
+
+    /**
+     * Generate random number
+     *
+     * @param int $min
+     * @param int $max
+     *
+     * @return int|NULL
+     */
+    function randomNumber(int $min, int $max)
+    {
+        return mt_rand($min, $max);
+    }
+}

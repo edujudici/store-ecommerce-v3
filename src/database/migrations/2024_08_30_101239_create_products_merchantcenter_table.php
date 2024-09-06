@@ -14,8 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products_merchantcenter', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('prm_id');
+            $table->string('pro_sku');
+            $table->string('prm_product_id');
+            $table->string('prm_product_kind');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
