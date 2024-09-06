@@ -14,6 +14,8 @@ class ProductMerchantCenter extends BaseModel
      */
     protected $fillable = [
         'pro_sku',
+        'prm_product_id',
+        'prm_product_kind',
     ];
 
     /**

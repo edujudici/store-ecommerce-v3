@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\Seller\LoadMultipleService;
-use App\Services\Seller\LoadQuestionService;
-use App\Services\Seller\LoadSingleService;
+use App\Services\MerchantCenter\ProductMerchantCenterService;
 use Illuminate\Http\Request;
 
 class LoadController extends Controller
@@ -13,8 +11,8 @@ class LoadController extends Controller
     public function multipleProducts(Request $request)
     {
         return $this->_callService(
-            LoadMultipleService::class,
-            'dispatchProducts',
+            ProductMerchantCenterService::class,
+            'loadProducts',
             $request
         );
     }
@@ -22,18 +20,36 @@ class LoadController extends Controller
     public function singleProduct(Request $request)
     {
         return $this->_callService(
-            LoadSingleService::class,
+            ProductMerchantCenterService::class,
             'loadProduct',
-            $request->input('sku')
+            $request
         );
     }
 
-    public function questions()
+    public function getSingleProduct(Request $request)
     {
         return $this->_callService(
-            LoadQuestionService::class,
-            'dispatchQuestions',
-            []
+            ProductMerchantCenterService::class,
+            'getProduct',
+            $request
+        );
+    }
+
+    public function updateSingleProduct(Request $request)
+    {
+        return $this->_callService(
+            ProductMerchantCenterService::class,
+            'updateProduct',
+            $request
+        );
+    }
+
+    public function deleteSingleProduct(Request $request)
+    {
+        return $this->_callService(
+            ProductMerchantCenterService::class,
+            'deleteProduct',
+            $request
         );
     }
 }

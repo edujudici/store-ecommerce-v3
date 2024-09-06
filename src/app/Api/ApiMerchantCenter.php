@@ -15,10 +15,15 @@ class ApiMerchantCenter
     private $redirectUri;
     private $merchantId;
 
-    private const URI_PRODUCTS = "/content/v2.1/{merchantId}/products";
-    private const URI_OAUTH_TOKEN = "/token";
-    private const AUTHORIZATION_CODE = "authorization_code";
-    private const REFRESH_TOKEN = "refresh_token";
+    private const URI_PRODUCTS = '/content/v2.1/{merchantId}/products';
+    private const URI_PRODUCTS_BATCH = '/content/v2.1/products/batch';
+    private const URI_OAUTH_TOKEN = '/token';
+    private const AUTHORIZATION_CODE = 'authorization_code';
+    private const REFRESH_TOKEN = 'refresh_token';
+    private const CUSTOM_REQUEST_GET = 'GET';
+    private const CUSTOM_REQUEST_DELETE = 'DELETE';
+    private const CUSTOM_REQUEST_PATCH = 'PATCH';
+    private const CONTENT_TYPE_JSON = 'application/json';
 
     public function __construct()
     {
@@ -34,9 +39,9 @@ class ApiMerchantCenter
      * Change authorization code to a valid token to use in Merchant Center service
      *
      * @param string $code
-     * @return mixed
+     * @return array
      */
-    public function accessToken($code)
+    public function accessToken($code): array
     {
         $url = $this->baseUrl . self::URI_OAUTH_TOKEN;
         $params = [
@@ -47,19 +52,18 @@ class ApiMerchantCenter
             'code' => $code,
         ];
 
-        $response = json_decode(self::runCurl($url, [
+        return json_decode(self::runCurl($url, [
             'postFields' => $params,
-        ]));
-        return $response;
+        ]), true);
     }
 
     /**
      * RefreshToken to continue consuming Merchant Center service
      *
      * @param string $refreshToken
-     * @return mixed
+     * @return array
      */
-    public function refreshToken($refreshToken)
+    public function refreshToken($refreshToken): array
     {
         $url = $this->baseUrl . self::URI_OAUTH_TOKEN;
         $params = [
@@ -69,24 +73,23 @@ class ApiMerchantCenter
             'refresh_token' => $refreshToken,
         ];
 
-        $response = json_decode(self::runCurl($url, [
+        return json_decode(self::runCurl($url, [
             'postFields' => $params,
-        ]));
-        return $response;
+        ]), true);
     }
 
     /**
      * Get list of all products of Merchant Center service
      *
      * @param string $token
-     * @return null|array
+     * @return array
      */
-    public function allProducts($token): ?array
+    public function allProducts($token): array
     {
         $url = $this->shoppingUrl . str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS);
         return json_decode(self::runCurl($url, [
             'bearerKey' => $token,
-            'contentType' => 'application/json'
+            'contentType' => self::CONTENT_TYPE_JSON,
         ]), true);
     }
 
@@ -95,16 +98,16 @@ class ApiMerchantCenter
      *
      * @param string $token
      * @param string|integer $productId
-     * @return mixed
+     * @return array
      */
-    public function getProduct($token, $productId): mixed
+    public function getProduct($token, $productId): array
     {
-        $url = $this->shoppingUrl . str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS);
-        $url = $url + '/' + $productId;
+        $url = sprintf('%s%s/%s', $this->shoppingUrl, str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS), $productId);
         return json_decode(self::runCurl($url, [
-            'customRequest' => 'GET',
+            'customRequest' => self::CUSTOM_REQUEST_GET,
             'bearerKey' => $token,
-        ]));
+            'contentType' => self::CONTENT_TYPE_JSON,
+        ]), true);
     }
 
     /**
@@ -112,16 +115,53 @@ class ApiMerchantCenter
      *
      * @param string $token
      * @param array $params
-     * @return mixed
+     * @return array
      */
-    public function addProduct($token, $params): mixed
+    public function addProduct($token, $params): array
     {
         $url = $this->shoppingUrl . str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS);
         $postFields = json_encode($params);
         return json_decode(self::runCurl($url, [
             'postFields' => $postFields,
             'bearerKey' => $token,
-            'contentType' => 'application/json'
+            'contentType' => self::CONTENT_TYPE_JSON,
+        ]), true);
+    }
+
+    /**
+     * Handling of multiple products in Merchant Center service
+     *
+     * @param string $token
+     * @param array $params
+     * @return array
+     */
+    public function customBatchProduct($token, $params): array
+    {
+        $url = $this->shoppingUrl . self::URI_PRODUCTS_BATCH;
+        $postFields = json_encode($params);
+        return json_decode(self::runCurl($url, [
+            'postFields' => $postFields,
+            'bearerKey' => $token,
+            'contentType' => self::CONTENT_TYPE_JSON,
+        ]), true);
+    }
+
+    /**
+     * Update product by id in Merchant Center service
+     *
+     * @param string $token
+     * @param string|integer $productId
+     * @return array
+     */
+    public function updateProduct($token, $productId, $params): array
+    {
+        $url = sprintf('%s%s/%s', $this->shoppingUrl, str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS), $productId);
+        $postFields = json_encode($params);
+        return json_decode(self::runCurl($url, [
+            'postFields' => $postFields,
+            'customRequest' => self::CUSTOM_REQUEST_PATCH,
+            'bearerKey' => $token,
+            'contentType' => self::CONTENT_TYPE_JSON,
         ]), true);
     }
 
@@ -130,15 +170,15 @@ class ApiMerchantCenter
      *
      * @param string $token
      * @param string|integer $productId
-     * @return mixed
+     * @return null|array
      */
-    public function deleteProduct($token, $productId): mixed
+    public function deleteProduct($token, $productId): ?array
     {
-        $url = $this->shoppingUrl . str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS);
-        $url = $url + '/' + $productId;
+        $url = sprintf('%s%s/%s', $this->shoppingUrl, str_replace('{merchantId}', $this->merchantId, self::URI_PRODUCTS), $productId);
         return json_decode(self::runCurl($url, [
-            'customRequest' => 'DELETE',
+            'customRequest' => self::CUSTOM_REQUEST_DELETE,
             'bearerKey' => $token,
-        ]));
+            'contentType' => self::CONTENT_TYPE_JSON,
+        ]), true);
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-$glob_file = __DIR__.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'*';
+$glob_file = __DIR__ . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . '*';
 foreach (glob($glob_file) as $file) {
     include $file;
 }
@@ -48,11 +48,11 @@ Route::get('/debug-mail', function () {
 /**
  * Config display env
  */
-Route::get('/debug-env', function () {
+Route::get('/debug-env/{env?}', function ($env) {
     return [
         'APP_ENV' => env('APP_ENV'),
-        'MAIL_ROOT' => env('MAIL_ROOT'),
         'MERCADO_PAGO_TOKEN' => env('MERCADO_PAGO_TOKEN'),
+        $env => env($env),
     ];
 });
 

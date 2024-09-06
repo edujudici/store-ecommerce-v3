@@ -155,4 +155,11 @@ Route::name('api.')->group(static function () {
 
     // routes melhor envio
     Route::get('me/auth', [MelhorEnvioController::class, 'auth'])->name('melhorenvio.auth');
+
+    // routes merchant center
+    Route::post('mc/loads/multiple-products', [LoadController::class, 'multipleProducts'])->name('mc.load.multiple.product');
+    Route::post('mc/loads/single-product', [LoadController::class, 'singleProduct'])->name('mc.load.single.product');
+    Route::get('mc/get-single-product', [LoadController::class, 'getSingleProduct'])->name('mc.get.single.product');
+    Route::patch('mc/update-single-product', [LoadController::class, 'updateSingleProduct'])->name('mc.update.single.product');
+    Route::delete('mc/delete-single-product', [LoadController::class, 'deleteSingleProduct'])->name('mc.delete.single.product');
 });

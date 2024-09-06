@@ -132,12 +132,24 @@ class Product extends BaseModel
     }
 
     /**
-     * Get the exclusive deal record associated with the product.
+     * Get the visited record associated with the product.
      */
     public function visited()
     {
         return $this->hasOne(
             'App\Models\ProductVisited',
+            'pro_sku',
+            'pro_sku'
+        );
+    }
+
+    /**
+     * Get the merchant center record associated with the product.
+     */
+    public function merchantCenter()
+    {
+        return $this->hasOne(
+            'App\Models\ProductMerchantCenter',
             'pro_sku',
             'pro_sku'
         );

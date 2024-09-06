@@ -65,10 +65,10 @@ class MerchantCenterServiceTest extends TestCase
 
         $this->assertInstanceOf(MerchantCenter::class, $response);
         $this->assertNotNull($response->mec_id);
-        $this->assertEquals($response->mec_token_type, $responseMock->token_type);
-        $this->assertEquals($response->mec_expires_in, $responseMock->expires_in);
-        $this->assertEquals($response->mec_access_token, $responseMock->access_token);
-        $this->assertEquals($response->mec_refresh_token, $responseMock->refresh_token);
+        $this->assertEquals($response->mec_token_type, $responseMock['token_type']);
+        $this->assertEquals($response->mec_expires_in, $responseMock['expires_in']);
+        $this->assertEquals($response->mec_access_token, $responseMock['access_token']);
+        $this->assertEquals($response->mec_refresh_token, $responseMock['refresh_token']);
         $this->assertEquals($response->mec_authorize_code, 'codemock');
     }
 
@@ -166,13 +166,11 @@ class MerchantCenterServiceTest extends TestCase
 
     private function mockAccessTokenResponse()
     {
-        $data = [
+        return [
             'token_type' => 'Bearer',
             'expires_in' => 3599,
             'access_token' => 'token123',
             'refresh_token' => 'refreshtoken123',
         ];
-
-        return json_decode(json_encode($data));
     }
 }
