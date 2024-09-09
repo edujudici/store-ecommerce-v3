@@ -26,7 +26,7 @@ class LoadMultipleService extends BaseService
     public function __construct(
         LoadProductService $loadProductService,
         LoadHistoryService $loadHistoryService,
-        MercadoLibre $apiMercadoLibre,
+        ApiMercadoLibre $apiMercadoLibre,
         MercadoLivreService $mercadoLivreService
     ) {
         $this->loadProductService = $loadProductService;

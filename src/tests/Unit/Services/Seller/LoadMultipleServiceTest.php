@@ -42,7 +42,7 @@ class LoadMultipleServiceTest extends TestCase
             ->makePartial();
         $this->loadHistoryServiceMock = $this->mock(LoadHistoryService::class)
             ->makePartial();
-        $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
+        $this->apiMercadoLibreMock = $this->mock(ApiMercadoLibre::class)
             ->makePartial();
         $this->mercadoLivreServiceMock = $this->mock(MercadoLivreService::class)
             ->makePartial();

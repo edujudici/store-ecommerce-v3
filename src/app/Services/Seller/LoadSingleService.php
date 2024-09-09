@@ -23,7 +23,7 @@ class LoadSingleService extends BaseService
         LoadPictureService $loadPictureService,
         LoadDescriptionService $loadDescriptionService,
         LoadCategoryService $loadCategoryService,
-        MercadoLibre $apiMercadoLibre
+        ApiMercadoLibre $apiMercadoLibre
     ) {
         $this->loadProductService = $loadProductService;
         $this->loadPictureService = $loadPictureService;

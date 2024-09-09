@@ -25,7 +25,7 @@ class SellerServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
+        $this->apiMercadoLibreMock = $this->mock(ApiMercadoLibre::class)
             ->makePartial();
 
         $this->service = new SellerService(new Seller(), $this->apiMercadoLibreMock);

@@ -16,7 +16,7 @@ class LoadCategoryService extends BaseService
     public function __construct(
         Product $product,
         Category $category,
-        MercadoLibre $apiMercadoLibre
+        ApiMercadoLibre $apiMercadoLibre
     ) {
         $this->product = $product;
         $this->category = $category;
