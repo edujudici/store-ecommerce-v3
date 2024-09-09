@@ -3,6 +3,7 @@
 use App\Http\Controllers\Site\CartController;
 use App\Http\Controllers\Site\CheckoutController;
 use App\Http\Controllers\Site\ContactController;
+use App\Http\Controllers\Site\ExchangeController;
 use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\PayController;
@@ -35,6 +36,7 @@ Route::name('site.')->group(static function () {
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::any('payment/{status}', [PayController::class, 'confirmation'])->name('payment.confirmation');
     Route::get('/privacy', [PrivacyController::class, 'index'])->name('privacy.index');
+    Route::get('/exchange', [ExchangeController::class, 'index'])->name('exchange.index');
 });
 Route::controller(ZipcodeController::class)->group(function () {
     Route::get('/zipcode/{zipcode?}', 'index')->name('site.zipcode.index');
