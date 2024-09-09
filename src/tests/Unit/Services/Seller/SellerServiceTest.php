@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Models\Seller;
 use App\Services\Seller\SellerService;
 use Illuminate\Database\Eloquent\Collection;

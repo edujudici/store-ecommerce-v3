@@ -2,7 +2,7 @@
 
 namespace App\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Exceptions\BusinessError;
 use App\Models\MercadoLivre;
 use App\Models\MercadoLivreComment;

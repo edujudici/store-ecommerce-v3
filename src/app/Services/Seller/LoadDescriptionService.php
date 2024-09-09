@@ -2,7 +2,7 @@
 
 namespace App\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Services\BaseService;
 use App\Services\Product\ProductService;
 

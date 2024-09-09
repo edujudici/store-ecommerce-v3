@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Jobs\AfterSalesMessage;
 use App\Models\MercadoLivre;
 use App\Models\MercadoLivreNotification;

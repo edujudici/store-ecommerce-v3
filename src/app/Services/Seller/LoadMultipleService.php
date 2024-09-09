@@ -2,7 +2,7 @@
 
 namespace App\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Jobs\LoadCategory;
 use App\Jobs\LoadProduct;
 use App\Jobs\LoadProductDescription;
