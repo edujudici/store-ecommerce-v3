@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Api;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Models\Category;
 use App\Models\MercadoLivre;
 use App\Models\Product;

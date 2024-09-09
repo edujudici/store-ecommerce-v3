@@ -2,7 +2,7 @@
 
 namespace App\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Models\MercadoLivre;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Collection;

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Exceptions\BusinessError;
 use App\Jobs\LoadQuestion;
 use App\Models\LoadQuestionHistory;

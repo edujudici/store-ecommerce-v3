@@ -5,7 +5,7 @@ namespace App\Api;
 use App\Models\MercadoLivre;
 use App\Traits\MakeCurl;
 
-class MercadoLibre
+class ApiMercadoLibre
 {
     use MakeCurl;
 

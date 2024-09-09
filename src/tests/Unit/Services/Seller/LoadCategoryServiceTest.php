@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services\Seller;
 
-use App\Api\MercadoLibre;
+use App\Api\ApiMercadoLibre;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\Seller\LoadCategoryService;
