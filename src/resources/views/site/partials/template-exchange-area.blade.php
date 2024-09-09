@@ -3,33 +3,52 @@
     <section>
         <div class="container">
             <h1 class="mb-5">TROCAS E DEVOLUÇÕES</h1>
-            <p>
-                A privacidade e a segurança são fundamentais na hora de comprar qualquer produto ou serviço pela internet. Foi pensando nisso que criamos regras claras e objetivas, que irão garantir privacidade e segurança a todos os nossos clientes.
+            <h2>Prazo para Trocas e Devoluções</h2>
+            <p>O consumidor tem o direito de solicitar a troca ou devolução de um produto em até <strong>7 dias
+                    corridos</strong> após o recebimento, conforme o <strong>Código de Defesa do Consumidor
+                    (CDC)</strong>, especialmente para compras realizadas fora do estabelecimento físico (online ou por
+                telefone).</p>
+            <p>O prazo começa a contar a partir do dia seguinte ao recebimento do produto.</p>
+
+            <h2>Condições para Troca ou Devolução</h2>
+            <p>O produto deve estar nas mesmas condições em que foi recebido, ou seja, <strong>sem indícios de uso, em
+                    sua embalagem original e com todos os acessórios</strong> e manuais, se aplicável.</p>
+            <p>A apresentação da <strong>nota fiscal</strong> ou comprovante de compra é essencial para validar o
+                processo de troca ou devolução.</p>
+
+            <h2>Produtos com Defeito</h2>
+            <p>Caso o produto apresente <strong>defeito de fabricação</strong>, o consumidor tem o direito de solicitar
+                a reparação, troca ou devolução do valor pago dentro do prazo de <strong>30 dias</strong> para bens não
+                duráveis e <strong>90 dias</strong> para bens duráveis, a partir da constatação do defeito.</p>
+            <p>A empresa poderá realizar uma <strong>análise técnica</strong> para verificar o defeito relatado antes de
+                proceder com a troca ou reembolso.</p>
+
+            <h2>Desistência da Compra (Direito de Arrependimento)</h2>
+            <p>Conforme o artigo 49 do CDC, o consumidor tem o <strong>direito de arrependimento</strong> em até 7 dias
+                para compras realizadas fora do estabelecimento físico, sem a necessidade de justificar o motivo da
+                desistência.</p>
+            <p>O valor pago, incluindo o frete, deverá ser <strong>reembolsado integralmente</strong> ao consumidor.</p>
+
+            <h2>Custos de Envio</h2>
+            <p>No caso de devolução por arrependimento ou por defeito do produto, o custo de envio será arcado pela
+                empresa, seguindo as regras do CDC.</p>
+            <p>Para trocas não relacionadas a defeito, como tamanho ou cor, a política de cada empresa pode definir se o
+                consumidor ou a empresa será responsável pelo custo de envio.</p>
+
+            <h2>Formas de Reembolso</h2>
+            <p>O reembolso será efetuado utilizando o mesmo método de pagamento usado na compra original, como
+                <strong>estorno no cartão de crédito</strong> ou depósito em conta, dependendo do meio de pagamento.
             </p>
-            <p>
-                Todos os dados pessoais, inclusive e-mail de nossos clientes não serão vendidos ou comercializados em hipótese alguma.
-            </p>
-            <p>
-                Todas as vendas realizadas em nosso site são protegidas por servidor seguro, que impedem que terceiros tenham acesso a qualquer dado de nossos clientes.
-            </p>
-            <p>
-                Nosso site utiliza o sistema SSL (Secure Socket Layer). Esse sistema criptografa os dados e oferece mais segurança em transações financeiras pela internet.
-            </p>
-            <p>
-                Eventualmente podemos enviar alguns e-mails com promoções e lançamentos de produtos que acreditamos que irá agradar nossos usuários. Se preferir não receber esses e-mails, basta selecionar a opção no ato de sua compra ou cancelar o envio através de link disponibilizado em cada mensagem enviada.
-            <p>
-            <p>
-                Seus dados de pagamento, em especial cartões de credito estão superprotegidos. Utilizamos SEMPRE o
-                <a target="_blank" href="https://www.mercadopago.com.br/">MercadoPago</a>
-                (Sistema de cobrança mundialmente utilizado) para processar o pagamento e nossa loja não tem acesso aos dados informados, recebendo apenas o status do pagamento.
-            </p>
-            <p>
-                A Império do Mdf utiliza cookies e informações de sua navegação (sessão do browser) com o objetivo de traçar um perfil do público que visita o site e aperfeiçoar sempre nossos serviços, produtos, conteúdos e garantir as melhores ofertas e promoções para você. Durante todo este processo mantemos suas informações em sigilo absoluto. Vale lembrar que seus dados são registrados pela Império do Mdf de forma automatizada, dispensando manipulação humana.
-            </p>
+
+            <h2>Exceções à Troca e Devolução</h2>
+            <p>Produtos <strong>personalizados</strong>, feitos sob encomenda ou com características específicas
+                solicitadas pelo consumidor, podem não ser elegíveis para troca ou devolução, exceto em casos de
+                defeito.</p>
             <br>
             <br>
             <p class="mb-5">
-                Qualquer dúvida, sugestão ou crítica, não hesite em falar conosco através de nossa área de contato preenchendo o formulário e nos enviando.
+                Qualquer dúvida, sugestão ou crítica, não hesite em falar conosco através de nossa área de contato
+                preenchendo o formulário e nos enviando.
             </p>
         </div>
     </section>
