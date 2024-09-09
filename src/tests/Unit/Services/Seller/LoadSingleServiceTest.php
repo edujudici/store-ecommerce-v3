@@ -42,7 +42,7 @@ class LoadSingleServiceTest extends TestCase
         $this->loadCategoryServiceMock = $this
             ->mock(LoadCategoryService::class)
             ->makePartial();
-        $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
+        $this->apiMercadoLibreMock = $this->mock(ApiMercadoLibre::class)
             ->makePartial();
 
         $this->service = new LoadSingleService(

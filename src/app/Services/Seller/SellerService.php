@@ -13,10 +13,10 @@ class SellerService extends BaseService
 
     public function __construct(
         Seller $seller,
-        MercadoLibre $mercadoLibre
+        ApiMercadoLibre $apiMercadoLibre
     ) {
         $this->seller = $seller;
-        $this->apiMercadoLibre = $mercadoLibre;
+        $this->apiMercadoLibre = $apiMercadoLibre;
     }
 
     public function index()

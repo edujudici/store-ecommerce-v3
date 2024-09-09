@@ -28,7 +28,7 @@ class AfterSalesMessageServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
+        $this->apiMercadoLibreMock = $this->mock(ApiMercadoLibre::class)
             ->makePartial();
         $this->mlNotificationService = $this
             ->mock(MercadoLivreNotificationService::class)

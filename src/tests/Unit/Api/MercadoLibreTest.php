@@ -24,7 +24,7 @@ use Tests\TestCase;
 //     {
 //         parent::setUp();
 
-//         $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)
+//         $this->apiMercadoLibreMock = $this->mock(ApiMercadoLibre::class)
 //             ->shouldAllowMockingProtectedMethods()
 //             ->makePartial();
 //         $this->apiMercadoLibreMock->__construct(new MercadoLivre());

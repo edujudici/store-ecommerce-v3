@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 class MercadoLivreService extends BaseService
 {
     private $mercadoLivre;
-    private $mercadoLibre;
+    private $apiMercadoLibre;
 
     public function __construct(
         MercadoLivre $mercadoLivre,
-        MercadoLibre $mercadoLibre
+        ApiMercadoLibre $apiMercadoLibre
     ) {
         $this->mercadoLivre = $mercadoLivre;
-        $this->mercadoLibre = $mercadoLibre;
+        $this->apiMercadoLibre = $apiMercadoLibre;
     }
 
     public function auth($request): void
@@ -29,7 +29,7 @@ class MercadoLivreService extends BaseService
 
         $mercadoLivre = $this->store($newRequest);
 
-        $this->mercadoLibre->accessToken($mercadoLivre);
+        $this->apiMercadoLibre->accessToken($mercadoLivre);
 
         $this->saveTitle($mercadoLivre);
     }
@@ -65,12 +65,12 @@ class MercadoLivreService extends BaseService
     public function getMyInfoData($request)
     {
         $mercadoLivre = $this->findById($request);
-        return $this->mercadoLibre->getMyUserDetails($mercadoLivre);
+        return $this->apiMercadoLibre->getMyUserDetails($mercadoLivre);
     }
 
     private function saveTitle($mercadoLivre): void
     {
-        $usersData = $this->mercadoLibre->getUserDetails(
+        $usersData = $this->apiMercadoLibre->getUserDetails(
             $mercadoLivre->mel_user_id
         );
 

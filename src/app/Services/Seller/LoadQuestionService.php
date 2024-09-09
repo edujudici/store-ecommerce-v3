@@ -21,7 +21,7 @@ class LoadQuestionService extends BaseService
     private $loadQuestionHistoryService;
 
     public function __construct(
-        MercadoLibre $apiMercadoLibre,
+        ApiMercadoLibre $apiMercadoLibre,
         MercadoLivreService $mercadoLivreService,
         MercadoLivreCommentService $mercadoLivreCommentService,
         MercadoLivreUserService $mercadoLivreUserService,

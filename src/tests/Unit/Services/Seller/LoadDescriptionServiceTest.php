@@ -26,7 +26,7 @@ class LoadDescriptionServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->apiMercadoLibreMock = $this->mock(MercadoLibre::class)->makePartial();
+        $this->apiMercadoLibreMock = $this->mock(ApiMercadoLibre::class)->makePartial();
         $this->productServiceMock = $this->mock(ProductService::class)
             ->makePartial();
 

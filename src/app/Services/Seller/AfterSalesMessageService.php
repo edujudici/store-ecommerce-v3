@@ -15,7 +15,7 @@ class AfterSalesMessageService extends BaseService
     private $mlNotificationService;
 
     public function __construct(
-        MercadoLibre $apiMercadoLibre,
+        ApiMercadoLibre $apiMercadoLibre,
         MercadoLivreNotificationService $mlNotificationService
     ) {
         $this->apiMercadoLibre = $apiMercadoLibre;

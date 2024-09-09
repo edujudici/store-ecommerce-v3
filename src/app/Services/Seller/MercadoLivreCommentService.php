@@ -13,16 +13,16 @@ class MercadoLivreCommentService extends BaseService
 {
     private const STATUS_NOT_FOUND = 404;
 
-    private $mercadoLibre;
+    private $apiMercadoLibre;
     private $mercadoLivre;
     private $mercadoLivreComment;
 
     public function __construct(
-        MercadoLibre $mercadoLibre,
+        ApiMercadoLibre $apiMercadoLibre,
         MercadoLivre $mercadoLivre,
         MercadoLivreComment $mercadoLivreComment
     ) {
-        $this->mercadoLibre = $mercadoLibre;
+        $this->apiMercadoLibre = $apiMercadoLibre;
         $this->mercadoLivre = $mercadoLivre;
         $this->mercadoLivreComment = $mercadoLivreComment;
     }
@@ -91,7 +91,7 @@ class MercadoLivreCommentService extends BaseService
         $comment = $this->mercadoLivreComment->findOrFail(
             $request->input('id')
         );
-        $response = $this->mercadoLibre->answerQuestion(
+        $response = $this->apiMercadoLibre->answerQuestion(
             $comment->mercadolivre,
             $comment->mec_id_secondary,
             $request->input('text')
@@ -104,7 +104,7 @@ class MercadoLivreCommentService extends BaseService
         $comment = $this->mercadoLivreComment->findOrFail(
             $request->input('id')
         );
-        $this->mercadoLibre->deleteQuestion(
+        $this->apiMercadoLibre->deleteQuestion(
             $comment->mercadolivre,
             $comment->mec_id_secondary
         );

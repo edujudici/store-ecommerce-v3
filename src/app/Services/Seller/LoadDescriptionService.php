@@ -12,7 +12,7 @@ class LoadDescriptionService extends BaseService
     private $productService;
 
     public function __construct(
-        MercadoLibre $apiMercadoLibre,
+        ApiMercadoLibre $apiMercadoLibre,
         ProductService $productService
     ) {
         $this->apiMercadoLibre = $apiMercadoLibre;
