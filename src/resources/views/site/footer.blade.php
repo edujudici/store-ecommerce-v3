@@ -41,15 +41,19 @@
                     <div class="footer-intitucional contact_info">
                         <div class="info_item">
                             <i class="lnr lnr-bubble"></i>
-                            <p><a href="{{route('site.faq.index')}}">FAQ</a></p>
+                            <p><a href="{{ route('site.faq.index') }}">FAQ</a></p>
                         </div>
                         <div class="info_item">
                             <i class="lnr lnr-envelope"></i>
-                            <p><a href="{{route('site.contact.index')}}">Contato</a></p>
+                            <p><a href="{{ route('site.contact.index') }}">Contato</a></p>
                         </div>
                         <div class="info_item">
                             <i class="lnr lnr-lock"></i>
                             <p><a href="{{ route('site.privacy.index') }}">Política Privacidade</a></p>
+                        </div>
+                        <div class="info_item">
+                            <i class="lnr lnr-arrow-left-circle"></i>
+                            <p><a href="{{ route('site.exchange.index') }}">Trocas e Devoluções</a></p>
                         </div>
                     </div>
                 </div>
@@ -117,8 +121,8 @@
                     </a>
                     <a target="_blank"
                         href="https://transparencyreport.google.com/safe-browsing/search#url=https://www.imperiodomdf.com.br">
-                        <img class="mr-3" src="{{ asset('assets/site/img/google-security.jpg') }}" alt="Selo segurança"
-                            title="Selo segurança" width="80" height="80" />
+                        <img class="mr-3" src="{{ asset('assets/site/img/google-security.jpg') }}"
+                            alt="Selo segurança" title="Selo segurança" width="80" height="80" />
                     </a>
                 </div>
             </div>
@@ -162,19 +166,21 @@
             </div>
         </div>
     </div>
-    <a class="btn-whatsapp" data-bind="attr: {href: 'https://wa.me/55' + base.removeNonNumeric(phone)}" target="_blank">
+    <a class="btn-whatsapp" data-bind="attr: {href: 'https://wa.me/55' + base.removeNonNumeric(phone)}"
+        target="_blank">
         <i class="fa fa-whatsapp"></i>
     </a>
 </footer>
 
 <!-- End footer Area -->
 <script type="text/javascript">
-    function footer(){[native/code]}
+    function footer() {
+        [native / code]
+    }
 
     footer.urlSaveNewsletter = "{{ route('api.newsletters.store') }}";
 
-    footer.ViewModel = function()
-    {
+    footer.ViewModel = function() {
         let self = this;
         self.email = ko.observable().extend({
             required: {
@@ -189,25 +195,23 @@
         self.phone = company && company.com_phone ? company.com_phone : "";
         self.errors = ko.validation.group(self);
 
-        self.send = function()
-        {
+        self.send = function() {
             if (self.errors().length > 0) {
                 Alert.error(self.errors().join(', '));
                 return;
             }
 
             let params = {
-                'email': self.email()
-            },
-            callback = function(data)
-            {
-                if(!data.status) {
-                    Alert.error(data.message);
-                    return;
-                }
-                self.email(null);
-                Alert.success('Cadastro realizado com sucesso!');
-            };
+                    'email': self.email()
+                },
+                callback = function(data) {
+                    if (!data.status) {
+                        Alert.error(data.message);
+                        return;
+                    }
+                    self.email(null);
+                    Alert.success('Cadastro realizado com sucesso!');
+                };
             base.post(footer.urlSaveNewsletter, params, callback);
         }
     }
@@ -218,7 +222,7 @@
 
 
 @if (App::environment('production'))
-{{-- Aviso de consentimento de uso de cookies --}}
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="11eec05c-eb30-46a5-ba69-eb988c0c1240"
-    data-blockingmode="auto" type="text/javascript"></script>
+    {{-- Aviso de consentimento de uso de cookies --}}
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="11eec05c-eb30-46a5-ba69-eb988c0c1240"
+        data-blockingmode="auto" type="text/javascript"></script>
 @endif
