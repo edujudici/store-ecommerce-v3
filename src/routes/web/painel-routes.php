@@ -12,6 +12,7 @@ use App\Http\Controllers\Painel\FaqController;
 use App\Http\Controllers\Painel\FeatureController;
 use App\Http\Controllers\Painel\MelhorEnvioController;
 use App\Http\Controllers\Painel\MercadoLivreController;
+use App\Http\Controllers\Painel\MerchantCenterController;
 use App\Http\Controllers\Painel\NewsletterController;
 use App\Http\Controllers\Painel\OrderCommentController;
 use App\Http\Controllers\Painel\OrderController;
@@ -62,4 +63,8 @@ Route::middleware('admin')->prefix('painel')->controller(MercadoLivreController:
 
 Route::middleware('admin')->prefix('painel')->controller(MelhorEnvioController::class)->group(function () {
     Route::get('/me/accounts', 'index')->name('painel.melhorenvio.index');
+});
+
+Route::middleware('admin')->prefix('painel')->controller(MerchantCenterController::class)->group(function () {
+    Route::get('/mc/products/load', 'productsLoad')->name('painel.merchantcenter.index');
 });
