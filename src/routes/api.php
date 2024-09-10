@@ -157,7 +157,7 @@ Route::name('api.')->group(static function () {
 
     // routes merchant center
     Route::get('mc/loads/products/history', [MerchantCenterController::class, 'historyProduct'])->name('mc.get.product.history');
-    Route::post('mc/loads/multiple-products', [MerchantCenterController::class, 'multipleProducts'])->name('mc.load.multiple.product');
+    Route::post('mc/loads/multiple-products', [MerchantCenterController::class, 'multipleProducts'])->name('mc.load.multiple.products');
     Route::post('mc/loads/single-product', [MerchantCenterController::class, 'singleProduct'])->name('mc.load.single.product');
     Route::get('mc/get-single-product', [MerchantCenterController::class, 'getSingleProduct'])->name('mc.get.single.product');
     Route::patch('mc/update-single-product', [MerchantCenterController::class, 'updateSingleProduct'])->name('mc.update.single.product');

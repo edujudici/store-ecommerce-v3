@@ -34,6 +34,10 @@ class ProductMerchantCenterService extends BaseService
 
     public function loadProducts($request): void
     {
+        if (config('app.env') !== 'production') {
+            throw new BusinessError('Action not allowed for this environment');
+        }
+
         $type = $request->input('type');
         $products = $this->getProductsWithImages($type);
         if ($products->isEmpty()) {

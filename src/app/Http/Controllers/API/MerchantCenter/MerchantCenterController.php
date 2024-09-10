@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\MerchantCenter;
 
 use App\Http\Controllers\Controller;
+use App\Services\MerchantCenter\ProductMerchantCenterHistoryService;
 use App\Services\MerchantCenter\ProductMerchantCenterService;
 use Illuminate\Http\Request;
 
@@ -49,6 +50,15 @@ class MerchantCenterController extends Controller
         return $this->_callService(
             ProductMerchantCenterService::class,
             'deleteProduct',
+            $request
+        );
+    }
+
+    public function historyProduct(Request $request)
+    {
+        return $this->_callService(
+            ProductMerchantCenterHistoryService::class,
+            'index',
             $request
         );
     }
