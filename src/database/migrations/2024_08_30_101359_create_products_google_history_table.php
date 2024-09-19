@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products_merchantcenter', function (Blueprint $table) {
-            $table->bigIncrements('prm_id');
-            $table->string('pro_sku');
-            $table->string('prm_product_id');
-            $table->string('prm_product_kind');
+        Schema::create('products_google_history', function (Blueprint $table) {
+            $table->bigIncrements('pgh_id');
+            $table->string('pgh_account_title');
+            $table->bigInteger('pgh_total')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products_merchantcenter');
+        Schema::dropIfExists('products_google_history');
     }
 };

@@ -31,16 +31,16 @@
                             <thead>
                                 <tr>
                                     <th class="d-none d-md-table-cell" scope="col">#</th>
-                                    <th scope="col">Nome</th>
+                                    <th scope="col">Tipo</th>
                                     <th scope="col">Total de items</th>
                                     <th scope="col">Data da Carga</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach: loads">
                                 <tr>
-                                    <td class="d-none d-md-table-cell" scope="row" data-bind="text: pmh_id"></td>
-                                    <td><span data-bind="text: pmh_account_title"></span></td>
-                                    <td><span data-bind="text: pmh_total"></span></td>
+                                    <td class="d-none d-md-table-cell" scope="row" data-bind="text: pgh_id"></td>
+                                    <td><span data-bind="text: pgh_account_title"></span></td>
+                                    <td><span data-bind="text: pgh_total"></span></td>
                                     <td><span data-bind="text: base.dateTimeStringEn(created_at)"></span></td>
                                 </tr>
                             </tbody>

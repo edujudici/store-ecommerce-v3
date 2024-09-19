@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-class ProductMerchantCenterHistory extends BaseModel
+class Google extends BaseModel
 {
-    protected $table = 'products_merchantcenter_history';
-    protected $primaryKey = 'pmh_id';
+    protected $table = 'google';
+    protected $primaryKey = 'goo_id';
 
     /**
      * The attributes that are mass assignable.
@@ -13,8 +13,12 @@ class ProductMerchantCenterHistory extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'pmh_total',
-        'pmh_account_title',
+        'goo_token_type',
+        'goo_expires_in',
+        'goo_access_token',
+        'goo_refresh_token',
+        'goo_created',
+        'goo_scope'
     ];
 
     /**
@@ -23,7 +27,7 @@ class ProductMerchantCenterHistory extends BaseModel
      * @var array
      */
     protected $guarded = [
-        'pmh_id',
+        'goo_id',
         'created_at',
         'update_at',
     ];
