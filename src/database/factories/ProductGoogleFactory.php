@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductMerchantCenter>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductGoogle>
  */
-class ProductMerchantCenterFactory extends Factory
+class ProductGoogleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,10 @@ class ProductMerchantCenterFactory extends Factory
     public function definition()
     {
         return [
-            'prm_id' => $this->faker->randomNumber(9),
+            'pgo_id' => $this->faker->randomNumber(9),
             'pro_sku' => $this->faker->randomNumber(9),
+            'pgo_product_id' => 'online:pt:BR:sku' . $this->faker->randomNumber(9),
+            'pgo_product_kind' => 'content#product',
         ];
     }
 }

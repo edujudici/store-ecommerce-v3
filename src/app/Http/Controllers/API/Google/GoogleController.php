@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\API\Google;
 
 use App\Http\Controllers\Controller;
-use App\Services\MerchantCenter\MerchantCenterService;
-use App\Services\MerchantCenter\ProductMerchantCenterHistoryService;
-use App\Services\MerchantCenter\ProductMerchantCenterService;
+use App\Services\Google\GoogleService;
+use App\Services\Google\ProductGoogleHistoryService;
+use App\Services\Google\ProductGoogleService;
 use Illuminate\Http\Request;
 
 class GoogleController extends Controller
@@ -14,7 +14,7 @@ class GoogleController extends Controller
     public function redirectToGoogle(Request $request)
     {
         return $this->_callService(
-            MerchantCenterService::class,
+            GoogleService::class,
             'getAuthUrl',
             null
         );
@@ -23,7 +23,7 @@ class GoogleController extends Controller
     public function handleGoogleCallback(Request $request)
     {
         return $this->_callService(
-            MerchantCenterService::class,
+            GoogleService::class,
             'handleGoogleCallback',
             $request
         );
@@ -32,7 +32,7 @@ class GoogleController extends Controller
     public function getProductsAll(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
+            ProductGoogleService::class,
             'getProductsAll',
             $request
         );
@@ -41,7 +41,7 @@ class GoogleController extends Controller
     public function getSingleProduct(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
+            ProductGoogleService::class,
             'getProduct',
             $request
         );
@@ -50,7 +50,7 @@ class GoogleController extends Controller
     public function multipleProducts(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
+            ProductGoogleService::class,
             'loadProductsAll',
             $request
         );
@@ -59,7 +59,7 @@ class GoogleController extends Controller
     public function singleProduct(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
+            ProductGoogleService::class,
             'loadProduct',
             $request
         );
@@ -68,7 +68,7 @@ class GoogleController extends Controller
     public function updateSingleProduct(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
+            ProductGoogleService::class,
             'updateProduct',
             $request
         );
@@ -77,7 +77,7 @@ class GoogleController extends Controller
     public function deleteSingleProduct(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
+            ProductGoogleService::class,
             'deleteProduct',
             $request
         );
@@ -86,7 +86,7 @@ class GoogleController extends Controller
     public function historyProduct(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterHistoryService::class,
+            ProductGoogleHistoryService::class,
             'index',
             $request
         );

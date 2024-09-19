@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\MerchantCenter;
+namespace App\Services\Google;
 
 interface ProductStrategyInterface
 {

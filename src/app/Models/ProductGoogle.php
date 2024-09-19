@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-class ProductMerchantCenter extends BaseModel
+class ProductGoogle extends BaseModel
 {
-    protected $table = 'products_merchantcenter';
-    protected $primaryKey = 'prm_id';
+    protected $table = 'products_google';
+    protected $primaryKey = 'pgo_id';
 
     /**
      * The attributes that are mass assignable.
@@ -14,8 +14,8 @@ class ProductMerchantCenter extends BaseModel
      */
     protected $fillable = [
         'pro_sku',
-        'prm_product_id',
-        'prm_product_kind',
+        'pgo_product_id',
+        'pgo_product_kind',
     ];
 
     /**
@@ -24,13 +24,13 @@ class ProductMerchantCenter extends BaseModel
      * @var array
      */
     protected $guarded = [
-        'prm_id',
+        'pgo_id',
         'created_at',
         'update_at',
     ];
 
     /**
-     * Get the product that owns the merchant center.
+     * Get the product that owns the product google.
      */
     public function product()
     {

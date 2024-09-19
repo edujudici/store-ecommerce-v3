@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Services\MerchantCenter;
+namespace Tests\Unit\Services\Google;
 
-use App\Models\ProductMerchantCenterHistory;
-use App\Services\MerchantCenter\ProductMerchantCenterHistoryService;
+use App\Models\ProductGoogleHistory;
+use App\Services\Google\ProductGoogleHistoryService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 /**
  * @group ServiceTest
  */
-class ProductMerchantCenterHistoryServiceTest extends TestCase
+class ProductGoogleHistoryServiceTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
@@ -22,13 +22,13 @@ class ProductMerchantCenterHistoryServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = new ProductMerchantCenterHistoryService(new ProductMerchantCenterHistory());
+        $this->service = new ProductGoogleHistoryService(new ProductGoogleHistory());
     }
 
     /** @test  */
     public function should_list_items()
     {
-        ProductMerchantCenterHistory::factory()->count(3)->create();
+        ProductGoogleHistory::factory()->count(3)->create();
 
         $response = $this->service->index();
 
@@ -45,9 +45,9 @@ class ProductMerchantCenterHistoryServiceTest extends TestCase
 
         $response = $this->service->store($loadDate, $total, $accountTitle);
 
-        $this->assertInstanceOf(ProductMerchantCenterHistory::class, $response);
-        $this->assertNotNull($response->pmh_id);
-        $this->assertEquals($total, $response->pmh_total);
-        $this->assertEquals($accountTitle, $response->pmh_account_title);
+        $this->assertInstanceOf(ProductGoogleHistory::class, $response);
+        $this->assertNotNull($response->pgh_id);
+        $this->assertEquals($total, $response->pgh_total);
+        $this->assertEquals($accountTitle, $response->pgh_account_title);
     }
 }

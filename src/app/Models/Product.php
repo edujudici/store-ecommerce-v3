@@ -144,12 +144,12 @@ class Product extends BaseModel
     }
 
     /**
-     * Get the merchant center record associated with the product.
+     * Get the product google record associated with the product.
      */
-    public function merchantCenter()
+    public function google()
     {
         return $this->hasOne(
-            'App\Models\ProductMerchantCenter',
+            'App\Models\ProductGoogle',
             'pro_sku',
             'pro_sku'
         );
