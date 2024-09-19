@@ -1,28 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\API\MerchantCenter;
+namespace App\Http\Controllers\API\Google;
 
 use App\Http\Controllers\Controller;
+use App\Services\MerchantCenter\MerchantCenterService;
 use App\Services\MerchantCenter\ProductMerchantCenterHistoryService;
 use App\Services\MerchantCenter\ProductMerchantCenterService;
 use Illuminate\Http\Request;
 
-class MerchantCenterController extends Controller
+class GoogleController extends Controller
 {
-    public function multipleProducts(Request $request)
+
+    public function redirectToGoogle(Request $request)
     {
         return $this->_callService(
-            ProductMerchantCenterService::class,
-            'loadProducts',
+            MerchantCenterService::class,
+            'getAuthUrl',
+            null
+        );
+    }
+
+    public function handleGoogleCallback(Request $request)
+    {
+        return $this->_callService(
+            MerchantCenterService::class,
+            'handleGoogleCallback',
             $request
         );
     }
 
-    public function singleProduct(Request $request)
+    public function getProductsAll(Request $request)
     {
         return $this->_callService(
             ProductMerchantCenterService::class,
-            'loadProduct',
+            'getProductsAll',
             $request
         );
     }
@@ -32,6 +43,24 @@ class MerchantCenterController extends Controller
         return $this->_callService(
             ProductMerchantCenterService::class,
             'getProduct',
+            $request
+        );
+    }
+
+    public function multipleProducts(Request $request)
+    {
+        return $this->_callService(
+            ProductMerchantCenterService::class,
+            'loadProductsAll',
+            $request
+        );
+    }
+
+    public function singleProduct(Request $request)
+    {
+        return $this->_callService(
+            ProductMerchantCenterService::class,
+            'loadProduct',
             $request
         );
     }

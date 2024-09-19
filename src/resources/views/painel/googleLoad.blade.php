@@ -1,7 +1,7 @@
 @extends('painel.baseTemplate')
 
 @section('content')
-    <div class="content" id="koMerchantCenterLoad">
+    <div class="content" id="koGoogleLoad">
         <div class="row">
             <div class="col-lg-6">
                 <div class="card card-default">
@@ -9,8 +9,7 @@
                         <h2>Sincronizar todos os produtos</h2>
                     </div>
                     <div class="card-body">
-                        <p class="mb-3">Clique aqui para sincronizar todos os produtos da conta selecionada do Merchant
-                            Center.</p>
+                        <p class="mb-3">Clique aqui para sincronizar todos os produtos da conta selecionada do Google.</p>
                         <button type="button" class="btn btn-primary btn-default"
                             data-bind="click: loadProducts.bind($data, 'insert')">Adicionar
                             produtos em lote</button>
@@ -55,13 +54,13 @@
 
 @section('custom_script')
     <script type="text/javascript">
-        function merchantCenterLoad() {
+        function googleLoad() {
             [native / code]
         }
-        merchantCenterLoad.urlLoadHistoryData = "{{ route('api.mc.get.product.history') }}";
-        merchantCenterLoad.loadProducts = "{{ route('api.mc.load.multiple.products') }}";
+        googleLoad.urlLoadHistoryData = "{{ route('api.google.products.index.history') }}";
+        googleLoad.loadProducts = "{{ route('api.google.products.storeMultiple') }}";
 
-        merchantCenterLoad.ViewModel = function() {
+        googleLoad.ViewModel = function() {
             let self = this;
 
             self.sku = ko.observable();
@@ -75,7 +74,7 @@
                         self.loads(data.response);
                     }
                 };
-                base.post(merchantCenterLoad.urlLoadHistoryData, null, callback, 'GET');
+                base.post(googleLoad.urlLoadHistoryData, null, callback, 'GET');
             };
             self.init();
 
@@ -101,13 +100,13 @@
                                     location.reload()
                                 }, 500);
                             };
-                        base.post(merchantCenterLoad.loadProducts, params, callback);
+                        base.post(googleLoad.loadProducts, params, callback);
                     }
                 );
             }
         }
 
-        merchantCenterLoad.viewModel = new merchantCenterLoad.ViewModel();
-        ko.applyBindings(merchantCenterLoad.viewModel, document.getElementById('koMerchantCenterLoad'));
+        googleLoad.viewModel = new googleLoad.ViewModel();
+        ko.applyBindings(googleLoad.viewModel, document.getElementById('koGoogleLoad'));
     </script>
 @endsection

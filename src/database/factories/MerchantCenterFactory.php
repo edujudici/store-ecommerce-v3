@@ -21,7 +21,8 @@ class MerchantCenterFactory extends Factory
             'mec_expires_in' => $this->faker->randomNumber(9),
             'mec_access_token' => $this->faker->word,
             'mec_refresh_token' => $this->faker->word,
-            'mec_authorize_code' => $this->faker->word,
+            'mec_created' => $this->faker->randomNumber(9),
+            'mec_scope' => $this->faker->word,
         ];
     }
 }

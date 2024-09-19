@@ -10,9 +10,9 @@ use App\Http\Controllers\Painel\ContactController;
 use App\Http\Controllers\Painel\DashboardController;
 use App\Http\Controllers\Painel\FaqController;
 use App\Http\Controllers\Painel\FeatureController;
+use App\Http\Controllers\Painel\GoogleController;
 use App\Http\Controllers\Painel\MelhorEnvioController;
 use App\Http\Controllers\Painel\MercadoLivreController;
-use App\Http\Controllers\Painel\MerchantCenterController;
 use App\Http\Controllers\Painel\NewsletterController;
 use App\Http\Controllers\Painel\OrderCommentController;
 use App\Http\Controllers\Painel\OrderController;
@@ -65,6 +65,6 @@ Route::middleware('admin')->prefix('painel')->controller(MelhorEnvioController::
     Route::get('/me/accounts', 'index')->name('painel.melhorenvio.index');
 });
 
-Route::middleware('admin')->prefix('painel')->controller(MerchantCenterController::class)->group(function () {
-    Route::get('/mc/products/load', 'productsLoad')->name('painel.merchantcenter.index');
+Route::middleware('admin')->prefix('painel')->controller(GoogleController::class)->group(function () {
+    Route::get('/google', 'index')->name('painel.google.index');
 });
