@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('mec_expires_in')->nullable();
             $table->text('mec_access_token')->nullable();
             $table->text('mec_refresh_token')->nullable();
-            $table->text('mec_authorize_code')->nullable();
+            $table->string('mec_created')->nullable();
+            $table->text('mec_scope')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

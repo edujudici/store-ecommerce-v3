@@ -17,7 +17,8 @@ class MerchantCenter extends BaseModel
         'mec_expires_in',
         'mec_access_token',
         'mec_refresh_token',
-        'mec_authorize_code',
+        'mec_created',
+        'mec_scope'
     ];
 
     /**

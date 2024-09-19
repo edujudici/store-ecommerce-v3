@@ -142,15 +142,15 @@
                 </li>
                 <li class="has-sub">
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                        data-target="#merchantcenter" aria-expanded="false" aria-controls="merchantcenter">
+                        data-target="#google" aria-expanded="false" aria-controls="google">
                         <i class="mdi mdi-google"></i>
-                        <span class="nav-text">Merchant Center</span> <b class="caret"></b>
+                        <span class="nav-text">Google Shopping</span> <b class="caret"></b>
                     </a>
-                    <ul class="collapse" id="merchantcenter" data-parent="#sidebar-menu">
+                    <ul class="collapse" id="google" data-parent="#sidebar-menu">
                         <div class="sub-menu">
                             <li>
-                                <a class="sidenav-item-link" href="{{ route('painel.merchantcenter.index') }}">
-                                    <span class="nav-text">Carregar Produtos</span>
+                                <a class="sidenav-item-link" href="{{ route('painel.google.index') }}">
+                                    <span class="nav-text">Configurar Produtos</span>
                                 </a>
                             </li>
                         </div>

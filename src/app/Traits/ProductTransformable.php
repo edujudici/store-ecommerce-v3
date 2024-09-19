@@ -28,7 +28,7 @@ trait ProductTransformable
             'pro_secure_thumbnail' => $data->secure_thumbnail ?? null,
             'pro_accepts_merc_pago' => $data->accepts_mercadopago,
             'pro_load_date' => $loadDate,
-            'pro_sold_quantity' => $data->sold_quantity,
+            'pro_sold_quantity' => $data->sold_quantity ?? 0,
             'pro_external' => true,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),

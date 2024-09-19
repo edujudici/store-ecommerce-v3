@@ -32,7 +32,7 @@ class ProductMerchantCenterService extends BaseService
         $this->baseLinkShopEdit = route('site.shop.detail');
     }
 
-    public function loadProducts($request): void
+    public function loadProductsAll($request): array
     {
         if (config('app.env') !== 'production') {
             throw new BusinessError('Action not allowed for this environment');
@@ -53,14 +53,24 @@ class ProductMerchantCenterService extends BaseService
         $response = $this->productContext->executeStrategy($productsPrepared);
 
         $this->storeMultipleData($response);
+
+        return $response;
+    }
+
+    public function getProductsAll(): array
+    {
+        return $this->merchantCenterService->index();
     }
 
     public function loadProduct($request): array
     {
         $product = $this->findProductBySkuWithImages($request->input('sku'));
-        $response = $this->merchantCenterService->addProduct($this->prepareProductData($product));
+        $response = $this->merchantCenterService->addProduct($this->fillProductData($product));
         $this->storeProductData($product, $response);
-        return $response;
+        return [
+            'id' => $response['id'],
+            'kind' => $response['kind'],
+        ];
     }
 
     public function getProduct($request): array
@@ -82,10 +92,14 @@ class ProductMerchantCenterService extends BaseService
             throw new BusinessError('Product merchant center not found');
         }
 
-        return $this->merchantCenterService->updateProduct(
+        $response = $this->merchantCenterService->updateProduct(
             $product->merchantCenter->prm_product_id,
-            $this->prepareProductData($product)
+            $this->fillProductData($product)
         );
+        return [
+            'id' => $response['id'],
+            'kind' => $response['kind'],
+        ];
     }
 
     public function deleteProduct($request): void
@@ -96,30 +110,17 @@ class ProductMerchantCenterService extends BaseService
             throw new BusinessError('Product merchant center not found');
         }
         $this->merchantCenterService->destroy($product->merchantCenter->prm_product_id);
+
+        $product->merchantCenter()->delete();
     }
 
-    private function prepareProducts($type, Collection $products): array
+    private function resolveStrategy(string $type): ProductStrategyInterface
     {
-        return $products->map(function ($product) use ($type) {
-            $data = $this->prepareProductData($product);
-            if ($type === self::METHOD_TYPE_UPDATE) {
-                $data['productId'] = $product->merchantCenter->prm_product_id;
-            }
-            return $data;
-        })->toArray();
-    }
+        if ($type === self::METHOD_TYPE_INSERT) {
+            return new InsertProductStrategy($this->merchantCenterService);
+        }
 
-    private function prepareProductData(Product $product): array
-    {
-        return [
-            'offerId' => $product->pro_sku,
-            'title' => $product->pro_title,
-            'description' => $product->pro_description_long,
-            'price' => $product->pro_price,
-            'imageLink' => $product->pro_secure_thumbnail,
-            'link' => "{$this->baseLinkShopEdit}?sku={$product->pro_sku}",
-            'additionalImageLinks' => $this->loadImages($product->pictures->toArray()),
-        ];
+        return new UpdateProductStrategy($this->merchantCenterService);
     }
 
     private function findProductBySkuWithImages($sku): Product
@@ -133,7 +134,7 @@ class ProductMerchantCenterService extends BaseService
     {
         $query = $this->product
             ->with('pictures')
-            ->whereIn('pro_sku', ['MLB2726446616']);
+            ->whereIn('pro_sku', ['MLB4413461306']);
 
         if ($type === self::METHOD_TYPE_INSERT) {
             return $query->doesntHave('merchantCenter')
@@ -145,18 +146,28 @@ class ProductMerchantCenterService extends BaseService
             ->get();
     }
 
-    private function loadImages(array $images): array
+    private function prepareProducts($type, Collection $products): array
     {
-        return array_column($images, 'pic_secure_url');
+        return $products->map(function ($product) use ($type) {
+            $data = $this->fillProductData($product);
+            if ($type === self::METHOD_TYPE_UPDATE) {
+                $data['productId'] = $product->merchantCenter->prm_product_id;
+            }
+            return $data;
+        })->toArray();
     }
 
-    private function resolveStrategy(string $type): ProductStrategyInterface
+    private function fillProductData(Product $product): array
     {
-        if ($type === self::METHOD_TYPE_INSERT) {
-            return new InsertProductStrategy($this->merchantCenterService);
-        }
-
-        return new UpdateProductStrategy($this->merchantCenterService);
+        return [
+            'offerId' => $product->pro_sku,
+            'title' => $product->pro_title,
+            'description' => $product->pro_description_long,
+            'price' => $product->pro_price,
+            'imageLink' => $product->pro_secure_thumbnail,
+            'link' => "{$this->baseLinkShopEdit}?sku={$product->pro_sku}",
+            'additionalImageLinks' => array_column($product->pictures->toArray(), 'pic_secure_url'),
+        ];
     }
 
     private function storeProductData(Product $product, array $response): void
@@ -170,6 +181,9 @@ class ProductMerchantCenterService extends BaseService
     private function storeMultipleData(array $response): void
     {
         $now = date('Y-m-d H:i:s');
+        $entriesFiltered = array_filter($response['entries'], function ($entry) {
+            return !isset($entry['errors']);
+        });
         $data = array_map(function ($entry) use ($now) {
             return [
                 'pro_sku' => $entry['product']['offerId'],
@@ -178,7 +192,7 @@ class ProductMerchantCenterService extends BaseService
                 'created_at' => $now,
                 'updated_at' => $now
             ];
-        }, $response['entries']);
+        }, $entriesFiltered);
 
         DB::table('products_merchantcenter')->insert($data);
 

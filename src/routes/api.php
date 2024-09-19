@@ -8,6 +8,7 @@ use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\FaqController;
 use App\Http\Controllers\API\FeatureController;
+use App\Http\Controllers\API\Google\GoogleController;
 use App\Http\Controllers\API\MelhorEnvio\FreightController;
 use App\Http\Controllers\API\MelhorEnvio\MelhorEnvioController;
 use App\Http\Controllers\API\MercadoLivre\MercadoLivreAnswerController;
@@ -15,7 +16,6 @@ use App\Http\Controllers\API\MercadoLivre\MercadoLivreCommentController;
 use App\Http\Controllers\API\MercadoLivre\MercadoLivreController;
 use App\Http\Controllers\API\MercadoLivre\MercadoLivreLoadController;
 use App\Http\Controllers\API\MercadoLivre\MercadoLivreNotificationController;
-use App\Http\Controllers\API\MerchantCenter\MerchantCenterController;
 use App\Http\Controllers\API\NewsletterController;
 use App\Http\Controllers\API\OrderCommentController;
 use App\Http\Controllers\API\OrderController;
@@ -155,11 +155,14 @@ Route::name('api.')->group(static function () {
     // routes melhor envio
     Route::get('me/auth', [MelhorEnvioController::class, 'auth'])->name('melhorenvio.auth');
 
-    // routes merchant center
-    Route::get('mc/loads/products/history', [MerchantCenterController::class, 'historyProduct'])->name('mc.get.product.history');
-    Route::post('mc/loads/multiple-products', [MerchantCenterController::class, 'multipleProducts'])->name('mc.load.multiple.products');
-    Route::post('mc/loads/single-product', [MerchantCenterController::class, 'singleProduct'])->name('mc.load.single.product');
-    Route::get('mc/get-single-product', [MerchantCenterController::class, 'getSingleProduct'])->name('mc.get.single.product');
-    Route::patch('mc/update-single-product', [MerchantCenterController::class, 'updateSingleProduct'])->name('mc.update.single.product');
-    Route::delete('mc/delete-single-product', [MerchantCenterController::class, 'deleteSingleProduct'])->name('mc.delete.single.product');
+    // routes google api
+    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
+    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.auth.callback');
+    Route::get('google/products/all', [GoogleController::class, 'getProductsAll'])->name('google.products.indexAll');
+    Route::get('google/products', [GoogleController::class, 'getSingleProduct'])->name('google.products.index');
+    Route::post('google/products', [GoogleController::class, 'singleProduct'])->name('google.products.store');
+    Route::patch('google/products', [GoogleController::class, 'updateSingleProduct'])->name('google.products.update');
+    Route::delete('google/products', [GoogleController::class, 'deleteSingleProduct'])->name('google.products.destroy');
+    Route::get('google/products/history', [GoogleController::class, 'historyProduct'])->name('google.products.index.history');
+    Route::post('google/products/all', [GoogleController::class, 'multipleProducts'])->name('google.products.storeMultiple');
 });
