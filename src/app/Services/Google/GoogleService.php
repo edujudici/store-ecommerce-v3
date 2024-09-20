@@ -298,10 +298,12 @@ class GoogleService extends BaseService
             'goo_token_type' => $response['token_type'],
             'goo_expires_in' => $response['expires_in'],
             'goo_access_token' => $response['access_token'],
-            'goo_refresh_token' => $response['refresh_token'],
             'goo_created' => $response['created'],
             'goo_scope' => $response['scope'],
         ];
+        if (isset($response['refresh_token'])) {
+            $params['goo_refresh_token'] = $response['refresh_token'];
+        }
 
         $google = $this->firstGoogle();
 
