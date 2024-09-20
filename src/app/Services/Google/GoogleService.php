@@ -24,7 +24,7 @@ class GoogleService extends BaseService
         Google $google
     ) {
         $this->google = $google;
-        $this->googleMerchantID = env('GOOGLE_MERCHANT_ID');
+        $this->googleMerchantID = env('API_GOOGLE_MERCHANT_ID');
     }
 
     /**

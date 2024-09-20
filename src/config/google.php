@@ -1,13 +1,9 @@
 <?php
 
 return [
-    // 'application_name' => env('GOOGLE_APPLICATION_NAME'),
-    'client_id'        => env('GOOGLE_CLIENT_ID'),
-    'client_secret'    => env('GOOGLE_CLIENT_SECRET'),
-    'redirect'     => env('GOOGLE_REDIRECT'),
-    'scopes'           => [
-        \Google\Service\Gmail::MAIL_GOOGLE_COM,
-    ],
+    'client_id'        => env('API_GOOGLE_CLIENT_ID'),
+    'client_secret'    => env('API_GOOGLE_CLIENT_SECRET'),
+    'redirect'     => env('API_GOOGLE_REDIRECT'),
     'access_type'      => 'offline',
     'approval_prompt'  => 'force',
 ];
