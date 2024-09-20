@@ -34,9 +34,9 @@ class ProductGoogleService extends BaseService
 
     public function loadProductsAll($request): array
     {
-        // if (config('app.env') !== 'production') {
-        //     throw new BusinessError('Action not allowed for this environment');
-        // }
+        if (config('app.env') !== 'production') {
+            throw new BusinessError('Action not allowed for this environment');
+        }
 
         $type = $request->input('type');
         $products = $this->getProductsWithImages($type);
@@ -133,8 +133,7 @@ class ProductGoogleService extends BaseService
     private function getProductsWithImages($type): Collection
     {
         $query = $this->product
-            ->with('pictures')
-            ->whereIn('pro_sku', ['MLB4413461306']);
+            ->with('pictures');
 
         if ($type === self::METHOD_TYPE_INSERT) {
             return $query->doesntHave('google')
