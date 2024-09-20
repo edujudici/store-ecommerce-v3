@@ -67,4 +67,5 @@ Route::middleware('admin')->prefix('painel')->controller(MelhorEnvioController::
 
 Route::middleware('admin')->prefix('painel')->controller(GoogleController::class)->group(function () {
     Route::get('/google', 'index')->name('painel.google.index');
+    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('painel.google.auth.callback');
 });

@@ -6,10 +6,23 @@
             <div class="col-lg-6">
                 <div class="card card-default">
                     <div class="card-header card-header-border-bottom">
-                        <h2>Sincronizar todos os produtos</h2>
+                        <h2>Autorizar Acesso</h2>
                     </div>
                     <div class="card-body">
-                        <p class="mb-3">Clique aqui para sincronizar todos os produtos da conta selecionada do Google.</p>
+                        <p class="mb-3 mt-3">Autorizar acesso via Google para utilizar os serviços como Google Shopping.</p>
+                        <button type="button" class="btn btn-primary btn-default" data-bind="click: authorize">Autorizar
+                            Conta Google</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom">
+                        <h2>Sincronizar Produtos</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3 mt-3">Clique aqui para sincronizar todos os produtos da conta selecionada do Google.
+                        </p>
                         <button type="button" class="btn btn-primary btn-default"
                             data-bind="click: loadProducts.bind($data, 'insert')">Adicionar
                             produtos em lote</button>
@@ -57,8 +70,10 @@
         function googleLoad() {
             [native / code]
         }
+        googleLoad.authorize = "{{ route('api.google.auth') }}";
         googleLoad.urlLoadHistoryData = "{{ route('api.google.products.index.history') }}";
         googleLoad.loadProducts = "{{ route('api.google.products.storeMultiple') }}";
+        googleLoad.callbackResponse = @json(session('callbackResponse'));
 
         googleLoad.ViewModel = function() {
             let self = this;
@@ -77,6 +92,18 @@
                 base.post(googleLoad.urlLoadHistoryData, null, callback, 'GET');
             };
             self.init();
+
+            self.authorize = function() {
+                let callback = function(data) {
+                    if (!data.status) {
+                        Alert.error(data.message);
+                        return;
+                    }
+
+                    window.location = data.response;
+                };
+                base.post(googleLoad.authorize, null, callback, 'GET');
+            }
 
             self.loadProducts = function(type) {
                 Alert.confirm(
