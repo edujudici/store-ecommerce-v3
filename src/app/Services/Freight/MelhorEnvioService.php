@@ -77,7 +77,7 @@ class MelhorEnvioService extends BaseService
 
     private function isUnauthorized(array $response): bool
     {
-        return isset($response['message']) && $response['message'] === 'Unauthenticated';
+        return isset($response['message']) && preg_match('/^Unauthenticated\.?$/', $response['message']);
     }
 
     private function refreshTokenAndRetry(string $methodName, ...$params): mixed
