@@ -29,7 +29,7 @@ class ProductGoogleService extends BaseService
         $this->productContext = $productContext;
         $this->productGoogleHistoryService = $productGoogleHistoryService;
         $this->googleService = $googleService;
-        $this->baseLinkShopEdit = route('site.shop.detail');
+        $this->baseLinkShopEdit = route('site.shop.detail') . '/';
     }
 
     public function loadProductsAll($request): array
@@ -164,7 +164,7 @@ class ProductGoogleService extends BaseService
             'description' => $product->pro_description_long,
             'price' => $product->pro_price,
             'imageLink' => $product->pro_secure_thumbnail,
-            'link' => "{$this->baseLinkShopEdit}?sku={$product->pro_sku}",
+            'link' => $this->baseLinkShopEdit . $product->pro_sku,
             'additionalImageLinks' => array_column($product->pictures->toArray(), 'pic_secure_url'),
         ];
     }
