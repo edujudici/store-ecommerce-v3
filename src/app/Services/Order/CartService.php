@@ -49,11 +49,9 @@ class CartService extends BaseService
                 'price' => $product->pro_price,
                 'image' => $product->pro_image,
                 'thumbnail' => $product->pro_secure_thumbnail,
+                'amount' => $request->input('amount', 1)
             ];
             session(['cart.products.' . $productSku => $prodAtributes]);
-            session(['cart.products.' . $productSku . '.amount' => $request
-                ->input('amount', 1),
-            ]);
         }
     }
 

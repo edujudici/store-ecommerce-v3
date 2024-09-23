@@ -8,8 +8,15 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index()
+    public function index($sku = null)
     {
+        if (!is_null($sku)) {
+            $this->store(new Request([
+                'sku' => $sku,
+                'amount' => 1
+            ]));
+        }
+
         return view('site.cart');
     }
 
