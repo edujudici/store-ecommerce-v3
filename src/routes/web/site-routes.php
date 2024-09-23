@@ -21,8 +21,8 @@ Route::controller(ShopController::class)->group(function () {
     Route::get('/detail/{sku?}', 'detail')->name('site.shop.detail');
 });
 Route::controller(CartController::class)->group(function () {
-    Route::get('/cart', 'index')->name('site.cart.index');
-    Route::get('/cart/data', 'data')->name('site.cart.data');
+    Route::get('/cart/{sku?}', 'index')->name('site.cart.index');
+    Route::get('/cart/data/items', 'data')->name('site.cart.data');
     Route::post('/cart', 'store')->name('site.cart.store');
     Route::put('/cart', 'update')->name('site.cart.update');
     Route::delete('/cart', 'destroy')->name('site.cart.destroy');
