@@ -265,7 +265,7 @@ class GoogleService extends BaseService
         $entries = [];
         foreach ($params as $productData) {
             $entry = new ProductsCustomBatchRequestEntry();
-            $entry->setBatchId(randomNumber(1, 99999));
+            $entry->setBatchId(randomNumber(1, 99999999));
             $entry->setMerchantId($this->googleMerchantID);
             $entry->setMethod($type);
             $product = $this->fillProductData($productData, $type);
