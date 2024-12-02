@@ -219,10 +219,3 @@
     footer.viewModel = new footer.ViewModel();
     ko.applyBindings(footer.viewModel, document.getElementById('koFooter'));
 </script>
-
-
-@if (App::environment('production'))
-    {{-- Aviso de consentimento de uso de cookies --}}
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="11eec05c-eb30-46a5-ba69-eb988c0c1240"
-        data-blockingmode="auto" type="text/javascript"></script>
-@endif
