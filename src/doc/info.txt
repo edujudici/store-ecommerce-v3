@@ -85,18 +85,46 @@
         codigo gerado + url de redirecionamento
         https://imperiodomdf.com.br/?code=TG-5eda4527d23e6f0006b373d3-331666203
 
-    # Contas
-        Aplicativo
-            App ID: 114113715204334
-            Secret Key: dZxt7tdSjuvYvrBhlHUctkmqalHDgrIF
-            URI de redirect *: https://imperiodomdf.com.br/api/ml/auth
-
-        Conta Admin JUDICIEDUARDO
-            access_token: APP_USR-114113715204334-032218-64f1035a25d311cb964952faf2f3746e-219258623
-            code_tg:       TG-641a80b8e923870001dba158-219258623
-            refresh_token: TG-641a80bc32cd5200011fd02a-219258623
-
+    Contas
         Contas de teste
+            Rick
+                TEST-2667233862573949-043019-ad6bddd8dcb98e46bc2c7aae8591fc02-748348064
+                Vendedor
+                {
+                    "id": 2033136448,
+                    "email": "test_user_478106159@testuser.com",
+                    "nickname": "TESTUSER478106159",
+                    "site_status": "active",
+                    "password": "Tjy8bWgEMd"
+                }
+                Comprador
+                {
+                    "id": 2039275960,
+                    "email": "test_user_1730192660@testuser.com",
+                    "nickname": "TESTUSER1730192660",
+                    "site_status": "active",
+                    "password": "FgML1XJlB9"
+                }
+
+            Access token TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
+            Vendedor
+            {
+                "id": 1078876951,
+                "nickname": "TEST8UBBVPFT",
+                "password": "qatest6807",
+                "site_status": "active",
+                "email": "test_user_74610589@testuser.com"
+            }
+
+            comprador
+            {
+                "id": 1078882145,
+                "nickname": "TETE3004285",
+                "password": "qatest5260",
+                "site_status": "active",
+                "email": "test_user_55737184@testuser.com"
+            }
+
             Vendedor
             {
                 "id": 1336846843,
@@ -127,24 +155,24 @@
         https://www.mercadopago.com.br/developers/pt/guides/localization/payment-methods/
         https://www.mercadopago.com.br/developers/pt/reference/merchant_orders/_merchant_orders_id/get/
 
-    Contas de teste
-        Vendedor
-        Access token TEST-5252337985945137-022220-04c0a71ee9ef40d58baf16fdf4bb2a30-1078876951
-        {
-            "id": 1078876951,
-            "nickname": "TEST8UBBVPFT",
-            "password": "qatest6807",
-            "site_status": "active",
-            "email": "test_user_74610589@testuser.com"
-        }
+    # CheckoutPro
+        Name: TechNow
+        App ID: 114113715204334
+        URL Redirect Auth: https://imperiodomdf.com.br/api/ml/auth
+        Webhook Notificação: https://imperiodomdf.com.br/api/ml/notifications
 
-        comprador
+    # Contas teste
+        Rick
+        TEST-2667233862573949-043019-ad6bddd8dcb98e46bc2c7aae8591fc02-748348064
         {
-            "id": 1078882145,
-            "nickname": "TETE3004285",
-            "password": "qatest5260",
+            "id": 2036613933,
+            "nickname": "TESTUSER423185175",
+            "password": "Mgq4c2DVmS",
             "site_status": "active",
-            "email": "test_user_55737184@testuser.com"
+            "site_id": "MLB",
+            "description": "Vendas Imperio Mdf",
+            "date_created": "2024-10-15T10:20:48-04:00",
+            "date_last_updated": "2024-10-15T10:20:48-04:00"
         }
 
 ## Melhor Envio
@@ -316,7 +344,6 @@
                 "token_type": "Bearer"
             }
 
-
 # Pós venda - exemplo de mensagem
     https://api.mercadolibre.com/messages/packs/4225883428/sellers/132437915
     https://api.mercadolibre.com/messages/packs/4600985462/sellers/132437915
@@ -350,4 +377,3 @@
 
     fluxograma de compras
         https://www.sebrae.com.br/sites/PortalSebrae/artigos/o-passo-a-passo-das-vendas-virtuais,1156a674acbc5410VgnVCM2000003c74010aRCRD
-
