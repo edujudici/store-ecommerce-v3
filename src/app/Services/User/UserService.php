@@ -25,6 +25,8 @@ class UserService extends BaseService
 
     public function store($request): User
     {
+        debug("Store user data");
+
         $params = array_merge($request, [
             'uuid' => Str::uuid(),
             'role' => 'shopper',

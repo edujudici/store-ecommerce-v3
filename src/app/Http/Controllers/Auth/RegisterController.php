@@ -83,6 +83,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        debug(["Register new user with data: " => $data]);
+
         $data['password'] = Hash::make($data['password']);
         $response = $this->_callService(
             UserService::class,
