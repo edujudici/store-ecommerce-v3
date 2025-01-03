@@ -32,11 +32,6 @@ class MasterComposer
 
     private function apiAuth(): string
     {
-
-        if (session('apiToken')) {
-            return session('apiToken');
-        }
-
         $request = new Request([
             'email' => env('SANCTUM_USER_EMAIL'),
             'password' => env('SANCTUM_USER_PASSWORD'),
@@ -44,11 +39,7 @@ class MasterComposer
         $authController = new AuthController();
         $response = $authController->login($request);
 
-        $token = $response->getData()->token;
-
-        session(['apiToken' => $token]);
-
-        return $token;
+        return $response->getData()->token;
     }
 
     private function cartTotalItems()
