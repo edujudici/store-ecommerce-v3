@@ -6,8 +6,8 @@
 
 @section('custom_head')
     <!--
-                    CSS
-                    ============================================= -->
+                                CSS
+                                ============================================= -->
     <link rel="stylesheet" href="{{ asset('assets/site/css/linearicons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/site/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/site/css/themify-icons.css') }}" />
@@ -41,6 +41,7 @@
 
     <script type="text/javascript">
         let company = {!! $company !!};
+        let tokenApi = "{!! $tokenApi !!}";
     </script>
 
     @yield('specific_head')

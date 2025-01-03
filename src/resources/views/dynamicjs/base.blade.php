@@ -6,7 +6,8 @@ base.Auth = {!! !empty(Auth::user()) ? json_encode(Auth::user()) : json_encode(n
 
 base.post = function(url, payload, callback, type, loading) {
     let headers = {
-        'X-CSRF-TOKEN':"{{csrf_token()}}"
+        'Authorization': 'Bearer ' + tokenApi,
+        'X-CSRF-TOKEN': "{{csrf_token()}}",
     };
     if (!loading) {
         base.loading.show(true);
@@ -16,6 +17,9 @@ base.post = function(url, payload, callback, type, loading) {
         url: url,
         data: payload,
         type: type || 'POST',
+        xhrFields: {
+            withCredentials: true
+        },
         headers: headers,
         success: function(response) {
             if(typeof(callback) == 'function') callback(response);
@@ -32,10 +36,12 @@ base.post = function(url, payload, callback, type, loading) {
 
 base.postImage = function(url, formData, callback, type, loading) {
     let headers = {
-        'X-CSRF-TOKEN':"{{csrf_token()}}"
+        'Authorization': 'Bearer ' + tokenApi,
+        'X-CSRF-TOKEN': "{{csrf_token()}}",
     };
-
-    if(!loading) base.loading.show(true);
+    if (!loading) {
+        base.loading.show(true);
+    }
 
     $.ajax({
         url: url,
@@ -44,6 +50,9 @@ base.postImage = function(url, formData, callback, type, loading) {
         processData: false,
         data: formData,
         type: type || 'POST',
+        xhrFields: {
+            withCredentials: true
+        },
         headers:headers,
         success: function(response) {
             if(typeof(callback) == 'function') callback(response);
@@ -95,7 +104,6 @@ base.numeroParaMoeda = function(n, c, d, t) {
 
 base.monthStringEn = function(date) {
     if (!date) return;
-    {{--  const dateTemp = new Date(date.replace('-', '\/'));  --}}
     const dateTemp = new Date(date);
     const year = new Intl.DateTimeFormat('pt-br', { year: 'numeric' }).format(dateTemp);
     const month = new Intl.DateTimeFormat('pt-br', { month: 'short' }).format(dateTemp).replace('.', '');
@@ -105,7 +113,6 @@ base.monthStringEn = function(date) {
 
 base.dateTimeStringEn = function(date) {
     if (!date) return;
-    {{--  const dateTemp = new Date(date.replace('-', '\/'));  --}}
     const dateTemp = new Date(date);
     const year = new Intl.DateTimeFormat('pt-br', { year: 'numeric' }).format(dateTemp);
     const month = new Intl.DateTimeFormat('pt-br', { month: 'short' }).format(dateTemp).replace('.', '');

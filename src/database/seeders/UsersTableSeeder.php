@@ -34,5 +34,15 @@ class UsersTableSeeder extends Seeder
                 'email' => 'shopper@shopper.com',
                 'password'  => bcrypt('shopper123')
             ]);
+
+        User::factory()
+            ->hasAddresses(1)
+            ->create([
+                'uuid' => Str::uuid(),
+                'role' => 'api',
+                'name' => 'sanctum',
+                'email' => 'sanctum@sanctum.com',
+                'password'  => bcrypt('sanctum123')
+            ]);
     }
 }
