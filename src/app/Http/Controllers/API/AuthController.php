@@ -4,12 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\AuthApi;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    use AuthApi;
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -55,5 +58,12 @@ class AuthController extends Controller
         $token = $user->createToken('API Token')->plainTextToken;
 
         return response()->json(['token' => $token], 201);
+    }
+
+    public function keepAlive()
+    {
+        $token = $this->apiAuth();
+
+        return response()->json(['token' => $token, 'status' => true], 200);
     }
 }
