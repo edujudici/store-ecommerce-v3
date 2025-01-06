@@ -49,7 +49,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
 
 Route::middleware(['auth:sanctum'])->name('api.')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
+    Route::get('/keep-alive', [AuthController::class, 'keepAlive'])->name('keep.alive');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/user', static function (Request $request) {
         return $request->user();
     });

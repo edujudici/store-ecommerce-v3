@@ -20,8 +20,19 @@
     @yield('custom_head')
 
     <script type="text/javascript">
-        let company = {!! $company !!};
-        let tokenApi = "{{ $tokenApi ?? '' }}";
+        let
+            company = {!! $company !!},
+            tokenApi = "{{ $tokenApi ?? '' }}",
+            urlKeepAlive = "{{ route('api.keep.alive') }}";
+        setInterval(function() {
+            let callback = function(data) {
+                if (data.status) {
+                    console.log('Keep Alive');
+                    tokenApi = data.token;
+                }
+            };
+            base.post(urlKeepAlive, null, callback, 'GET');
+        }, 240000); // mantém a sessão ativa a cada 4 minutos
     </script>
 </head>
 @include('components.container')
