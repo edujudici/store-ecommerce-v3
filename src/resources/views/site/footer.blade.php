@@ -65,8 +65,8 @@
                     <div class="footer-social d-flex align-items-center">
                         <a href="https://www.facebook.com/imperiodomdf1" target="_blank"><i
                                 class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/imperio.do.mdf" target="_blank"><i
+                                class="fa fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -128,15 +128,18 @@
             </div>
         </div>
 
-        <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+        <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap text-center">
             <p class="footer-text m-0">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 Copyright &copy;
                 <script>
                     document.write(new Date().getFullYear());
-                </script> - Império do Mdf. Todos os direitos reservado | This template is made with <i
-                    class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                    target="_blank">Colorlib</a>
+                </script> - Império do Mdf. Todos os direitos reservado <br>
+                <small>Desenvolvido por <a href="https://www.linkedin.com/in/edujudici/" target="_blank"> Eduardo
+                        Judici</a> e Designed
+                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                        target="_blank">Colorlib</a>
+                </small>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>
