@@ -33,6 +33,7 @@ class Shopper
                 'message' => 'Acesso negado. Efetue login para continuar',
             ]);
         }
+
         return redirect()->route('login')->with(
             'error',
             'Acesso negado. Efetue login para continuar'

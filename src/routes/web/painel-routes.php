@@ -22,14 +22,10 @@ use App\Http\Controllers\Painel\UserController;
 use App\Http\Controllers\Painel\VoucherController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('painel')->controller(AdminRegisterController::class)->group(function () {
-    Route::get('/register', 'index')->name('painel.register.form');
-    Route::post('/register', 'register')->name('painel.register');
-});
-Route::prefix('painel')->controller(AdminLoginController::class)->group(function () {
-    Route::get('/login', 'index')->name('painel.login.form');
-    Route::post('/login', 'login')->name('painel.login');
-    Route::post('/logout', 'logout')->name('painel.logout');
+Route::prefix('painel')->name('painel.')->controller(AdminLoginController::class)->group(function () {
+    Route::get('/login', 'index')->name('login.form');
+    Route::post('/login', 'login')->name('login');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
 Route::middleware('admin')->name('painel.')->prefix('painel')->group(static function () {

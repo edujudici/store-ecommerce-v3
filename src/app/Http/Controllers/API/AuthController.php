@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\User\UserService;
 use App\Traits\AuthApi;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -17,12 +17,12 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        $user = User::where('email', $credentials['email'])->first();
-        if (!$user) {
+        $user = $this->_callService(UserService::class, 'findByEmail', $credentials);
+        if (!$user['response']) {
             return response()->json(['message' => 'Invalid login credentials'], 401);
         }
 
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user['response']->createToken('API Token')->plainTextToken;
 
         return response()->json(['token' => $token], 200);
     }
@@ -48,14 +48,15 @@ class AuthController extends Controller
             ], 422));
         }
 
-        $user = User::create([
+        $data = [
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'role' => 'api',
             'password' => bcrypt($validatedData['password']),
-        ]);
+        ];
+        $user = $this->_callService(UserService::class, 'create', $data);
 
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user['response']->createToken('API Token')->plainTextToken;
 
         return response()->json(['token' => $token], 201);
     }

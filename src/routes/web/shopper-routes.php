@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Shopper\FavoriteController;
 use App\Http\Controllers\Shopper\NotificationController;
 use App\Http\Controllers\Shopper\ShopperController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('shopper')->group(function () {

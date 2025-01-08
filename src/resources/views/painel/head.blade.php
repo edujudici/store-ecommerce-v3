@@ -23,10 +23,12 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown notifications-menu">
                     <button class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="mdi" data-bind="css: {'mdi-bell-outline': totalNotifications() > 0, 'mdi-bell-off-outline': totalNotifications() == 0}"></i>
+                        <i class="mdi"
+                            data-bind="css: {'mdi-bell-outline': totalNotifications() > 0, 'mdi-bell-off-outline': totalNotifications() == 0}"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-header">Você tem <b data-bind="text: totalNotifications"></b> notificações</li>
+                        <li class="dropdown-header">Você tem <b data-bind="text: totalNotifications"></b> notificações
+                        </li>
                         <li data-bind="visible: totalContacts() > 0">
                             <a href="{{ route('painel.contacts.index') }}">
                                 <i class="mdi mdi-email"></i> Novos Contatos
@@ -67,27 +69,31 @@
                 <!-- User Account -->
                 <li class="dropdown user-menu">
                     <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <img src="{{asset('assets/painel/img/user/user.png')}}" class="user-image" alt="User Image" />
+                        <img src="{{ asset('assets/painel/img/user/user.png') }}" class="user-image" alt="User Image" />
                         <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <!-- User image -->
                         <li class="dropdown-header">
-                            <img src="{{asset('assets/painel/img/user/user.png')}}" class="img-circle" alt="User Image" />
+                            <img src="{{ asset('assets/painel/img/user/user.png') }}" class="img-circle"
+                                alt="User Image" />
                             <div class="d-inline-block">
                                 {{ Auth::user()->name }} <small class="pt-1">{{ Auth::user()->email }}</small>
                             </div>
                         </li>
                         <li>
-                            <a href="{{ route('painel.register.form') }}">
+                            <a href="{{ route('painel.users.index') }}">
                                 <i class="mdi mdi-account-plus"></i> {{ __('Novo Administrador') }}
                             </a>
                         </li>
                         <li class="dropdown-footer">
-                            <a href="{{ route('painel.logout') }}" onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();"> <i class="mdi mdi-logout"></i> {{ __('Sair') }} </a>
+                            <a href="{{ route('painel.logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                <i class="mdi mdi-logout"></i> {{ __('Sair') }} </a>
 
-                            <form id="logout-form" action="{{ route('painel.logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('painel.logout') }}" method="POST"
+                                style="display: none;">
                                 @csrf
                             </form>
                         </li>
@@ -99,7 +105,6 @@
 </header>
 
 <script type="text/javascript">
-
     headerNotifications = {!! $notifications !!};
 
     Notification = function(obj) {
@@ -112,8 +117,7 @@
         self.type = obj.type;
     }
 
-    function HeaderViewModel()
-    {
+    function HeaderViewModel() {
         var self = this;
 
         self.totalContacts = ko.observable(0);
@@ -132,7 +136,7 @@
             if (self.notifications().length > 0) {
                 ko.utils.arrayForEach(self.notifications(), function(item) {
                     const type = item.type.replace('App\\Notifications\\', '');
-                    switch(type) {
+                    switch (type) {
                         case 'ContactNotification':
                             self.totalContacts(self.totalContacts() + 1)
                             break;
@@ -163,12 +167,12 @@
 
         self.totalNotifications = ko.computed(function() {
             return self.totalContacts() +
-            self.totalNewsletters() +
-            self.totalOrders() +
-            self.totalCommentsProduct() +
-            self.totalCommentsOrder() +
-            self.totalShoppers() +
-            self.totalApprovedPayments();
+                self.totalNewsletters() +
+                self.totalOrders() +
+                self.totalCommentsProduct() +
+                self.totalCommentsOrder() +
+                self.totalShoppers() +
+                self.totalApprovedPayments();
         });
     }
 
