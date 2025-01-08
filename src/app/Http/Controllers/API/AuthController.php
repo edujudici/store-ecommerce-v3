@@ -34,33 +34,6 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out'], 200);
     }
 
-    public function register(Request $request)
-    {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8|confirmed',
-            ]);
-        } catch (ValidationException $e) {
-            throw new HttpResponseException(response()->json([
-                'errors' => $e->errors(),
-            ], 422));
-        }
-
-        $data = [
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'role' => 'api',
-            'password' => bcrypt($validatedData['password']),
-        ];
-        $user = $this->_callService(UserService::class, 'create', $data);
-
-        $token = $user['response']->createToken('API Token')->plainTextToken;
-
-        return response()->json(['token' => $token], 201);
-    }
-
     public function keepAlive()
     {
         $token = $this->apiAuth();
