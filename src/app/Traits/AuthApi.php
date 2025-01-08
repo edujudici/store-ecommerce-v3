@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Http\Controllers\API\AuthController;
+use Exception;
 use Illuminate\Http\Request;
 
 trait AuthApi
@@ -16,6 +17,11 @@ trait AuthApi
         $authController = new AuthController();
         $response = $authController->login($request);
 
-        return $response->getData()->token;
+        try {
+            return $response->getData()->token;
+        } catch (Exception $e) {
+            debug('Auth api error: ' . $e->getMessage());
+            return '';
+        }
     }
 }
