@@ -2,20 +2,22 @@
 
 namespace App\Services\Freight;
 
-use App\Exceptions\BusinessError;
+use App\Api\ApiSearchCep;
 use App\Services\BaseService;
 use Claudsonm\CepPromise\Address;
-use Claudsonm\CepPromise\CepPromise;
-use Claudsonm\CepPromise\Exceptions\CepPromiseException;
 
 class ZipcodeService extends BaseService
 {
+    private $apiSearchCep;
+
+    public function __construct(
+        ApiSearchCep $apiSearchCep,
+    ) {
+        $this->apiSearchCep = $apiSearchCep;
+    }
+
     public function index($cep): Address
     {
-        try {
-            return CepPromise::fetch($cep);
-        } catch (CepPromiseException $e) {
-            throw new BusinessError($e->getMessage());
-        }
+        return $this->apiSearchCep->searchCep($cep);
     }
 }
