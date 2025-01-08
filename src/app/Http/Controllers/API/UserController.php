@@ -12,4 +12,14 @@ class UserController extends Controller
     {
         return $this->_callService(UserService::class, 'index', $request);
     }
+
+    public function store(Request $request)
+    {
+        return $this->_callService(UserService::class, 'store', $request);
+    }
+
+    public function destroy(Request $request)
+    {
+        return $this->_callService(UserService::class, 'destroy', $request);
+    }
 }

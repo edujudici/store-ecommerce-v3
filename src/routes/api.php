@@ -56,6 +56,8 @@ Route::middleware(['auth:sanctum'])->name('api.')->group(function () {
     });
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::delete('/users', [UserController::class, 'destroy'])->name('users.destroy');
 
     Route::get('/banners', [BannerController::class, 'index'])->name('banners.index');
     Route::post('/banners', [BannerController::class, 'store'])->name('banners.store');

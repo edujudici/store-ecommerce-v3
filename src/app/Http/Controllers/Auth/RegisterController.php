@@ -79,16 +79,17 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return mixed
      */
     protected function create(array $data)
     {
         $data['password'] = Hash::make($data['password']);
-        $response = $this->_callService(
+        $data['role'] = 'shopper';
+        $user = $this->_callService(
             UserService::class,
-            'store',
+            'create',
             $data
         );
-        return $response['response'];
+        return $user['response'];
     }
 }

@@ -54,6 +54,9 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+
         return redirect(self::URI_SHOPPER);
     }
 
@@ -64,11 +67,10 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        if (session('redirect_checkout')) {
-            $this->redirectTo = self::URI_CHECKOUT;
-        } else {
-            $this->redirectTo = self::URI_SHOPPER;
-        }
+        $this->redirectTo = session('redirect_checkout')
+            ? self::URI_CHECKOUT
+            : self::URI_SHOPPER;
+
         return $this->redirectTo;
     }
 

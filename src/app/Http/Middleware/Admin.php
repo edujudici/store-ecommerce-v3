@@ -26,6 +26,14 @@ class Admin
             return $next($request);
         }
 
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 0,
+                'response' => null,
+                'message' => 'Acesso negado. Efetue login para continuar',
+            ]);
+        }
+
         return redirect()->route('painel.login.form')->with(
             'error',
             'Acesso negado. Efetue login para continuar'
