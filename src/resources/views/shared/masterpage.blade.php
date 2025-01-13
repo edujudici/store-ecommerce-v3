@@ -24,7 +24,11 @@
             company = {!! isset($company) ? $company : 'null' !!},
             tokenApi = "{{ $tokenApi ?? '' }}",
             urlKeepAlive = "{{ route('api.keep.alive') }}";
-        setInterval(function() {
+        // setInterval(function() {
+        //     keepAlive();
+        // }, 240000); // mantém a sessão ativa a cada 4 minutos
+
+        function keepAlive() {
             let callback = function(data) {
                 if (data.status) {
                     console.log('Keep Alive');
@@ -32,7 +36,7 @@
                 }
             };
             base.post(urlKeepAlive, null, callback, 'GET', true);
-        }, 240000); // mantém a sessão ativa a cada 4 minutos
+        }
     </script>
 </head>
 @include('components.container')
