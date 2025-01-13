@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
+Route::get('/keep-alive', [AuthController::class, 'keepAlive'])->name('api.keep.alive');
 
 // notifications mercadopago
 Route::any('/mp/notifications', [PayController::class, 'notification'])->name('notifications.ipn');
@@ -54,7 +55,6 @@ Route::any('/mp/notifications', [PayController::class, 'notification'])->name('n
 Route::any('/ml/notifications', [MercadoLivreNotificationController::class, 'store'])->name('mercadolivre.notify.store');
 
 Route::middleware(['auth:sanctum'])->name('api.')->group(function () {
-    Route::get('/keep-alive', [AuthController::class, 'keepAlive'])->name('keep.alive');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/user', static function (Request $request) {
         return $request->user();

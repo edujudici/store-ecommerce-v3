@@ -29,11 +29,13 @@ base.post = function(url, payload, callback, type, loading) {
 
             // Verifica se o erro é de autenticação (401 ou 419)
             if (err.status === 401 || err.status === 419) {
-                Alert.warning('Sessão expirada. Recarregando a página...', 'Atenção');
+                Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
 
-                // Aguarda 2 segundos para mostrar o alerta antes de recarregar
-                setTimeout(function() {
-                    window.location.reload();
+                keepAlive();
+
+                setTimeout(() => {
+                    // Tenta novamente a requisição
+                    base.post(url, payload, callback, type, loading);
                 }, 2000);
             } else {
                 // Caso o erro não seja de autenticação, exibe mensagem padrão
@@ -74,11 +76,13 @@ base.postImage = function(url, formData, callback, type, loading) {
 
             // Verifica se o erro é de autenticação (401 ou 419)
             if (err.status === 401 || err.status === 419) {
-                Alert.warning('Sessão expirada. Recarregando a página...', 'Atenção');
+                Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
 
-                // Aguarda 2 segundos para mostrar o alerta antes de recarregar
-                setTimeout(function() {
-                    window.location.reload();
+                keepAlive();
+
+                setTimeout(() => {
+                    // Tenta novamente a requisição
+                    base.post(url, formData, callback, type, loading);
                 }, 2000);
             } else {
                 // Caso o erro não seja de autenticação, exibe mensagem padrão
@@ -236,3 +240,4 @@ base.getParameterByName = function(name, url) {
 base.removeNonNumeric = function(value) {
     return value.replace(/\D/g,"");
 }
+
