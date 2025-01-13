@@ -26,7 +26,19 @@ base.post = function(url, payload, callback, type, loading) {
         },
         error: function(err) {
             console.log(err);
-            Alert.error('Ocorreu um erro, contate o administrador do sistema!!!', 'Ops...');
+
+            // Verifica se o erro é de autenticação (401 ou 419)
+            if (err.status === 401 || err.status === 419) {
+                Alert.warning('Sessão expirada. Recarregando a página...', 'Atenção');
+
+                // Aguarda 2 segundos para mostrar o alerta antes de recarregar
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                // Caso o erro não seja de autenticação, exibe mensagem padrão
+                Alert.error('Ocorreu um erro, contate o administrador do sistema!!!', 'Ops...');
+            }
         },
         complete: function() {
             if(!loading) base.loading.show(false);
@@ -59,7 +71,19 @@ base.postImage = function(url, formData, callback, type, loading) {
         },
         error: function(err) {
             console.log(err);
-            Alert.error('Ocorreu um erro, contate o administrador do sistema!!!', 'Ops...');
+
+            // Verifica se o erro é de autenticação (401 ou 419)
+            if (err.status === 401 || err.status === 419) {
+                Alert.warning('Sessão expirada. Recarregando a página...', 'Atenção');
+
+                // Aguarda 2 segundos para mostrar o alerta antes de recarregar
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                // Caso o erro não seja de autenticação, exibe mensagem padrão
+                Alert.error('Ocorreu um erro, contate o administrador do sistema!!!', 'Ops...');
+            }
         },
         complete: function() {
             if(!loading) base.loading.show(false);
