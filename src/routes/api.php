@@ -47,6 +47,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
+// notifications mercadopago
+Route::any('/mp/notifications', [PayController::class, 'notification'])->name('notifications.ipn');
+
+// notifications mercadolivre
+Route::any('/ml/notifications', [MercadoLivreNotificationController::class, 'store'])->name('mercadolivre.notify.store');
+
 Route::middleware(['auth:sanctum'])->name('api.')->group(function () {
     Route::get('/keep-alive', [AuthController::class, 'keepAlive'])->name('keep.alive');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -151,13 +157,9 @@ Route::middleware(['auth:sanctum'])->name('api.')->group(function () {
     Route::get('/ml/comments', [MercadoLivreCommentController::class, 'index'])->name('mercadolivre.comments.index');
     Route::post('/ml/comments', [MercadoLivreCommentController::class, 'store'])->name('mercadolivre.comments.store');
     Route::delete('/ml/comments', [MercadoLivreCommentController::class, 'destroy'])->name('mercadolivre.comments.destroy');
-    Route::any('/ml/notifications', [MercadoLivreNotificationController::class, 'store'])->name('mercadolivre.notify.store');
     Route::get('/ml/answers', [MercadoLivreAnswerController::class, 'index'])->name('mercadolivre.answers.index');
     Route::post('/ml/answers', [MercadoLivreAnswerController::class, 'store'])->name('mercadolivre.answers.store');
     Route::delete('/ml/answers', [MercadoLivreAnswerController::class, 'destroy'])->name('mercadolivre.answers.destroy');
-
-    // routes mercadopago
-    Route::any('/mp/notifications', [PayController::class, 'notification'])->name('notifications.ipn');
 
     // routes melhor envio
     Route::get('/me/auth', [MelhorEnvioController::class, 'auth'])->name('melhorenvio.auth');
