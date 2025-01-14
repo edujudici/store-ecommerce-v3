@@ -5,10 +5,13 @@ base.loading = {show:ko.observable(false)};
 base.Auth = {!! !empty(Auth::user()) ? json_encode(Auth::user()) : json_encode(new stdClass) !!};
 
 base.post = function(url, payload, callback, type, loading) {
-    let headers = {
-        'Authorization': 'Bearer ' + tokenApi,
-        'X-CSRF-TOKEN': "{{csrf_token()}}",
-    };
+    let
+        headers = {
+            'Authorization': 'Bearer ' + tokenApi,
+            'X-CSRF-TOKEN': "{{csrf_token()}}",
+        },
+        alertKeepAlive = false;
+
     if (!loading) {
         base.loading.show(true);
     }
@@ -29,7 +32,11 @@ base.post = function(url, payload, callback, type, loading) {
 
             // Verifica se o erro é de autenticação (401 ou 419)
             if (err.status === 401 || err.status === 419) {
-                Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
+
+                if (!alertKeepAlive) {
+                    alertKeepAlive = true;
+                    Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
+                }
 
                 keepAlive();
 
@@ -49,10 +56,12 @@ base.post = function(url, payload, callback, type, loading) {
 }
 
 base.postImage = function(url, formData, callback, type, loading) {
-    let headers = {
-        'Authorization': 'Bearer ' + tokenApi,
-        'X-CSRF-TOKEN': "{{csrf_token()}}",
-    };
+    let
+        headers = {
+            'Authorization': 'Bearer ' + tokenApi,
+            'X-CSRF-TOKEN': "{{csrf_token()}}",
+        },
+        alertKeepAlive = false;
     if (!loading) {
         base.loading.show(true);
     }
@@ -76,7 +85,10 @@ base.postImage = function(url, formData, callback, type, loading) {
 
             // Verifica se o erro é de autenticação (401 ou 419)
             if (err.status === 401 || err.status === 419) {
-                Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
+                if (!alertKeepAlive) {
+                    alertKeepAlive = true;
+                    Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
+                }
 
                 keepAlive();
 
