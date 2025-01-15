@@ -1,16 +1,15 @@
 function base(){[native/code]}
 
 base.loading = {show:ko.observable(false)};
+base.alertKeepAlive = {show:ko.observable(false)};
 
 base.Auth = {!! !empty(Auth::user()) ? json_encode(Auth::user()) : json_encode(new stdClass) !!};
 
 base.post = function(url, payload, callback, type, loading) {
-    let
-        headers = {
-            'Authorization': 'Bearer ' + tokenApi,
-            'X-CSRF-TOKEN': "{{csrf_token()}}",
-        },
-        alertKeepAlive = false;
+    let headers = {
+        'Authorization': 'Bearer ' + tokenApi,
+        'X-CSRF-TOKEN': "{{csrf_token()}}",
+    };
 
     if (!loading) {
         base.loading.show(true);
@@ -33,8 +32,8 @@ base.post = function(url, payload, callback, type, loading) {
             // Verifica se o erro é de autenticação (401 ou 419)
             if (err.status === 401 || err.status === 419) {
 
-                if (!alertKeepAlive) {
-                    alertKeepAlive = true;
+                if (!base.alertKeepAlive.show()) {
+                    base.alertKeepAlive.show(true);
                     Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
                 }
 
@@ -56,12 +55,11 @@ base.post = function(url, payload, callback, type, loading) {
 }
 
 base.postImage = function(url, formData, callback, type, loading) {
-    let
-        headers = {
-            'Authorization': 'Bearer ' + tokenApi,
-            'X-CSRF-TOKEN': "{{csrf_token()}}",
-        },
-        alertKeepAlive = false;
+    let headers = {
+        'Authorization': 'Bearer ' + tokenApi,
+        'X-CSRF-TOKEN': "{{csrf_token()}}",
+    };
+
     if (!loading) {
         base.loading.show(true);
     }
@@ -85,8 +83,9 @@ base.postImage = function(url, formData, callback, type, loading) {
 
             // Verifica se o erro é de autenticação (401 ou 419)
             if (err.status === 401 || err.status === 419) {
-                if (!alertKeepAlive) {
-                    alertKeepAlive = true;
+
+                if (!base.alertKeepAlive.show()) {
+                    base.alertKeepAlive.show(true);
                     Alert.warning('Sessão expirada. Tentando novamente...', 'Atenção');
                 }
 
