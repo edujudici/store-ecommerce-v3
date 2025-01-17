@@ -5,9 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Services\User\UserService;
 use App\Traits\AuthApi;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -21,6 +19,8 @@ class AuthController extends Controller
         if (!$user['response']) {
             return response()->json(['message' => 'Invalid login credentials'], 401);
         }
+
+        auth()->login($user['response']);
 
         $token = $user['response']->createToken('API Token')->plainTextToken;
 
